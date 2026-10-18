@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 17, 2026 · 8:10 PM ET. Fixed the bottom bar gap on iOS 26.
+Last updated: Oct 17, 2026 · 8:35 PM ET. New icon-only capsule bottom bar.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
