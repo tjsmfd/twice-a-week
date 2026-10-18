@@ -37,6 +37,9 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{height:100%}
+/* iOS 26 home-screen bug (WebKit 301108): the viewport comes up short by the status-bar height. Making the page
+   at least screen-tall gives fixed elements the full screen again. The min() cap avoids extra scroll elsewhere. */
+@media (display-mode: standalone){ html{min-height:min(100lvh, calc(100% + env(safe-area-inset-top,0px)))} }
 body{background:var(--g-glow),var(--bg);background-repeat:no-repeat;color:var(--fg);font-family:var(--font);font-size:15px;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -939,18 +942,8 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
       fixGap(); placeInd(true);
     }, 120);
   }
-  // iOS home-screen bug: the app's visible area can end short of the real screen bottom, leaving a strip under the bar.
-  // Measure the shortfall against the physical screen and push bottom-pinned pieces down by that amount.
-  const STANDALONE_APP = navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
-  function fixGap(){
-    if (!STANDALONE_APP) return;
-    const portrait = window.innerHeight > window.innerWidth;
-    const full = portrait ? Math.max(screen.height, screen.width) : Math.min(screen.height, screen.width);
-    let gap = Math.round(full - window.innerHeight);
-    if (!(gap > 2 && gap < 140)) gap = 0;
-    document.documentElement.style.setProperty("--vgap", gap + "px");
-  }
-  fixGap(); window.addEventListener("resize", fixGap); setTimeout(fixGap, 400);
+  function fixGap(){}
+
   document.addEventListener("focusout", (e) => { if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) repin(); });
   if (window.visualViewport) window.visualViewport.addEventListener("resize", repin);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) repin(); });
