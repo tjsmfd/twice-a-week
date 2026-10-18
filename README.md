@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 18, 2026 · 3:35 PM ET. Backups now keep your calendar Client ID; copy it from Settings.
+Last updated: Oct 18, 2026 · 3:35 PM ET. Google Client ID built in, so no entering it on new copies.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 

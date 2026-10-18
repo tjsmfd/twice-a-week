@@ -1101,7 +1101,8 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   }
   // ---- Google sign-in for the GitHub (standalone) version ----
   let gTok = null, gExp = 0, gisP = null;
-  const GCID = () => (store.get("twa_gcid") || "").trim();
+  const GCID_DEFAULT = "656401629692-c91ski5p5n52b0r66ont295c9i6h61da.apps.googleusercontent.com"; // TJ's Client ID, built in
+  const GCID = () => (store.get("twa_gcid") || GCID_DEFAULT).trim();
   try { const t = JSON.parse(store.get("twa_gtok") || "null"); if (t && t.exp > Date.now() + 60000){ gTok = t.tok; gExp = t.exp; } } catch (e){}
   const gLive = () => !!gTok && gExp > Date.now() + 30000;
   const gEver = () => store.get("twa_gcon") === "1";
