@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 18, 2026 · 3:38 PM ET. TEST: main screens in Spanish (will revert).
+Last updated: Oct 18, 2026 · 3:36 PM ET. Back to English after the auto-update test.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
