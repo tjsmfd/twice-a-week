@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1792353866">
+<meta name="twa-build" content="1792354341">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1792353866";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1792354341";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -490,7 +490,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     let data; try { data = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e){ data = null; }
     data = data || {acts:{}, log:{}, hist:{}, config:{}};
     const subs = {};
-    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e){} };
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e){} if (window.__twaCloud) window.__twaCloud(); };
     const snapCol = (c) => ({docs: Object.entries(data[c] || {}).map(([id, v]) => ({id, data: () => v}))});
     const fire = (key, c, id) => (subs[key] || []).forEach((f) => setTimeout(() => f(id ? {exists: !!(data[c] || {})[id], data: () => data[c][id]} : snapCol(c)), 0));
     const touch = (c, id) => { fire(c, c); fire(c + "/" + id, c, id); };
@@ -1124,9 +1124,36 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     if (j && j.error){ if (j.error === "not_found") throw {code: "tool_error", status: 404}; throw {code: j.error === "bad_key" ? "gas_key" : "gas_err", msg: j.error}; }
     return j ? j.result : null;
   }
+  // ---------- cloud backup (through the same script, into the user's Google Drive) ----------
+  let cloudT = null, cloudBusy = false, cloudOld = false;
+  const cloudReady = () => STANDALONE && !!GAS() && store.get("twa_cloudok") === "1" && !cloudOld;
+  async function cloudSave(){
+    if (!cloudReady() || cloudBusy || S.status === "loading") return;
+    cloudBusy = true;
+    try { await gasCall("save", {data: JSON.stringify(buildBackup())}); store.set("twa_cloudat", String(Date.now())); }
+    catch (e){ if (e && e.code === "gas_err" && /bad_action/.test(e.msg || "")){ cloudOld = true; toast("Update your calendar script to turn on cloud backup (Settings > Calendar).", null, 6000); } }
+    cloudBusy = false;
+  }
+  window.__twaCloud = () => { if (!cloudReady()) return; clearTimeout(cloudT); cloudT = setTimeout(cloudSave, 2500); };
+  document.addEventListener("visibilitychange", () => { if (document.hidden && cloudT){ clearTimeout(cloudT); cloudT = null; cloudSave(); } });
+  async function cloudLoad(){ const t = await gasCall("load"); if (!t) return null; try { const d = JSON.parse(t); return validBackup(d) ? d : null; } catch (e){ return null; } }
+  // After linking: pull the cloud copy if this phone is empty, otherwise offer it; then start saving.
+  async function cloudSync(){
+    let d = null;
+    try { d = await cloudLoad(); }
+    catch (e){ if (e && e.code === "gas_err" && /bad_action/.test(e.msg || "")){ cloudOld = true; return "old"; } throw e; }
+    store.set("twa_cloudok", "1");
+    const empty = !S.acts.length && !S.log.length;
+    if (d && (d.acts.length || d.log.length)){
+      if (empty){ await applyData(d, "Restored from cloud backup"); return "restored"; }
+      confirmRestore(d, "Restored from cloud backup"); return "offered";
+    }
+    cloudSave(); return "saved";
+  }
   function gasScript(){
     return `// S ≠ L calendar link. Paste this whole file into a new Apps Script project.
 const KEY = "${GKEY()}";
+const FILE = "S ≠ L backup.json"; // your app data, saved in your Google Drive
 function doPost(e){
   let out;
   try {
@@ -1145,6 +1172,15 @@ function doPost(e){
     else if (q.action === "create") out = {result: Calendar.Events.insert(q.ev, cal).id};
     else if (q.action === "update"){ Calendar.Events.patch(q.ev, cal, q.id); out = {result: "ok"}; }
     else if (q.action === "delete"){ Calendar.Events.remove(cal, q.id); out = {result: "ok"}; }
+    else if (q.action === "save"){
+      const it = DriveApp.getFilesByName(FILE);
+      if (it.hasNext()) it.next().setContent(q.data); else DriveApp.createFile(FILE, q.data, "application/json");
+      out = {result: "ok"};
+    }
+    else if (q.action === "load"){
+      const it = DriveApp.getFilesByName(FILE);
+      out = {result: it.hasNext() ? it.next().getBlob().getDataAsString() : ""};
+    }
     else throw new Error("bad_action");
   } catch (err){
     const m = String((err && err.message) || err);
@@ -1933,9 +1969,18 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     function drawG(){
       const gb = sh.querySelector("#s-gconn"); if (!gb) return;
       if (GAS()){
-        gb.innerHTML = `<b>Always-on calendar connected</b><span>Linked through your own Apps Script, so it never signs you out.</span><div class="row"><button type="button" id="s-gtest">Test</button><button type="button" id="s-gasx">Unlink</button></div>`;
+        const at = Number(store.get("twa_cloudat") || 0), mins = at ? Math.round((Date.now() - at) / 60000) : -1;
+        const cl = cloudOld ? "Cloud backup is off: your script is an older version. Copy the script again, paste it over the old one, then Deploy → Manage deployments → pencil → Version: New version → Deploy."
+          : store.get("twa_cloudok") !== "1" ? "Cloud backup starting…" : at ? "Cloud backup saved " + (mins < 1 ? "just now" : mins < 60 ? mins + " min ago" : Math.round(mins / 60) + " hr ago") + ", to your Google Drive." : "Cloud backup is on. It saves after every change.";
+        gb.innerHTML = `<b>Always-on calendar connected</b><span>Linked through your own Apps Script, so it never signs you out.</span><span>${cl}</span>
+          <div class="row"><button type="button" id="s-gtest">Test</button><button type="button" id="s-cload">Restore from cloud</button></div>
+          <div class="row"><button type="button" id="s-lcode">Copy link code</button><button type="button" id="s-gasx">Unlink</button></div>
+          <span>Save your link code somewhere safe, like Notes. On a new phone or a re-added icon, paste it in Settings → Calendar and everything comes back.</span>${cloudOld ? `<div class="row"><button type="button" id="s-gcopy2">Copy updated script</button></div>` : ""}`;
+        gb.querySelector("#s-lcode").addEventListener("click", async () => { const c = GAS() + "#" + GKEY(); try { await navigator.clipboard.writeText(c); toast("Link code copied. Keep it in Notes."); } catch (e){ toast(c, null, 10000); } });
+        gb.querySelector("#s-cload").addEventListener("click", async () => { try { const d = await cloudLoad(); if (!d) toast("No cloud backup yet."); else confirmRestore(d, "Restored from cloud backup"); } catch (e){ toast(calErr2(e), null, 5000); } });
+        const c2 = gb.querySelector("#s-gcopy2"); if (c2) c2.addEventListener("click", async () => { try { await navigator.clipboard.writeText(gasScript()); toast("Script copied."); } catch (e){ toast("Couldn't copy. Try again.", null, 3500); } });
         gb.querySelector("#s-gtest").addEventListener("click", async () => { try { await gasCall("ping"); toast("Calendar link is working."); } catch (e){ toast(calErr2(e), null, 5000); } });
-        gb.querySelector("#s-gasx").addEventListener("click", () => { store.set("twa_gas", ""); S.cal = {}; calLoaded = {}; drawG(); render(); toast("Always-on link removed."); });
+        gb.querySelector("#s-gasx").addEventListener("click", () => { store.set("twa_gas", ""); store.set("twa_cloudok", ""); S.cal = {}; calLoaded = {}; drawG(); render(); toast("Always-on link removed."); });
         return;
       }
       const always = `<details class="hw gas"><summary>Always-on (no hourly sign-out)</summary>
@@ -1947,7 +1992,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
           <li><b>Deploy</b> → <b>New deployment</b> → gear icon → <b>Web app</b>. Execute as: <b>Me</b>. Who has access: <b>Anyone</b>. Tap <b>Deploy</b>, then <b>Authorize access</b> and allow (tap Advanced → Go to project if Google warns you).</li>
           <li>Copy the <b>Web app URL</b> and paste it here.</li>
         </ol>
-        <input class="field" id="s-gasurl" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <p>Set up before on another copy of the app? Skip the steps and paste your <b>link code</b> instead. Your data comes back with it.</p>
+        <input class="field" id="s-gasurl" placeholder="Web app URL or link code" autocomplete="off" autocapitalize="off" spellcheck="false">
         <div class="row"><button type="button" class="pri" id="s-gassave">Link calendar</button></div>
       </details>`;
       const wire = () => {
@@ -1958,10 +2004,11 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         });
         const sv = gb.querySelector("#s-gassave");
         if (sv) sv.addEventListener("click", async () => {
-          const v = gb.querySelector("#s-gasurl").value.trim();
-          if (!/^https:\/\/script\.google\.com\/.+\/exec$/.test(v)){ toast("Paste the Web app URL. It starts with script.google.com and ends in /exec.", null, 5000); return; }
-          store.set("twa_gas", v);
-          try { await gasCall("ping"); S.settings.calDefault = true; putSettings(); calLoaded = {}; S.cal = {}; loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); toast("Always-on calendar linked."); const cb = sh.querySelector("#s-calblock"); if (cb) cb.hidden = false; drawG(); render(); }
+          let v = gb.querySelector("#s-gasurl").value.trim(), k = "";
+          if (v.includes("#")){ [v, k] = v.split("#"); }
+          if (!/^https:\/\/script\.google\.com\/.+\/exec$/.test(v)){ toast("Paste the Web app URL (ends in /exec) or your link code.", null, 5000); return; }
+          store.set("twa_gas", v); if (k) store.set("twa_gkey", k);
+          try { await gasCall("ping"); cloudSync().then((r) => { if (r === "restored") toast("Your data was restored from the cloud."); }).catch(() => {}); S.settings.calDefault = true; putSettings(); calLoaded = {}; S.cal = {}; loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); toast("Always-on calendar linked."); const cb = sh.querySelector("#s-calblock"); if (cb) cb.hidden = false; drawG(); render(); }
           catch (e){ store.set("twa_gas", ""); toast(calErr2(e), null, 6000); }
         });
       };
@@ -2171,7 +2218,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     const ready = () => {
       if (S.got.acts && S.got.log && S.status === "loading"){
         S.status = "live"; readyRes();
-        setTimeout(() => { loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); loadCal(addDays(weekStart(today()), 14)); }, 300);
+        setTimeout(() => { loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); loadCal(addDays(weekStart(today()), 14)); if (STANDALONE && GAS() && store.get("twa_cloudok") !== "1") cloudSync().then((r) => { if (r === "restored") toast("Your data was restored from the cloud."); }).catch(() => {}); }, 300);
         const last = snaps()[0];
         if ((S.acts.length || S.log.length) && (!last || iso(new Date(last.at)) !== iso(today()))) setTimeout(() => takeSnap("Daily"), 1500);
       }
