@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 17, 2026 · 8:40 PM ET. New underline-tabs bottom bar.
+Last updated: Oct 18, 2026 · 3:40 AM ET. Reconnect banner when Google calendar sign-in expires.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 

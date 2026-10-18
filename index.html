@@ -763,6 +763,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     if (gi && gi.hasLog) chip += `<span class="lastone${gi.days >= nd ? " bad" : gi.days === nd - 1 ? " warn" : ""}">Last one: ${gi.days === 0 ? "today" : gi.days === 1 ? "yesterday" : gi.days + " days ago"}</span>`;
     let h = head("This week", weekLabel(w.ws), `<button type="button" class="iconbtn${backupStale() ? " flag" : ""}" data-settings aria-label="Settings${backupStale() ? " (backup needed)" : ""}">${IC.gear}</button>`);
     h += syncNote();
+    if (STANDALONE && GCID() && !gLive()) h += `<div class="notice soft"><span><b>${gEver() ? "Calendar paused" : "Connect your calendar"}</b>${gEver() ? "Google signs you out every hour. Tap to see your events again." : "See your events and plan around them."}</span><button type="button" class="pillbtn" data-greconnect>${gEver() ? "Reconnect" : "Connect"}</button></div>`;
     if (S.status !== "loading"){
       if (sk.level === "skip"){
         const m = sk.miss, extra = w.overdue.length > 1 ? ` That's ${w.overdue.length} missed plans now.` : "";
@@ -1061,6 +1062,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   try { const t = JSON.parse(store.get("twa_gtok") || "null"); if (t && t.exp > Date.now() + 60000){ gTok = t.tok; gExp = t.exp; } } catch (e){}
   const gLive = () => !!gTok && gExp > Date.now() + 30000;
   const gEver = () => store.get("twa_gcon") === "1";
+  setTimeout(() => { if (STANDALONE && GCID()) loadGis().catch(() => {}); }, 0); // preload so a tap can open sign-in right away
   function loadGis(){
     return gisP || (gisP = new Promise((res, rej) => {
       if (window.google && window.google.accounts && window.google.accounts.oauth2) return res();
@@ -1097,7 +1099,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const o = Object.assign({}, opt || {});
     o.headers = Object.assign({Authorization: "Bearer " + gTok, "Content-Type": "application/json"}, o.headers || {});
     const r = await fetch("https://www.googleapis.com/calendar/v3" + path, o);
-    if (r.status === 401){ gTok = null; store.set("twa_gtok", ""); throw {code:"g_expired"}; }
+    if (r.status === 401){ gTok = null; gExp = 0; store.set("twa_gtok", ""); setTimeout(() => { if (!sheetEl) render(); }, 0); throw {code:"g_expired"}; }
     if (r.status === 404 || r.status === 410) throw {code:"tool_error", status: r.status};
     if (!r.ok) throw {code:"g_http", status: r.status};
     return r.status === 204 ? null : r.json();
@@ -1134,7 +1136,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
       create: async (b) => { const r = await m.callTool(CAL, "create_event", b); return findId(pl(r)) || findId(r && r.content && r.content[0] && r.content[0].text); },
       update: async (id, b) => { await m.callTool(CAL, "update_event", Object.assign({eventId: id, notificationLevel: "NONE"}, b)); },
       del: async (id) => { await m.callTool(CAL, "delete_event", {eventId: id, notificationLevel: "NONE"}); },
-      list: async (min, max) => { const r = await m.callTool(CAL, "list_events", {startTime: localStamp(new Date(min)), endTime: localStamp(new Date(max)), orderBy: "startTime", pageSize: 250}); return findItems(pl(r)); }
+      list: async (min, max) => { const r = await m.callTool(CAL, "list_events", {startTime: localStamp(new Date(min)), endTime: localStamp(new Date(max)), orderBy: "startTime", pageSize: 250}); return findItems(pl(r)) || findItems(r && r.content && r.content[0] && r.content[0].text); }
     };
   }
   function calErr2(e){
@@ -1175,7 +1177,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const sv = st.dateTime || (typeof e.startTime === "string" ? e.startTime : "") || (typeof e.start === "string" ? e.start : "");
     const ev = en.dateTime || (typeof e.endTime === "string" ? e.endTime : "") || (typeof e.end === "string" ? e.end : "");
     const allDay = !!(st.date && !st.dateTime) || !!e.allDay || (/^\d{4}-\d{2}-\d{2}$/.test(sv));
-    return {id: e.id || e.eventId || "", title: e.summary || e.title || "Busy", s: sv, e: ev, allDay, date: st.date || (allDay ? String(sv).slice(0, 10) : ""), status: e.status || "", description: e.description || ""};
+    return {id: e.id || e.eventId || "", title: e.summary || e.title || "Busy", s: sv, e: ev, allDay, date: String(st.date || (allDay ? sv : "")).slice(0, 10), status: e.status || "", description: e.description || ""};
   }
   async function loadCal(ws){
     const k = iso(ws);
@@ -1867,6 +1869,10 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     else if (t.hasAttribute("data-pick")) openPicker();
     else if (t.hasAttribute("data-add")) openEdit(null);
     else if (t.hasAttribute("data-settings")) openSettings();
+    else if (t.hasAttribute("data-greconnect")){
+      gConnect().then(() => { S.settings.calDefault = true; putSettings(); calLoaded = {}; render(); loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); toast("Calendar connected."); })
+        .catch((err) => toast(err && err.code === "popup_closed" ? "Sign-in was closed." : "Couldn't connect. Try again in Settings > Calendar.", null, 3500));
+    }
     else if (t.dataset.filter){ S.filter = t.dataset.filter; render(); }
   });
 
