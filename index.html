@@ -171,6 +171,13 @@ button.day{cursor:pointer}
 .gconn .row{display:flex;gap:8px}
 .gconn .row button{flex:1;min-height:42px;border-radius:999px;border:0;font-weight:700;font-size:13.5px;background:var(--card);color:var(--fg)}
 .gconn .row button.pri{background:var(--g-warm);color:#fff}
+.gconn .gas{border-top:1px solid var(--edge);padding-top:10px}
+.gconn .gas summary{font-size:13.5px;font-weight:700;color:var(--a2);cursor:pointer}
+.gconn .gas p,.gconn .gas li{font-size:12.5px;color:var(--muted);line-height:1.5}
+.gconn .gas ol{margin:8px 0 10px;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.gconn .gas b{font-size:12.5px;color:var(--fg)}
+.gconn .gas .pillbtn{min-height:30px;padding:5px 12px;font-size:12px}
+.gconn .gas .field{margin-bottom:8px}
 .day.today{background:linear-gradient(180deg,#1E1C26,var(--card)) padding-box,var(--g-warm) border-box;border:1.5px solid transparent}
 .day.today .dl{color:var(--accent)}
 .day.past{opacity:.5}
@@ -575,7 +582,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
 
   // ---------- backups ----------
   const bkFile = () => "twice-a-week-backup-" + iso(today()) + ".json";
-  function buildBackup(){ return {app:"twice-a-week", version:1, savedAt:new Date().toISOString(), acts:S.acts, log:S.log, hist:S.hist, settings:S.settings}; }
+  function buildBackup(){ return {app:"twice-a-week", version:1, savedAt:new Date().toISOString(), acts:S.acts, log:S.log, hist:S.hist, settings:S.settings, link:(store.get("twa_gas") ? {gas:store.get("twa_gas"), key:store.get("twa_gkey")} : undefined)}; }
   function snaps(){ try { return JSON.parse(store.get("twa_snaps") || "[]"); } catch (e){ return []; } }
   function takeSnap(label){
     let list = snaps(); list.unshift({at: Date.now(), label, data: buildBackup()}); list = list.slice(0, 7);
@@ -619,6 +626,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     }
     S.acts = sets.acts.slice(); S.log = sets.log.slice(); S.hist = sets.hist.slice();
     if (d.settings){ Object.assign(S.settings, d.settings); await putSettings(); }
+    if (STANDALONE && d.link && d.link.gas && d.link.key){ store.set("twa_gas", d.link.gas); store.set("twa_gkey", d.link.key); }
     rec("restored", null, {text: label});
     closeSheet(); render(); sfx("undo");
     toast("Restored. Your previous data was saved as a snapshot.", null, 4000);
@@ -763,7 +771,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     if (gi && gi.hasLog) chip += `<span class="lastone${gi.days >= nd ? " bad" : gi.days === nd - 1 ? " warn" : ""}">Last one: ${gi.days === 0 ? "today" : gi.days === 1 ? "yesterday" : gi.days + " days ago"}</span>`;
     let h = head("This week", weekLabel(w.ws), `<button type="button" class="iconbtn${backupStale() ? " flag" : ""}" data-settings aria-label="Settings${backupStale() ? " (backup needed)" : ""}">${IC.gear}</button>`);
     h += syncNote();
-    if (STANDALONE && GCID() && !gLive()) h += `<div class="notice soft"><span><b>${gEver() ? "Calendar paused" : "Connect your calendar"}</b>${gEver() ? "Google signs you out every hour. Tap to see your events again." : "See your events and plan around them."}</span><button type="button" class="pillbtn" data-greconnect>${gEver() ? "Reconnect" : "Connect"}</button></div>`;
+    if (STANDALONE && !GAS() && GCID() && !gLive()) h += `<div class="notice soft"><span><b>${gEver() ? "Calendar paused" : "Connect your calendar"}</b>${gEver() ? "Google signs you out every hour. Tap to see your events again, or set up Always-on in Settings." : "See your events and plan around them."}</span><button type="button" class="pillbtn" data-greconnect>${gEver() ? "Reconnect" : "Connect"}</button></div>`;
     if (S.status !== "loading"){
       if (sk.level === "skip"){
         const m = sk.miss, extra = w.overdue.length > 1 ? ` That's ${w.overdue.length} missed plans now.` : "";
@@ -1062,6 +1070,49 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   try { const t = JSON.parse(store.get("twa_gtok") || "null"); if (t && t.exp > Date.now() + 60000){ gTok = t.tok; gExp = t.exp; } } catch (e){}
   const gLive = () => !!gTok && gExp > Date.now() + 30000;
   const gEver = () => store.get("twa_gcon") === "1";
+  // Always-on link: a Google Apps Script web app running under the user's own account. No hourly sign-out.
+  const GAS = () => (store.get("twa_gas") || "").trim();
+  function GKEY(){ let k = store.get("twa_gkey"); if (!k){ k = Array.from(crypto.getRandomValues(new Uint8Array(18)), (b) => b.toString(16).padStart(2, "0")).join(""); store.set("twa_gkey", k); } return k; }
+  const gOn = () => !!GAS() || gLive();
+  async function gasCall(action, data){
+    let r;
+    try { r = await fetch(GAS(), {method: "POST", body: JSON.stringify(Object.assign({key: GKEY(), action}, data || {}))}); }
+    catch (e){ throw {code: "gas_net"}; }
+    let j = null; try { j = await r.json(); } catch (e){ throw {code: "gas_bad"}; }
+    if (j && j.error){ if (j.error === "not_found") throw {code: "tool_error", status: 404}; throw {code: j.error === "bad_key" ? "gas_key" : "gas_err", msg: j.error}; }
+    return j ? j.result : null;
+  }
+  function gasScript(){
+    return `// S ≠ L calendar link. Paste this whole file into a new Apps Script project.
+const KEY = "${GKEY()}";
+function doPost(e){
+  let out;
+  try {
+    const q = JSON.parse(e.postData.contents);
+    if (q.key !== KEY) throw new Error("bad_key");
+    const cal = "primary";
+    if (q.action === "ping") out = {result: "ok"};
+    else if (q.action === "list"){
+      let items = [], pageToken;
+      do {
+        const r = Calendar.Events.list(cal, {timeMin: q.timeMin, timeMax: q.timeMax, singleEvents: true, orderBy: "startTime", maxResults: 250, pageToken: pageToken});
+        items = items.concat(r.items || []); pageToken = r.nextPageToken;
+      } while (pageToken);
+      out = {result: items.map(function(x){ return {id: x.id, summary: x.summary, description: x.description, status: x.status, start: x.start, end: x.end}; })};
+    }
+    else if (q.action === "create") out = {result: Calendar.Events.insert(q.ev, cal).id};
+    else if (q.action === "update"){ Calendar.Events.patch(q.ev, cal, q.id); out = {result: "ok"}; }
+    else if (q.action === "delete"){ Calendar.Events.remove(cal, q.id); out = {result: "ok"}; }
+    else throw new Error("bad_action");
+  } catch (err){
+    const m = String((err && err.message) || err);
+    out = {error: /bad_key/.test(m) ? "bad_key" : /not found|deleted|404|410/i.test(m) ? "not_found" : m};
+  }
+  return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
+}
+function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link is running."); }
+`;
+  }
   setTimeout(() => { if (STANDALONE && GCID()) loadGis().catch(() => {}); }, 0); // preload so a tap can open sign-in right away
   function loadGis(){
     return gisP || (gisP = new Promise((res, rej) => {
@@ -1112,7 +1163,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     return o;
   }
   // Whether calendar features can work in this view
-  const calReady = () => STANDALONE ? !!GCID() && gEver() : true;
+  const calReady = () => STANDALONE ? (!!GAS() || (!!GCID() && gEver())) : true;
   function findItems(p){
     try { if (typeof p === "string") p = JSON.parse(p); } catch (e){ return null; }
     if (Array.isArray(p)) return p;
@@ -1120,6 +1171,14 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     return null;
   }
   async function calApi(){
+    if (STANDALONE && GAS()){
+      return {
+        create: async (b) => (await gasCall("create", {ev: gBody(b)})) || "",
+        update: async (id, b) => { await gasCall("update", {id, ev: gBody(b)}); },
+        del: async (id) => { await gasCall("delete", {id}); },
+        list: async (min, max) => (await gasCall("list", {timeMin: new Date(min).toISOString(), timeMax: new Date(max).toISOString()})) || []
+      };
+    }
     if (STANDALONE){
       if (!GCID()) return null;
       const base = "/calendars/primary/events";
@@ -1144,6 +1203,9 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     if (c === "g_expired") return "Google sign-in expired. Tap Reconnect in Settings > Calendar.";
     if (c === "no_client" || c === "gis_load") return "Connect Google Calendar in Settings first.";
     if (c === "g_http") return "Google Calendar didn't respond. Your plan is still saved.";
+    if (c === "gas_key") return "The script's key doesn't match this app. Copy the script again and redeploy it.";
+    if (c === "gas_net" || c === "gas_bad") return "Couldn't reach your calendar script. Check the URL, and that access is set to Anyone.";
+    if (c === "gas_err") return "Calendar script error: " + String(e.msg || "").slice(0, 120) + (/Calendar is not defined/.test(e.msg || "") ? " (add the Google Calendar API under Services)" : "");
     return calErr(e);
   }
   // Returns {evId, changed, msg?, err?}. "unlinked" = event created but its id wasn't readable, so it's left alone afterward.
@@ -1181,7 +1243,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   }
   async function loadCal(ws){
     const k = iso(ws);
-    if (calLoaded[k] || !calReady() || (STANDALONE && !gLive())) return;
+    if (calLoaded[k] || !calReady() || (STANDALONE && !gOn())) return;
     calLoaded[k] = "loading";
     try {
       const api = await calApi(); if (!api){ calLoaded[k] = ""; return; }
@@ -1555,7 +1617,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
       const st = calLoaded[iso(weekStart(parse(cur)))];
       let note = "";
       if (!calReady()) note = STANDALONE ? "Connect Google Calendar in Settings to see your events here. For now this shows your own plans." : "";
-      else if (STANDALONE && !gLive()) note = "Google sign-in expired. Tap Reconnect in Settings > Calendar to see your events.";
+      else if (STANDALONE && !gOn()) note = "Google sign-in expired. Tap Reconnect in Settings > Calendar to see your events.";
       else if (st === "loading" || st === undefined) note = "Loading your calendar…";
       else if (st === "err") note = esc(S.calErrMsg || "Couldn't load your calendar.");
       let tl = "";
@@ -1770,19 +1832,52 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     bedIn.addEventListener("change", () => { S.settings.bed = bedIn.value || "00:30"; putSettings(); });
     function drawG(){
       const gb = sh.querySelector("#s-gconn"); if (!gb) return;
+      if (GAS()){
+        gb.innerHTML = `<b>Always-on calendar connected</b><span>Linked through your own Apps Script, so it never signs you out.</span><div class="row"><button type="button" id="s-gtest">Test</button><button type="button" id="s-gasx">Unlink</button></div>`;
+        gb.querySelector("#s-gtest").addEventListener("click", async () => { try { await gasCall("ping"); toast("Calendar link is working."); } catch (e){ toast(calErr2(e), null, 5000); } });
+        gb.querySelector("#s-gasx").addEventListener("click", () => { store.set("twa_gas", ""); S.cal = {}; calLoaded = {}; drawG(); render(); toast("Always-on link removed."); });
+        return;
+      }
+      const always = `<details class="hw gas"><summary>Always-on (no hourly sign-out)</summary>
+        <p>A free script in your own Google account links the app to your calendar for good. About 5 minutes, one time.</p>
+        <ol>
+          <li><button type="button" class="pillbtn" id="s-gcopy">Copy script</button> (it has your private key built in)</li>
+          <li>Open <b>script.new</b> in Safari, signed in as your calendar account. Delete what's there and paste.</li>
+          <li>Left side: <b>Services +</b> → <b>Google Calendar API</b> → <b>Add</b>.</li>
+          <li><b>Deploy</b> → <b>New deployment</b> → gear icon → <b>Web app</b>. Execute as: <b>Me</b>. Who has access: <b>Anyone</b>. Tap <b>Deploy</b>, then <b>Authorize access</b> and allow (tap Advanced → Go to project if Google warns you).</li>
+          <li>Copy the <b>Web app URL</b> and paste it here.</li>
+        </ol>
+        <input class="field" id="s-gasurl" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <div class="row"><button type="button" class="pri" id="s-gassave">Link calendar</button></div>
+      </details>`;
+      const wire = () => {
+        const cp = gb.querySelector("#s-gcopy");
+        if (cp) cp.addEventListener("click", async () => {
+          try { await navigator.clipboard.writeText(gasScript()); toast("Script copied."); }
+          catch (e){ const ta = document.createElement("textarea"); ta.value = gasScript(); document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); toast("Script copied."); } catch (e2){ toast("Couldn't copy. Try again.", null, 3500); } ta.remove(); }
+        });
+        const sv = gb.querySelector("#s-gassave");
+        if (sv) sv.addEventListener("click", async () => {
+          const v = gb.querySelector("#s-gasurl").value.trim();
+          if (!/^https:\/\/script\.google\.com\/.+\/exec$/.test(v)){ toast("Paste the Web app URL. It starts with script.google.com and ends in /exec.", null, 5000); return; }
+          store.set("twa_gas", v);
+          try { await gasCall("ping"); S.settings.calDefault = true; putSettings(); calLoaded = {}; S.cal = {}; loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); toast("Always-on calendar linked."); const cb = sh.querySelector("#s-calblock"); if (cb) cb.hidden = false; drawG(); render(); }
+          catch (e){ store.set("twa_gas", ""); toast(calErr2(e), null, 6000); }
+        });
+      };
       if (!GCID()){
-        gb.innerHTML = `<b>Connect Google Calendar</b><span>Paste the Client ID from your Google Cloud setup (it ends in .apps.googleusercontent.com).</span><input class="field" id="s-gcid" placeholder="Client ID" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="row"><button type="button" class="pri" id="s-gsave">Save and connect</button></div>`;
+        gb.innerHTML = `<b>Connect Google Calendar</b><span>Paste the Client ID from your Google Cloud setup (it ends in .apps.googleusercontent.com).</span><input class="field" id="s-gcid" placeholder="Client ID" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="row"><button type="button" class="pri" id="s-gsave">Save and connect</button></div>${always}`; wire();
         gb.querySelector("#s-gsave").addEventListener("click", async () => {
           const v = gb.querySelector("#s-gcid").value.trim();
           if (!/\.apps\.googleusercontent\.com$/.test(v)){ toast("That doesn't look like a Client ID. It ends in .apps.googleusercontent.com.", null, 5000); return; }
           store.set("twa_gcid", v); await doConnect();
         });
       } else if (gEver()){
-        gb.innerHTML = `<b>Google Calendar ${gLive() ? "connected" : "needs a quick reconnect"}</b><span>${gLive() ? "Reading busy times and adding your plans." : "Google signs web apps out after about an hour. Tap Reconnect."}</span><div class="row">${gLive() ? "" : `<button type="button" class="pri" id="s-grc">Reconnect</button>`}<button type="button" id="s-gdc">Disconnect</button></div>`;
+        gb.innerHTML = `<b>Google Calendar ${gLive() ? "connected" : "needs a quick reconnect"}</b><span>${gLive() ? "Reading busy times and adding your plans." : "Google signs web apps out after about an hour. Tap Reconnect."}</span><div class="row">${gLive() ? "" : `<button type="button" class="pri" id="s-grc">Reconnect</button>`}<button type="button" id="s-gdc">Disconnect</button></div>${always}`; wire();
         const rc = gb.querySelector("#s-grc"); if (rc) rc.addEventListener("click", doConnect);
         gb.querySelector("#s-gdc").addEventListener("click", () => { gDisconnect(); store.set("twa_gcid", store.get("twa_gcid") || ""); drawG(); render(); toast("Disconnected from Google Calendar."); sh.querySelector("#s-calblock").hidden = true; });
       } else {
-        gb.innerHTML = `<b>Connect Google Calendar</b><span>Client ID saved. Sign in with Google to finish.</span><div class="row"><button type="button" class="pri" id="s-gc">Connect</button><button type="button" id="s-gx">Change ID</button></div>`;
+        gb.innerHTML = `<b>Connect Google Calendar</b><span>Client ID saved. Sign in with Google to finish.</span><div class="row"><button type="button" class="pri" id="s-gc">Connect</button><button type="button" id="s-gx">Change ID</button></div>${always}`; wire();
         gb.querySelector("#s-gc").addEventListener("click", doConnect);
         gb.querySelector("#s-gx").addEventListener("click", () => { store.set("twa_gcid", ""); drawG(); });
       }

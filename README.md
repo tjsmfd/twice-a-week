@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 18, 2026 · 3:40 AM ET. Reconnect banner when Google calendar sign-in expires.
+Last updated: Oct 18, 2026 · 3:55 AM ET. Always-on calendar link (Settings > Calendar).
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
