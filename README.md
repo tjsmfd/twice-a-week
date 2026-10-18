@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 18, 2026 · 3:55 AM ET. Always-on calendar link (Settings > Calendar).
+Last updated: Oct 18, 2026 · 3:45 PM ET. Swipeable 3-week strip; day schedule preview when picking a date.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 

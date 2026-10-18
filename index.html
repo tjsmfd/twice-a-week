@@ -103,7 +103,15 @@ h2{margin:0;font-size:17px;font-weight:700}
 .pillbtn.ghost{background:var(--card2);color:var(--fg)}
 
 /* week strip */
-.strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.stripwrap{position:relative;margin:0 -18px}
+.strip{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 18px;scroll-padding:0 18px;-webkit-overflow-scrolling:touch}
+.strip::-webkit-scrollbar{display:none}
+.strip .day{flex:0 0 calc((100% - 36px - 36px) / 7);scroll-snap-align:start}
+.strip .day.wk{margin-left:10px}
+.strip .wkl{flex:none;align-self:stretch;display:flex;align-items:center;margin:0 -2px 0 6px}
+.strip .wkl span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--a2);opacity:.8}
+.striphint{display:flex;justify-content:space-between;font-size:11.5px;color:var(--faint);margin-top:-8px}
+.striphint b{color:var(--muted);font-weight:600}
 .day{background:var(--card);border:1px solid transparent;border-radius:16px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
 .day .dl{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
 .day .dn{font-size:17px;font-weight:700}
@@ -132,6 +140,21 @@ button.day{cursor:pointer}
 .alldays span{font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--fg)}
 .alldays span.mine{background:var(--accent-tint);color:var(--accent)}
 .tl{position:relative}
+.dprev{margin-top:14px;background:var(--card2);border-radius:16px;padding:12px 12px 4px}
+.dprev .ph{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.dprev .ph b{font-size:13.5px}
+.dprev .ph small{font-size:11.5px;color:var(--muted)}
+.dprev .pn{font-size:11.5px;color:var(--muted);margin:0 0 8px;line-height:1.4}
+.dprev .tl .hr span{background:var(--card2)}
+.dprev .tl .bed span{background:var(--card2)}
+.dprev .tl .ev{padding:2px 8px;font-size:10.5px;border-radius:8px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.dprev .tl .ev b{display:inline;font-size:11px;overflow:hidden;text-overflow:ellipsis}
+.dprev .tl .ev.gap{padding:2px 8px}
+.dprev .tl .ev.gap .plus{width:20px;height:20px}
+.dprev .warnp{font-size:12px;color:#E8C27A;margin:6px 0 8px;display:flex;gap:6px;align-items:flex-start;line-height:1.4}
+.dprev .warnp svg{width:14px;height:14px;flex:none;margin-top:1px}
+.dprev .alld{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.dprev .alld span{font-size:11px;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.06)}
 .tl .hr{position:absolute;left:0;right:0;height:1px;background:var(--track)}
 .tl .hr span{position:absolute;left:0;top:-7px;font-size:10px;color:var(--faint);width:42px;background:var(--card);padding-right:2px}
 .tl .ev{position:absolute;left:46px;right:2px;border-radius:10px;padding:5px 9px;font-size:11.5px;line-height:1.3;overflow:hidden;text-align:left}
@@ -788,16 +811,17 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const mustId = (sk.level !== "ok" && w.sched[0]) ? w.sched[0].id : "";
 
     // strip
-    h += `<div class="strip" role="group" aria-label="Days this week">`;
-    for (let i = 0; i < 7; i++){
+    h += `<div class="stripwrap"><div class="strip" id="strip" role="group" aria-label="This week and the next two">`;
+    for (let i = 0; i < 21; i++){
       const d = addDays(w.ws, i), ds = iso(d), past = ds < w.t;
+      if (i === 7 || i === 14) h += `<div class="wkl" aria-hidden="true"><span>${i === 7 ? "Next wk" : short(d)}</span></div>`;
       const nb = Math.min(4, Math.ceil(bookedOn(ds) / 1.75));
       const mine = openActs().some((x) => x.date === ds) || S.log.some((l) => l.date === ds);
       const cls = "day" + (ds === w.t ? " today" : "") + (past ? " past" : "");
       const bars = [0, 1, 2, 3].map((b) => `<i class="${b < nb ? "on" : ""}" style="height:${5 + b * 3}px"></i>`).join("") + (mine ? `<i class="mine" style="height:14px"></i>` : "");
-      h += `<button type="button" class="${cls}" data-dayview="${ds}" aria-label="See ${DOW[i]} ${short(d)}"><span class="dl">${DOW[i].slice(0, 2)}</span><span class="dn">${d.getDate()}</span><span class="bars">${bars}</span></button>`;
+      h += `<button type="button" class="${cls}" data-dayview="${ds}" aria-label="See ${DOW[i % 7]} ${short(d)}"><span class="dl">${DOW[i % 7].slice(0, 2)}</span><span class="dn">${d.getDate()}</span><span class="bars">${bars}</span></button>`;
     }
-    h += `</div>`;
+    h += `</div></div><div class="striphint"><span>Tap a day to see its schedule</span><b>Swipe for upcoming days →</b></div>`;
 
     if (S.status === "loading"){ h += `<p class="empty">Loading your list…</p>`; return h; }
     if (!S.acts.length && !S.log.length){
@@ -940,6 +964,17 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     if (instant || RM){ ind.getBoundingClientRect(); ind.style.transition = ""; }
   }
   window.addEventListener("resize", () => placeInd(true));
+  // Week strip: remember scroll across re-renders; on first show, start a day before today so upcoming days are in view.
+  let stripX = null;
+  function placeStrip(){
+    const st = document.getElementById("strip"); if (!st) return;
+    if (stripX == null){
+      const t = st.querySelector(".day.today"), prev = t && t.previousElementSibling && t.previousElementSibling.classList.contains("day") ? t.previousElementSibling : t;
+      stripX = prev ? Math.max(0, prev.offsetLeft - 18) : 0;
+    }
+    st.scrollLeft = stripX;
+    st.addEventListener("scroll", () => { stripX = st.scrollLeft; }, {passive: true});
+  }
   // iOS fix: after the keyboard closes (or the app resumes), iOS can leave the page shifted, which makes the
   // fixed bottom bar float. Nudge the viewport back into place so the bar sits on the bottom edge again.
   function repin(){
@@ -981,7 +1016,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const app = document.getElementById("app");
     app.innerHTML = S.tab === "ideas" ? viewIdeas() : S.tab === "done" ? viewDone() : S.tab === "hist" ? viewHist() : viewWeek();
     document.querySelectorAll(".tab").forEach((t) => { if (t.dataset.tab === S.tab) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
-    placeInd();
+    placeInd(); placeStrip();
     if (S.justLogged){
       const el = app.querySelector(`[data-log="${S.justLogged}"]`);
       S.justLogged = "";
@@ -1489,7 +1524,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         <div class="row2" style="grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)">${pickField("f-date", "date", d.date, "Pick a day", "Date")}${pickField("f-time", "time", d.time, "Add a time", "Time (optional)")}</div>
         <p class="hint">Leave the day blank to save it as an idea.</p>
         <div id="f-durbox" style="margin-top:12px"><span class="lbl">How long?</span><div class="chips" id="f-dur">${[1, 1.5, 2, 3, 4].map((v) => `<button type="button" class="chip" data-v="${v}" aria-pressed="${durOf(d) === v}">${durLabel(v)}</button>`).join("")}</div></div>
-        <div id="f-bed" style="margin-top:10px"></div></div>
+        <div id="f-bed" style="margin-top:10px"></div>
+        <div id="f-dayprev" class="dprev" hidden></div></div>
       <div id="f-calwrap">
         <div class="togrow"><div><b>Add to my calendar</b><span>Your plan goes in the event notes</span></div><button type="button" class="sw" id="f-cal" role="switch" aria-checked="${!!d.cal}" aria-label="Add to my calendar"></button></div>
         <div id="f-rembox" style="margin-top:12px"><span class="lbl">Remind me</span><div class="chips" id="f-rem"><button type="button" class="chip" data-v="night" aria-pressed="${d.rem === "night"}">Night before</button><button type="button" class="chip" data-v="morning" aria-pressed="${d.rem === "morning"}">Morning of</button><button type="button" class="chip" data-v="hour" aria-pressed="${d.rem === "hour"}">1 hr before</button></div><p class="hint" id="f-remhint"></p></div>
@@ -1517,7 +1553,64 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       if (!timed && rem !== "night"){ rem = "night"; pick(remWrap, rem); }
       remHint.textContent = timed ? "" : "All-day: reminder at 8 PM the night before. Add a time for more options.";
       remHint.hidden = timed;
+      drawPrev();
     }
+    // Day preview: when a day is picked, show that day's schedule and where this activity would land.
+    const prevBox = sh.querySelector("#f-dayprev");
+    const hhmm = (h) => { const m = Math.round(h * 60); return pad(Math.floor(m / 60) % 24) + ":" + pad(m % 60); };
+    function drawPrev(){
+      const ds = dateIn.value;
+      if (!ds){ prevBox.hidden = true; prevBox.innerHTML = ""; return; }
+      prevBox.hidden = false;
+      loadCal(weekStart(parse(ds)));
+      const B = bedH(), END = Math.ceil(B + .5), PX = 22, y = (hh) => (hh - 8) * PX;
+      const cal = S.cal[ds] || [], calTimed = cal.filter((e) => !e.allDay), calAll = cal.filter((e) => e.allDay);
+      const others = openActs().filter((a) => a.date === ds && a.time && (!x || a.id !== x.id));
+      const blocks = calTimed.map((e) => [e.s, e.e, e.title]).concat(others.map((a) => [hourOf(a.time), hourOf(a.time) + durOf(a), a.name]));
+      const st = calLoaded[iso(weekStart(parse(ds)))];
+      let note = "";
+      if (!calReady()) note = STANDALONE ? "Connect your calendar in Settings to see your events here." : "";
+      else if (STANDALONE && !gOn()) note = "Calendar paused. Reconnect on the This week page to see your events.";
+      else if (st === "loading" || st === undefined) note = "Loading your calendar…";
+      else if (st === "err") note = esc(S.calErrMsg || "Couldn't load your calendar.");
+      // open gaps
+      const ev = blocks.slice().sort((a, b) => a[0] - b[0]), gaps = [];
+      let t = 8;
+      if (ds === iso(today())){ const n = new Date(); t = Math.max(t, Math.ceil((n.getHours() + n.getMinutes() / 60) * 2) / 2); }
+      ev.forEach((e) => { if (e[0] - t >= 1) gaps.push([t, e[0]]); t = Math.max(t, e[1]); });
+      if (B - t >= 1) gaps.push([t, B]);
+      const booked = bookedOn(ds) + others.reduce((a, o) => a + durOf(o), 0);
+      const rk = booked > 6 || blocks.length >= 4 ? ["p", "Packed"] : booked >= 3 ? ["m", "Moderate"] : ["l", "Light"];
+      let tl = "";
+      for (let hh = 8; hh <= END; hh++) tl += `<div class="hr" style="top:${y(hh)}px"><span>${hh % 2 === 0 || hh === END ? fmtH(hh).replace(":00", "") : ""}</span></div>`;
+      tl += `<div class="late" style="top:${y(B)}px;height:${y(END) - y(B)}px"></div><div class="bed" style="top:${y(B)}px"><span>Bedtime</span></div>`;
+      tl += calTimed.map((e) => `<div class="ev cal" style="top:${y(Math.max(8, e.s)) + 1}px;height:${Math.max(16, y(Math.min(END, e.e)) - y(Math.max(8, e.s)) - 2)}px"><b>${esc(e.title)}</b>${fmtH(e.s)}</div>`).join("");
+      tl += others.map((a) => { const s0 = hourOf(a.time), e0 = s0 + durOf(a); return `<div class="ev mine" style="top:${y(Math.max(8, s0)) + 1}px;height:${Math.max(16, y(Math.min(END, e0)) - y(Math.max(8, s0)) - 2)}px"><b>${esc(a.name)}</b>${fmtH(s0)}</div>`; }).join("");
+      let warn = "";
+      if (timeIn.value){
+        const s0 = hourOf(timeIn.value), e0 = s0 + dur, nm = sh.querySelector("#f-name").value.trim() || "This activity";
+        tl += `<div class="ev ghost${e0 > B ? " over" : ""}" id="f-ghost" style="top:${y(Math.max(8, s0)) + 1}px;height:${Math.max(16, y(Math.min(END, e0)) - y(Math.max(8, s0)) - 2)}px;z-index:1"><b>${esc(nm)}</b>${fmtH(s0)} – ${fmtH(e0)}</div>`;
+        const hit = blocks.find((b) => s0 < b[1] - 1e-6 && e0 > b[0] + 1e-6);
+        if (hit) warn = `<p class="warnp">${IC.alert}<span>Overlaps ${esc(hit[2])} (${fmtH(hit[0])} – ${fmtH(hit[1])}). Tap an open slot to move it.</span></p>`;
+        else if (s0 < 8) warn = `<p class="warnp">${IC.alert}<span>That's before 8 AM, above this view.</span></p>`;
+      }
+      {
+        const gs0 = timeIn.value ? hourOf(timeIn.value) : -1, ge0 = gs0 + dur;
+        gaps.filter((g) => !(gs0 >= 0 && gs0 < g[1] && ge0 > g[0])).forEach((g) => { tl += `<button type="button" class="ev gap" data-pgap="${g[0]}" style="top:${y(g[0]) + 2}px;height:${Math.max(16, y(g[1]) - y(g[0]) - 4)}px"><span><b>Open</b> ${fmtH(g[0])} – ${fmtH(g[1])}</span><span class="plus">${PLUS}</span></button>`; });
+      }
+      prevBox.innerHTML = `<div class="ph"><b>${esc(fmtPick("date", ds))}</b><small><span class="bz ${rk[0]}" style="display:inline-block;margin-right:5px"></span>${rk[1]} · ${Math.round(booked * 10) / 10} hr booked</small></div>
+        ${note ? `<p class="pn">${note}</p>` : warn ? "" : `<p class="pn">${timeIn.value ? "Tap another open slot to move it." : "Tap an open slot to set the time."}</p>`}
+        ${calAll.length ? `<div class="alld">${calAll.map((e) => `<span>All day · ${esc(e.title)}</span>`).join("")}</div>` : ""}
+        ${warn}<div class="tl" style="height:${y(END) + 10}px">${tl}</div>`;
+    }
+    prevBox.addEventListener("click", (e) => {
+      const g = e.target.closest("[data-pgap]"); if (!g) return;
+      timeIn.value = hhmm(Number(g.dataset.pgap)); timeIn.dispatchEvent(new Event("change"));
+      sfx("tab");
+      setTimeout(() => { const gh = prevBox.querySelector("#f-ghost"); if (gh) gh.scrollIntoView({block: "center", behavior: RM ? "auto" : "smooth"}); }, 30);
+    });
+    dayRedraw = drawPrev;
+    sh.parentElement._onClose = () => { dayRedraw = null; };
     syncCalUI();
     sh.querySelector("#f-cat").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b){ cat = b.dataset.v; pick(e.currentTarget, cat); } });
     sh.querySelector("#f-rep").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b){ rep = b.dataset.v; pick(e.currentTarget, rep); } });
@@ -1914,7 +2007,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
   // swipe sideways between tabs
   let sw0 = null;
   document.getElementById("app").addEventListener("touchstart", (e) => {
-    if (sheetEl || S.anim || e.touches.length !== 1 || e.target.closest(".filters, input, textarea")) { sw0 = null; return; }
+    if (sheetEl || S.anim || e.touches.length !== 1 || e.target.closest(".filters, .strip, input, textarea")) { sw0 = null; return; }
     sw0 = {x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now()};
   }, {passive:true});
   document.getElementById("app").addEventListener("touchend", (e) => {
@@ -2054,7 +2147,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
   // re-check the calendar when you come back to the app
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState !== "visible" || S.status !== "live") return;
-    calLoaded = {}; loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7));
+    calLoaded = {}; loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); loadCal(addDays(weekStart(today()), 14));
   });
 
   // ---------- boot ----------
@@ -2070,7 +2163,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     const ready = () => {
       if (S.got.acts && S.got.log && S.status === "loading"){
         S.status = "live"; readyRes();
-        setTimeout(() => { loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); }, 300);
+        setTimeout(() => { loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); loadCal(addDays(weekStart(today()), 14)); }, 300);
         const last = snaps()[0];
         if ((S.acts.length || S.log.length) && (!last || iso(new Date(last.at)) !== iso(today()))) setTimeout(() => takeSnap("Daily"), 1500);
       }
