@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1792352340">
+<meta name="twa-build" content="1792353866">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1792352340";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1792353866";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -508,15 +508,15 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   let readyRes; S.readyP = new Promise((r) => { readyRes = r; });
 
   // ---------- dates ----------
-  const DOW = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
   const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const pad = (n) => String(n).padStart(2, "0");
   const iso = (d) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
   const parse = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
   const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
   const today = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
-  const weekStart = (d) => { const x = new Date(d); x.setHours(0,0,0,0); return addDays(x, -((x.getDay() + 6) % 7)); };
-  const dowIdx = (d) => (d.getDay() + 6) % 7;
+  const weekStart = (d) => { const x = new Date(d); x.setHours(0,0,0,0); return addDays(x, -x.getDay()); }; // weeks run Sunday to Saturday
+  const dowIdx = (d) => d.getDay();
   const short = (d) => MON[d.getMonth()] + " " + d.getDate();
   function fmtDay(s){
     const d = parse(s), diff = Math.round((d - today()) / 864e5);
@@ -712,16 +712,16 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const w = weekInfo(), taken = new Set(openActs().filter((x) => x.date).map((x) => x.date));
     const cands = [];
     for (let i = 0; i < 7; i++){ const d = addDays(w.ws, i); if (iso(d) >= w.t) cands.push(d); }
-    const weekend = cands.filter((d) => dowIdx(d) >= 5 && !taken.has(iso(d)));
+    const weekend = cands.filter((d) => (dowIdx(d) === 0 || dowIdx(d) === 6) && !taken.has(iso(d)));
     if (weekend.length) return iso(weekend[0]);
     const any = cands.find((d) => !taken.has(iso(d)));
-    return any ? iso(any) : iso(addDays(w.ws, 12));
+    return any ? iso(any) : iso(addDays(w.ws, 13));
   }
-  // Sunday planning: Sat and Sun plan next week, Monday plans the current week
+  // Planning: Saturday plans the week ahead, Sunday (first day) plans the current week
   function sunInfo(){
     const t = today(), d = dowIdx(t);
     let ws;
-    if (d === 5 || d === 6) ws = addDays(weekStart(t), 7); else if (d === 0) ws = weekStart(t); else return null;
+    if (d === 6) ws = addDays(weekStart(t), 7); else if (d === 0) ws = weekStart(t); else return null;
     const a = iso(ws), b = iso(addDays(ws, 6));
     const planned = openActs().filter((x) => x.date && x.date >= a && x.date <= b).length;
     const need = S.settings.goal - planned;
@@ -811,7 +811,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
         h += alertBox("soon", "Heads up", `Tomorrow makes ${nd} days without one`, "Nothing is planned for today or tomorrow yet.", `<button type="button" class="pillbtn" data-day="${iso(addDays(today(), 1))}">Plan for tomorrow</button>`);
       }
       const si = sunInfo();
-      if (si) h += `<div class="notice"><span><b>${si.mon ? "Monday plan" : "Sunday plan"}</b>Pick ${si.need} for ${si.mon ? "this" : "next"} week</span><span class="nbtns"><button type="button" class="pillbtn" data-sunday>Plan</button><button type="button" class="x" data-sunx="${si.a}" aria-label="Hide until next week">${IC.close}</button></span></div>`;
+      if (si) h += `<div class="notice"><span><b>${si.mon ? "Sunday plan" : "Saturday plan"}</b>Pick ${si.need} for ${si.mon ? "this" : "next"} week</span><span class="nbtns"><button type="button" class="pillbtn" data-sunday>Plan</button><button type="button" class="x" data-sunx="${si.a}" aria-label="Hide until next week">${IC.close}</button></span></div>`;
     }
     h += `<section class="card hero" aria-label="Weekly progress">${ring(done, g)}<div class="txt"><div class="big${done >= g ? " hit" : ""}">${done}<small> / ${g}</small></div><div class="sub">${done >= g ? badge() + badge() : ""}<span>${msg}</span></div>${chip ? `<div class="chiprow">${chip}</div>` : ""}</div></section>`;
     const mustId = (sk.level !== "ok" && w.sched[0]) ? w.sched[0].id : "";
@@ -1512,10 +1512,10 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
 
   function quickDates(){
     const t = today(), ws = weekStart(t), out = [{l:"Today", v:iso(t)}, {l:"Tomorrow", v:iso(addDays(t, 1))}];
-    const sat = addDays(ws, 5), sun = addDays(ws, 6);
+    const sat = addDays(ws, 6), sun = addDays(ws, 7);
     if (iso(sat) > iso(addDays(t, 1))) out.push({l:"Sat " + sat.getDate(), v:iso(sat)});
     if (iso(sun) > iso(addDays(t, 1))) out.push({l:"Sun " + sun.getDate(), v:iso(sun)});
-    out.push({l:"Next Sat", v:iso(addDays(ws, 12))});
+    out.push({l:"Next Sat", v:iso(addDays(ws, 13))});
     return out;
   }
 
@@ -1913,11 +1913,11 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         <details class="hw"><summary>Never skip twice</summary><p>Miss a planned day and a red alert shows at the top. Tap it for a one-tap reschedule. Your next plan gets a "Don't skip" tag.</p></details>
         <details class="hw"><summary>1. Dump ideas</summary><p>Anything you keep saying "I should do that." Movies, trails, places to eat. No date needed.</p></details>
         <details class="hw"><summary>Moving a plan</summary><p>Tap the small calendar-arrow button on any card to change its day or time. "Take it off the schedule" sends it back to Ideas.</p></details>
-        <details class="hw"><summary>2. Plan on Sunday</summary><p>The Sunday banner walks you through picking two and giving them days.</p></details>
+        <details class="hw"><summary>2. Plan on the weekend</summary><p>On Saturday (or Sunday at the latest), a banner walks you through picking two and giving them days.</p></details>
         <details class="hw"><summary>3. Check it off</summary><p>Tap the check when you do it. Tap Undo right away, or later open the entry under Done and tap "Not done, put it back." One-time things leave the list. Repeat items go back to Ideas.</p></details>
         <details class="hw"><summary>Day view and bedtime</summary><p>Tap any day on the week strip to see its schedule from your calendar. Tap a green Open block to drop an idea into it. Plans that run past your bedtime get a heads-up.</p></details>
         <details class="hw"><summary>History and backups</summary><p>The History tab lists every change, with Put back and Restore buttons where they apply. Save a backup file every couple of weeks; the gear shows a red dot when it's time.</p></details>
-        <details class="hw"><summary>Weeks and streaks</summary><p>Weeks run Monday to Sunday. Hit your goal in back-to-back weeks to build a streak.</p></details>
+        <details class="hw"><summary>Weeks and streaks</summary><p>Weeks run Sunday to Saturday. Hit your goal in back-to-back weeks to build a streak.</p></details>
       </div>`, "Goal and reminders");
     const n = sh.querySelector("#s-n"), rn = sh.querySelector("#r-n"), sc = sh.querySelector("#s-cal");
     const set = (v) => { S.settings.goal = Math.max(1, Math.min(7, v)); n.textContent = S.settings.goal; putSettings(); };

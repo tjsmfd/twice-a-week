@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 18, 2026 · 3:42 PM ET. App now checks for the newest version every time you open it.
+Last updated: Oct 18, 2026 · 4:10 PM ET. Weeks now run Sunday to Saturday.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
