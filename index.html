@@ -605,7 +605,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
 
   // ---------- backups ----------
   const bkFile = () => "twice-a-week-backup-" + iso(today()) + ".json";
-  function buildBackup(){ return {app:"twice-a-week", version:1, savedAt:new Date().toISOString(), acts:S.acts, log:S.log, hist:S.hist, settings:S.settings, link:(store.get("twa_gas") ? {gas:store.get("twa_gas"), key:store.get("twa_gkey")} : undefined)}; }
+  function buildBackup(){ return {app:"twice-a-week", version:1, savedAt:new Date().toISOString(), acts:S.acts, log:S.log, hist:S.hist, settings:S.settings, link:((store.get("twa_gas") || store.get("twa_gcid")) ? {gas:store.get("twa_gas") || "", key:store.get("twa_gkey") || "", gcid:store.get("twa_gcid") || ""} : undefined)}; }
   function snaps(){ try { return JSON.parse(store.get("twa_snaps") || "[]"); } catch (e){ return []; } }
   function takeSnap(label){
     let list = snaps(); list.unshift({at: Date.now(), label, data: buildBackup()}); list = list.slice(0, 7);
@@ -649,7 +649,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     }
     S.acts = sets.acts.slice(); S.log = sets.log.slice(); S.hist = sets.hist.slice();
     if (d.settings){ Object.assign(S.settings, d.settings); await putSettings(); }
-    if (STANDALONE && d.link && d.link.gas && d.link.key){ store.set("twa_gas", d.link.gas); store.set("twa_gkey", d.link.key); }
+    if (STANDALONE && d.link){ if (d.link.gas && d.link.key){ store.set("twa_gas", d.link.gas); store.set("twa_gkey", d.link.key); } if (d.link.gcid && !store.get("twa_gcid")) store.set("twa_gcid", d.link.gcid); }
     rec("restored", null, {text: label});
     closeSheet(); render(); sfx("undo");
     toast("Restored. Your previous data was saved as a snapshot.", null, 4000);
@@ -1966,7 +1966,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
           store.set("twa_gcid", v); await doConnect();
         });
       } else if (gEver()){
-        gb.innerHTML = `<b>Google Calendar ${gLive() ? "connected" : "needs a quick reconnect"}</b><span>${gLive() ? "Reading busy times and adding your plans." : "Google signs web apps out after about an hour. Tap Reconnect."}</span><div class="row">${gLive() ? "" : `<button type="button" class="pri" id="s-grc">Reconnect</button>`}<button type="button" id="s-gdc">Disconnect</button></div>${always}`; wire();
+        gb.innerHTML = `<b>Google Calendar ${gLive() ? "connected" : "needs a quick reconnect"}</b><span>${gLive() ? "Reading busy times and adding your plans." : "Google signs web apps out after about an hour. Tap Reconnect."}</span><div class="row">${gLive() ? "" : `<button type="button" class="pri" id="s-grc">Reconnect</button>`}<button type="button" id="s-gdc">Disconnect</button></div><span>Client ID: <button type="button" id="s-gcidcp" style="background:none;border:0;padding:0;color:var(--a2);font:inherit;text-decoration:underline">copy</button></span>${always}`; wire();
+        gb.querySelector("#s-gcidcp").addEventListener("click", async () => { try { await navigator.clipboard.writeText(GCID()); toast("Client ID copied."); } catch (e){ toast(GCID(), null, 8000); } });
         const rc = gb.querySelector("#s-grc"); if (rc) rc.addEventListener("click", doConnect);
         gb.querySelector("#s-gdc").addEventListener("click", () => { gDisconnect(); store.set("twa_gcid", store.get("twa_gcid") || ""); drawG(); render(); toast("Disconnected from Google Calendar."); sh.querySelector("#s-calblock").hidden = true; });
       } else {
