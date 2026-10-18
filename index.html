@@ -429,10 +429,10 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
 
 <nav class="nav" aria-label="Sections">
   <div class="in">
-    <button class="tab" data-tab="week" aria-label="This week" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span class="tl">This week</span></button>
+    <button class="tab" data-tab="week" aria-label="This week" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span class="tl">Esta semana</span></button>
     <button class="tab" data-tab="ideas" aria-label="Ideas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 7h11M8 12h11M8 17h11"/><circle cx="4.5" cy="7" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="17" r="1" fill="currentColor"/></svg><span class="tl">Ideas</span></button>
-    <button class="tab" data-tab="done" aria-label="Done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><span class="tl">Done</span></button>
-    <button class="tab" data-tab="hist" aria-label="History"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/></svg><span class="tl">History</span></button>
+    <button class="tab" data-tab="done" aria-label="Done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><span class="tl">Hechos</span></button>
+    <button class="tab" data-tab="hist" aria-label="History"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/></svg><span class="tl">Historial</span></button>
     <span class="ind" aria-hidden="true"></span>
   </div>
 </nav>
@@ -786,13 +786,13 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const left = Math.max(0, g - done), slots = Math.max(0, g - done - w.sched.length);
     let msg;
     if (done >= g) msg = done > g ? `Goal beat by ${done - g}` : "Goal hit";
-    else if (slots === 0) msg = `${left} to go · all planned`;
-    else msg = `${left} to go · ${slots} need${slots === 1 ? "s" : ""} a date`;
+    else if (slots === 0) msg = `faltan ${left} · todo planeado`;
+    else msg = `faltan ${left} · ${slots} sin fecha`;
     const sk = skipState(w), gi = sk.g, nd = S.settings.nudge;
     let chip = "";
     if (st) chip += `<span class="lastone">Streak: ${st} wk</span>`;
     if (gi && gi.hasLog) chip += `<span class="lastone${gi.days >= nd ? " bad" : gi.days === nd - 1 ? " warn" : ""}">Last one: ${gi.days === 0 ? "today" : gi.days === 1 ? "yesterday" : gi.days + " days ago"}</span>`;
-    let h = head("This week", weekLabel(w.ws), `<button type="button" class="iconbtn${backupStale() ? " flag" : ""}" data-settings aria-label="Settings${backupStale() ? " (backup needed)" : ""}">${IC.gear}</button>`);
+    let h = head("Esta semana", weekLabel(w.ws), `<button type="button" class="iconbtn${backupStale() ? " flag" : ""}" data-settings aria-label="Settings${backupStale() ? " (backup needed)" : ""}">${IC.gear}</button>`);
     h += syncNote();
     if (STANDALONE && !GAS() && GCID() && !gLive()) h += `<div class="notice soft"><span><b>${gEver() ? "Calendar paused" : "Connect your calendar"}</b>${gEver() ? "Google signs you out every hour. Tap to see your events again, or set up Always-on in Settings." : "See your events and plan around them."}</span><button type="button" class="pillbtn" data-greconnect>${gEver() ? "Reconnect" : "Connect"}</button></div>`;
     if (S.status !== "loading"){
@@ -805,7 +805,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
         h += alertBox("soon", "Heads up", `Tomorrow makes ${nd} days without one`, "Nothing is planned for today or tomorrow yet.", `<button type="button" class="pillbtn" data-day="${iso(addDays(today(), 1))}">Plan for tomorrow</button>`);
       }
       const si = sunInfo();
-      if (si) h += `<div class="notice"><span><b>${si.mon ? "Monday plan" : "Sunday plan"}</b>Pick ${si.need} for ${si.mon ? "this" : "next"} week</span><span class="nbtns"><button type="button" class="pillbtn" data-sunday>Plan</button><button type="button" class="x" data-sunx="${si.a}" aria-label="Hide until next week">${IC.close}</button></span></div>`;
+      if (si) h += `<div class="notice"><span><b>${si.mon ? "Plan del lunes" : "Plan del domingo"}</b>Elige ${si.need} para ${si.mon ? "esta" : "la próxima"} semana</span><span class="nbtns"><button type="button" class="pillbtn" data-sunday>Planear</button><button type="button" class="x" data-sunx="${si.a}" aria-label="Hide until next week">${IC.close}</button></span></div>`;
     }
     h += `<section class="card hero" aria-label="Weekly progress">${ring(done, g)}<div class="txt"><div class="big${done >= g ? " hit" : ""}">${done}<small> / ${g}</small></div><div class="sub">${done >= g ? badge() + badge() : ""}<span>${msg}</span></div>${chip ? `<div class="chiprow">${chip}</div>` : ""}</div></section>`;
     const mustId = (sk.level !== "ok" && w.sched[0]) ? w.sched[0].id : "";
@@ -821,11 +821,11 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
       const bars = [0, 1, 2, 3].map((b) => `<i class="${b < nb ? "on" : ""}" style="height:${5 + b * 3}px"></i>`).join("") + (mine ? `<i class="mine" style="height:14px"></i>` : "");
       h += `<button type="button" class="${cls}" data-dayview="${ds}" aria-label="See ${DOW[i % 7]} ${short(d)}"><span class="dl">${DOW[i % 7].slice(0, 2)}</span><span class="dn">${d.getDate()}</span><span class="bars">${bars}</span></button>`;
     }
-    h += `</div></div><div class="striphint"><span>Tap a day to see its schedule</span><b>Swipe for upcoming days →</b></div>`;
+    h += `</div></div><div class="striphint"><span>Toca un día para ver su horario</span><b>Desliza para ver más días →</b></div>`;
 
     if (S.status === "loading"){ h += `<p class="empty">Loading your list…</p>`; return h; }
     if (!S.acts.length && !S.log.length){
-      h += `<div class="notice"><span><b>Start here</b>Add something you keep putting off</span><button type="button" class="pillbtn" data-add>Add one</button></div>`;
+      h += `<div class="notice"><span><b>Empieza aquí</b>Agrega algo que sigues posponiendo</span><button type="button" class="pillbtn" data-add>Agregar</button></div>`;
       return h;
     }
     if (slots > 0 && done < g && sk.level === "ok" && !sunInfo()){
@@ -850,7 +850,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const need = open.filter((x) => !x.date && pass(x)).sort((a, b) => waitingSort(a, b) || (a.created || 0) - (b.created || 0));
     const dated = open.filter((x) => x.date && pass(x)).sort(byDate);
     const fin = S.acts.filter((x) => x.status === "done" && pass(x));
-    let h = head("Ideas", `${open.filter((x) => !x.date).length} waiting · ${open.filter((x) => x.date).length} planned`);
+    let h = head("Ideas", `${open.filter((x) => !x.date).length} en espera · ${open.filter((x) => x.date).length} planeadas`);
     h += syncNote();
     h += `<div class="filters" role="group" aria-label="Filter by category"><button type="button" class="chip" data-filter="all" aria-pressed="${f === "all"}">All</button>${CATS.map((c) => `<button type="button" class="chip" data-filter="${c.id}" aria-pressed="${f === c.id}">${CI[c.id]}${c.name}</button>`).join("")}</div>`;
     if (S.status === "loading"){ h += `<p class="empty">Loading your list…</p>`; return h; }
@@ -886,7 +886,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
 
   function viewDone(){
     const g = S.settings.goal, w = weekInfo(), st = streak();
-    let h = head("Done", `${S.log.length} logged in total`);
+    let h = head("Hechos", `${S.log.length} registrados en total`);
     h += syncNote();
     h += `<div class="stats"><div class="stat"><span class="l">This week</span><span class="v">${w.done.length} / ${g}</span></div><div class="stat"><span class="l">Streak</span><span class="v">${st} wk</span></div><div class="stat"><span class="l">All time</span><span class="v">${S.log.length}</span></div></div>`;
     h += `<section class="card" aria-label="Last 8 weeks" style="display:flex;flex-direction:column;gap:10px"><div class="sechead" style="margin:0"><h2>Last 8 weeks</h2><span>dashed line = goal of ${g}</span></div>${bars()}</section>`;
@@ -917,7 +917,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const f = S.hfilter || "all";
     const match = (h) => f === "all" || h.type === f || (f === "completed" && (h.type === "undone" || h.type === "removed")) || (f === "added" && h.type === "restored" && h.actId);
     const list = S.hist.filter(match).sort((a, b) => b.ts - a.ts);
-    let h = head("History", "Every change, newest first");
+    let h = head("Historial", "Cada cambio, el más reciente primero");
     h += syncNote();
     h += `<div class="filters" role="group" aria-label="Filter history">${HFILTERS.map((x) => `<button type="button" class="chip" data-hfilter="${x[0]}" aria-pressed="${f === x[0]}">${x[1]}</button>`).join("")}</div>`;
     if (S.status === "loading"){ h += `<p class="empty">Loading…</p>`; return h; }
