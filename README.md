@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 18, 2026 · 4:30 PM ET. Automatic cloud backup to your Google Drive (Settings > Calendar).
+Last updated: Oct 25, 2026 · 10:01 PM ET. Morning paper link (Settings > Morning paper).
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
