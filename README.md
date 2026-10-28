@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 25, 2026 · 10:01 PM ET. Morning paper link (Settings > Morning paper).
+Last updated: Oct 28, 2026 · 2:25 AM ET. Weekly goal raised to 3.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
