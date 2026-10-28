@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1793168255">
+<meta name="twa-build" content="1793168298">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1793168255";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1793168298";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -1016,9 +1016,49 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     if (!RM) document.getElementById("app").animate([{opacity:.2, transform:`translateX(${dir * 44}px)`},{opacity:1, transform:"none"}], {duration:300, easing:"cubic-bezier(.2,.8,.2,1)"});
   }
 
+  // ---------- morning paper (The Fuller Dispatch) ----------
+  // Sends a short summary of this week (goal, done, planned) to TJ's own Apps Script, which saves it in his Google Drive
+  // for the printed morning paper. Nothing is sent until a paper link is saved in Settings.
+  const PAPER = () => (store.get("fd_paper") || "").trim();
+  let paperT = null, paperSig = "";
+  function paperSummary(){
+    const w = weekInfo();
+    return {goal: S.settings.goal, doneThisWeek: w.done.length, done: w.done.slice(-4).map((l) => l.name), planned: w.sched.slice(0, 4).map((x) => ({name: x.name, date: x.date, time: x.time || ""})), overdue: w.overdue.length, streak: streak(), ideas: openActs().filter((x) => !x.date).length};
+  }
+  function paperSend(force){
+    const url = PAPER(); if (!url || S.status === "loading") return;
+    let data; try { data = paperSummary(); } catch (e){ return; }
+    const sig = iso(today()) + JSON.stringify(data); if (!force && sig === paperSig) return;
+    paperSig = sig;
+    fetch(url, {method: "POST", mode: "no-cors", body: JSON.stringify({action: "feed", app: "sl", at: new Date().toISOString(), data})})
+      .then(() => { store.set("fd_paper_at", new Date().toISOString()); if (force) toast("Sent to your morning paper"); })
+      .catch(() => { paperSig = ""; if (force) toast("Couldn't reach your paper link. Check your connection.", null, 4000); });
+  }
+  const queuePaper = () => { if (!PAPER()) return; clearTimeout(paperT); paperT = setTimeout(() => paperSend(false), 2500); };
+  function drawPaper(box){
+    if (!box) return;
+    if (PAPER()){
+      const at = store.get("fd_paper_at");
+      box.innerHTML = `<b>Linked to The Fuller Dispatch</b><span>Your weekly goal, what's done, and what's planned go to your own Google Drive for your printed morning paper.</span><span>Last sent: ${at ? esc(DOW[dowIdx(new Date(at))] + ", " + short(new Date(at)) + " · " + fmtTime(pad(new Date(at).getHours()) + ":" + pad(new Date(at).getMinutes()))) : "not yet"}</span>
+        <div class="row"><button type="button" id="fd-send">Send now</button><button type="button" id="fd-x">Unlink</button></div>`;
+      box.querySelector("#fd-send").addEventListener("click", () => { paperSig = ""; paperSend(true); });
+      box.querySelector("#fd-x").addEventListener("click", () => { store.set("fd_paper", ""); store.set("fd_paper_at", ""); drawPaper(box); toast("Morning paper unlinked."); });
+      return;
+    }
+    box.innerHTML = `<b>Show this week in your morning paper</b><span>Paste the paper link from your Dispatch script.</span>
+      <input class="field" id="fd-url" placeholder="https://script.google.com/macros/s/…/exec?k=…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Paper link">
+      <div class="row"><button type="button" class="pri" id="fd-save">Save link</button></div>`;
+    box.querySelector("#fd-save").addEventListener("click", () => {
+      const v = (box.querySelector("#fd-url").value || "").trim();
+      if (!/^https:\/\/script\.google(usercontent)?\.com\//.test(v)){ toast("That doesn't look like a paper link. It starts with https://script.google.com/", null, 4500); return; }
+      store.set("fd_paper", v); paperSig = ""; paperSend(true); drawPaper(box);
+    });
+  }
+
   function render(){
     if (S.anim){ S.pending = true; return; }
     S.pending = false;
+    queuePaper();
     const app = document.getElementById("app");
     app.innerHTML = S.tab === "ideas" ? viewIdeas() : S.tab === "done" ? viewDone() : S.tab === "hist" ? viewHist() : viewWeek();
     document.querySelectorAll(".tab").forEach((t) => { if (t.dataset.tab === S.tab) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
@@ -1936,6 +1976,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       <div class="setblock" id="s-calblock"${calReady() ? "" : " hidden"}><div class="togrow"><div><b>Add new plans to my calendar</b><span>Google Calendar. You can turn it off per activity.</span></div><button type="button" class="sw" id="s-cal" role="switch" aria-checked="${!!S.settings.calDefault}" aria-label="Add new plans to my calendar"></button></div></div>
       <div class="setblock"><span class="lbl" style="margin:0">Bedtime</span>${pickField("s-bed", "time", S.settings.bed || "00:30", "Set bedtime", "Bedtime")}<p class="hint" style="margin:0">Plans that run past this get a heads-up, and the day view stops open time here.</p></div>
       ${STANDALONE ? `<div class="setblock"><span class="lbl" style="margin:0">Calendar</span><div class="gconn" id="s-gconn"></div></div>` : ""}
+      <div class="setblock"><span class="lbl" style="margin:0">Morning paper</span><div class="gconn" id="s-paper"></div></div>
       <div class="setblock"><div class="togrow"><div><b>Sounds</b><span>Soft tones for checking off, moving and more</span></div><button type="button" class="sw" id="s-snd" role="switch" aria-checked="${S.settings.sound !== false}" aria-label="Sounds"></button></div></div>
       <div class="setblock"><span class="lbl" style="margin:0">Your data</span>
         <div class="dataline"><div><b>Last backup</b><span>${lastbk ? esc(DOW[dowIdx(new Date(lastbk))] + ", " + short(new Date(lastbk))) + " · " + esc(bkSummary(buildBackup())) + " now" : "Never. Save one now."}</span></div>${backupStale() ? `<span class="warnchip">${lastbk ? "Over 2 weeks old" : "Not backed up"}</span>` : ""}</div>
@@ -1964,6 +2005,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     sh.querySelector("#r-up").addEventListener("click", () => setR(S.settings.nudge + 1));
     sc.addEventListener("click", () => { S.settings.calDefault = !S.settings.calDefault; sc.setAttribute("aria-checked", String(S.settings.calDefault)); putSettings(); });
     wirePicks(sh);
+    drawPaper(sh.querySelector("#s-paper"));
     const bedIn = sh.querySelector("#s-bed");
     bedIn.addEventListener("change", () => { S.settings.bed = bedIn.value || "00:30"; putSettings(); });
     function drawG(){
