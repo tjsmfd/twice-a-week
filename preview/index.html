@@ -10,10 +10,10 @@
 <meta name="apple-mobile-web-app-title" content="S ≠ L β">
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>window.TWA_PREVIEW=true</script>
-<meta name="twa-build" content="1793459987">
+<meta name="twa-build" content="1793462447">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1793459987";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1793462447";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L preview</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -453,13 +453,13 @@ body{background:var(--bg)}
 .scn .txt::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,5,6,0) 32%,rgba(5,5,6,.5) 62%,rgba(5,5,6,.62) 100%)}
 .scn .sub{color:#CFCFD6}
 .scn .wtag{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#D9C6FF;opacity:.85}
-.wsvg .fall{animation:wfall 7s linear infinite}
-.wsvg .snow{animation:wsnow 9s linear infinite}
-.wsvg .rain{animation:wrain .7s linear infinite}
-.wsvg .fly{animation:wfly 4s ease-in-out infinite}
-.wsvg .flick{animation:wflick 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
-.wsvg .twk{animation:wtwk 3s ease-in-out infinite}
-.wsvg .beam{animation:wbeam 6s linear infinite;transform-box:view-box}
+.wsvg .fall,.skysvg .fall{animation:wfall 7s linear infinite}
+.wsvg .snow,.skysvg .snow{animation:wsnow 9s linear infinite}
+.wsvg .rain,.skysvg .rain{animation:wrain .7s linear infinite}
+.wsvg .fly,.skysvg .fly{animation:wfly 4s ease-in-out infinite}
+.wsvg .flick,.skysvg .flick{animation:wflick 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.wsvg .twk,.skysvg .twk{animation:wtwk 3s ease-in-out infinite}
+.wsvg .beam,.skysvg .beam{animation:wbeam 6s linear infinite;transform-box:view-box}
 @keyframes wfall{from{transform:translate(0,-30px) rotate(0)}to{transform:translate(-40px,200px) rotate(260deg)}}
 @keyframes wsnow{from{transform:translate(0,-20px)}to{transform:translate(14px,200px)}}
 @keyframes wrain{from{transform:translate(0,-30px)}to{transform:translate(-14px,190px)}}
@@ -524,6 +524,38 @@ body{background:var(--bg)}
 .qev.done{opacity:.7}
 .qsmall{font-size:11.5px;color:var(--muted)}
 .qchange{background:none;border:0;color:var(--a2);font-size:12px;font-weight:700;padding:0}
+/* ===== Sky tab ===== */
+.skyv{position:fixed;inset:0;z-index:5;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:#04030B;overscroll-behavior:contain}
+.skysvg{display:block}
+.skysvg .sk-hit{cursor:pointer}
+.skyui{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:max(14px,env(safe-area-inset-right,0px));display:flex;gap:8px;z-index:6;transition:opacity .3s}
+.skybtn{width:38px;height:38px;border-radius:19px;border:1px solid rgba(255,255,255,.12);background:rgba(10,8,24,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:grid;place-items:center;color:#CFC2F5;padding:0}
+.skybtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.skybtn.on{background:rgba(106,75,255,.45);color:#fff}
+.skyv.bare .skyui{opacity:0;pointer-events:none}
+body.tab-sky .fab{display:none}
+body.sky-bare .nav{opacity:0;pointer-events:none;transition:opacity .3s}
+body.sky-bare .nav .in{pointer-events:none}
+.skyempty{position:fixed;left:24px;right:24px;top:38%;text-align:center;color:#B9B0D6;font-size:14px;line-height:1.5;pointer-events:none}
+.skh{display:flex;align-items:center;gap:10px;font-size:18px}
+.skinfo{display:flex;flex-direction:column;gap:2px}
+.skinfo .kv{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--edge);font-size:14px}
+.skinfo .kv span{color:var(--muted)}
+.skinfo .kv b{text-align:right;font-weight:600}
+.sknote{margin:10px 0 0;font-size:14px;color:#CFCFD6;font-style:italic;line-height:1.45}
+.skrow{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;border-bottom:1px solid var(--edge);padding:11px 0;text-align:left;color:var(--fg)}
+.skrow span{flex:1;font-weight:600}
+.skrow small{color:var(--muted);font-size:12px}
+/* ===== History: weeks view ===== */
+.seg2{display:flex;background:var(--card);border:1px solid var(--edge);border-radius:999px;padding:3px}
+.seg2 button{flex:1;border:0;background:none;color:var(--muted);font-weight:700;font-size:14px;padding:8px 0;border-radius:999px}
+.seg2 button[aria-pressed="true"]{background:var(--g-warm);color:#fff}
+.wkhead{display:flex;align-items:center;gap:12px;margin:8px 2px 0}
+.wkthumb{flex:none;width:72px;height:44px;border-radius:10px;border:1px solid rgba(192,139,255,.3);padding:0;background:none;overflow:hidden}
+.wkthumb.none{border:1px dashed var(--edge);background:rgba(255,255,255,.02)}
+.wkt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.wkt b{font-size:14px}
+.wkt span{font-size:12.5px;color:var(--muted)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -538,7 +570,7 @@ body{background:var(--bg)}
   <div class="in">
     <button class="tab" data-tab="week" aria-label="This week" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span class="tl">This week</span></button>
     <button class="tab" data-tab="ideas" aria-label="Ideas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 7h11M8 12h11M8 17h11"/><circle cx="4.5" cy="7" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="17" r="1" fill="currentColor"/></svg><span class="tl">Ideas</span></button>
-    <button class="tab" data-tab="done" aria-label="Done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><span class="tl">Done</span></button>
+    <button class="tab" data-tab="sky" aria-label="Sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M19 15.5c.2 1.6.9 2.3 2.5 2.5-1.6.2-2.3.9-2.5 2.5-.2-1.6-.9-2.3-2.5-2.5 1.6-.2 2.3-.9 2.5-2.5z"/></svg><span class="tl">Sky</span></button>
     <button class="tab" data-tab="hist" aria-label="History"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/></svg><span class="tl">History</span></button>
     <span class="ind" aria-hidden="true"></span>
   </div>
@@ -1159,17 +1191,18 @@ body{background:var(--bg)}
   }
 
   // Week complete: this week's activities rise as stars and form a named constellation.
-  function playConstellation(){
-    const w = weekInfo(), logs = w.done.slice(0, 6); if (!logs.length) return Promise.resolve();
-    const hw = hitWeeks(), num = hw.length, name = consName(w.ws, logs);
+  function playConstellation(wsIn){
+    const w0 = wsIn ? weekStart(wsIn) : weekInfo().ws, a0 = iso(w0), b0 = iso(addDays(w0, 6));
+    const w = {ws: w0}, logs = S.log.filter((l) => l.date >= a0 && l.date <= b0).sort((x, y) => x.date.localeCompare(y.date)).slice(0, 6); if (!logs.length) return Promise.resolve();
+    const hw = hitWeeks(), idx = hw.findIndex((x) => iso(x.ws) === a0), num = idx >= 0 ? idx + 1 : hw.length, name = consName(w.ws, logs);
     const n = logs.length, r = rng(hashS(iso(w.ws)));
     const SH = {1:[[50, 40]], 2:[[32, 46], [68, 34]], 3:[[24, 50], [50, 28], [76, 46]], 4:[[20, 44], [40, 26], [62, 36], [80, 22]], 5:[[18, 50], [34, 30], [52, 42], [68, 24], [84, 40]], 6:[[16, 46], [30, 28], [46, 40], [60, 22], [74, 36], [86, 52]]};
     const VW = window.innerWidth, VH = window.innerHeight;
-    const pts = SH[n].map(([x, y]) => [x + (r() - .5) * 8, y + (r() - .5) * 8]), px = pts.map(([x, y]) => [x / 100 * VW, y / 100 * VH]);
+    const pts = consShape(iso(w.ws), n).map(([fx, fy]) => [12 + fx * 76, 22 + fy * 34]), px = pts.map(([x, y]) => [x / 100 * VW, y / 100 * VH]);
     const ov = document.createElement("div"); ov.className = "consov"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "Week complete");
     ov.innerHTML = `<svg viewBox="0 0 ${VW} ${VH}"><polyline points="${px.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="#C08BFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #C08BFF)" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
       ${pts.map((p, i) => `<div class="cst" style="left:${p[0]}%;top:${p[1]}%"><i></i><span>${esc(logs[i].name)}</span></div>`).join("")}
-      <div class="ctx"><div class="ck">Week complete · constellation ${num}</div><div class="cn">"${esc(name)}"</div><div class="cs">${n} of ${S.settings.goal} done. Added to your sky.</div><div class="cx">Tap to continue</div></div>`;
+      <div class="ctx"><div class="ck">Week complete · constellation ${num}</div><div class="cn">"${esc(name)}"</div><div class="cs">${wsIn ? esc(weekLabel(w0)) + " · " + n + " activities" : n + " of " + S.settings.goal + " done. Added to your sky."}</div><div class="cx">Tap to continue</div></div>`;
     document.body.appendChild(ov);
     return new Promise((res) => {
       let closed = false;
@@ -1201,20 +1234,21 @@ body{background:var(--bg)}
   const SKYC = {dawn:["#120B2A", "#4B2A7A", "#E39AB8"], day:["#4A42B8", "#8C7BE8", "#E2D6FF"], dusk:["#1E1040", "#6A2E7A", "#F09A8A"], night:["#04030B", "#0E0A24", "#271850"]};
   const LANDC = {dawn:["#2B1A55", "#1C1238", "#140D2A"], day:["#5A4AA8", "#3E3080", "#2A2060"], dusk:["#3A1E52", "#26143A", "#1A0E2A"], night:["#1C1238", "#120B26", "#0B0718"]};
   const TREEC = {autumn:["#E08A3C", "#C9652E", "#F0A64A"], winter:["#3A3260", "#2E2850", "#3A3260"], spring:["#5FAF7A", "#4A9A6A", "#E8A0C8"], summer:["#2F8A5A", "#257048", "#3A9A64"]};
-  function worldSVG(){
-    const ph = dayPhase(), se = season(), wx = weather(), st = streak(), sky = SKYC[ph], land = LANDC[ph];
+  function worldSVG(o){
+    o = o || {};
+    const ph = o.phase || dayPhase(), se = season(), wx = weather(), st = streak(), sky = SKYC[ph], land = LANDC[ph];
     const catN = {}; S.log.forEach((l) => { catN[l.cat] = (catN[l.cat] || 0) + 1; });
     const built = chainInfo().built, r = rng(11), lit = ph === "night" || ph === "dusk";
-    let s = `<svg class="wsvg" viewBox="0 0 360 184" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>
+    let s = (o.inner ? "" : `<svg class="wsvg" viewBox="0 0 360 184" preserveAspectRatio="xMidYMid slice" aria-hidden="true">`) + `<defs>
       <linearGradient id="wsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset=".62" stop-color="${sky[1]}"/><stop offset="1" stop-color="${sky[2]}"/></linearGradient>
       <linearGradient id="wlake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[2]}" stop-opacity=".7"/><stop offset="1" stop-color="${sky[1]}" stop-opacity=".3"/></linearGradient></defs>
-      <rect width="360" height="184" fill="url(#wsky)"/>`;
+` + (o.landOnly ? "" : `<rect width="360" height="184" fill="url(#wsky)"/>`);
     // stars (night strong, dusk/dawn faint)
-    const sa = ph === "night" ? 1 : ph === "day" ? 0 : .45;
+    const sa = o.landOnly ? 0 : ph === "night" ? 1 : ph === "day" ? 0 : .45;
     if (sa){ s += `<g fill="#fff">`; for (let i = 0; i < 46; i++){ const x = r() * 360, y = r() * 108; s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r() < .15 ? 1.1 : .6}" opacity="${(sa * (.4 + r() * .6)).toFixed(2)}"${i % 4 === 0 ? ` class="twk" style="animation-delay:${(r() * 3).toFixed(1)}s"` : ""}/>`; } s += `</g>`; }
     // 2D: your constellations in the sky (recent weeks, plus gold ones from campaigns)
     const ca = ph === "night" ? .95 : ph === "day" ? .22 : .6;
-    const weeks = hitWeeks().slice(-5), camps = Object.keys(qState().camp).slice(-2);
+    const weeks = o.landOnly ? [] : hitWeeks().slice(-5), camps = o.landOnly ? [] : Object.keys(qState().camp).slice(-2);
     const slots = [[200, 14], [262, 34], [140, 12], [306, 12], [96, 30], [40, 14], [330, 56]];
     const drawCons = (key, n, x0, y0, col) => {
       const rr = rng(hashS(key)), pts = [];
@@ -1229,11 +1263,11 @@ body{background:var(--bg)}
     // land: far ridge, (trail peak), near hills
     const tall = (catN.outdoors || 0) >= 3;
     s += `<path d="M0 104 L40 80 L72 96 L118 ${tall ? 50 : 64} L160 98 L206 70 L248 92 L300 66 L360 96 V184 H0Z" fill="${land[0]}"/>`;
-    if (tall) s += `<path d="M118 ${tall ? 50 : 64} L112 62 L120 70 L114 84" stroke="#C08BFF" stroke-dasharray="2 2" fill="none" opacity=".6"/>`;
+    if (tall) s += `<g data-sk="lm:cat-outdoors" class="sk-hit"><rect x="104" y="46" width="28" height="44" fill="transparent"/><path d="M118 ${tall ? 50 : 64} L112 62 L120 70 L114 84" stroke="#C08BFF" stroke-dasharray="2 2" fill="none" opacity=".6"/></g>`;
     if (se === "winter") s += `<path d="M118 50 L110 60 L126 60Z M300 66 L292 76 L308 76Z M206 70 L199 79 L213 79Z" fill="#EDE8FA" opacity=".85"/>`;
     s += `<path d="M0 122 Q60 112 120 120 T240 118 T360 120 V184 H0Z" fill="${land[1]}"/><rect y="150" width="360" height="34" fill="${land[2]}"/>`;
     // lake (streak 2+)
-    if (st >= 2) s += `<ellipse cx="226" cy="146" rx="${Math.min(60, 30 + st * 4)}" ry="6" fill="url(#wlake)"/>`;
+    if (st >= 2) s += `<ellipse data-sk="lm:lake" class="sk-hit" cx="226" cy="146" rx="${Math.min(60, 30 + st * 4)}" ry="6" fill="url(#wlake)"/>`;
     // chain landmarks (3E)
     const LM = {
       observatory:`<g transform="translate(300 118)"><rect x="-9" y="0" width="18" height="12" fill="#2E2260"/><path d="M-11 0 A11 11 0 0 1 11 0Z" fill="#C9C2EA"/><rect x="-1" y="-11" width="3" height="7" fill="#2E2260" transform="rotate(25)"/></g>`,
@@ -1243,16 +1277,17 @@ body{background:var(--bg)}
       cabin:`<g transform="translate(150 128)"><path d="M-10 0 L0 -9 L10 0Z" fill="#6B3E2E"/><rect x="-8" y="0" width="16" height="10" fill="#8C5A3E"/><rect x="-2" y="3" width="4" height="7" fill="${lit ? "#FFD27A" : "#4A2A1E"}"/></g>`,
       tower:`<g transform="translate(332 100)"><path d="M-4 40 L-2 0 H2 L4 40Z" fill="#B7AADF"/><circle cy="-3" r="3" fill="#F2CF7A" class="twk"/></g>`
     };
-    built.forEach((id) => { s += LM[id] || ""; });
+    built.forEach((id) => { s += `<g data-sk="lm:chain-${id}" class="sk-hit">${LM[id] || ""}</g>`; });
     // category landmarks (2C)
-    if ((catN.movie || 0) >= 3) s += `<g transform="translate(40 132)"><rect x="0" y="-16" width="30" height="17" rx="1.5" fill="#0B0618" stroke="#C08BFF" stroke-width=".9"/><rect x="2" y="-14" width="26" height="13" fill="${lit ? "#6A4BFF" : "#2B1A55"}" opacity="${lit ? .55 : .9}"/><rect x="13" y="1" width="4" height="6" fill="#3E2A78"/></g>`;
-    if ((catN.food || 0) >= 3) s += `<g transform="translate(176 150)"><path d="M-8 4 L8 -2 M-8 -2 L8 4" stroke="#6B3E2E" stroke-width="2"/><path class="flick" d="M-5 0 Q0 -16 5 0Z" fill="#F0A64A"/><path class="flick" d="M-2 0 Q0 -9 2 0Z" fill="#FFE2A0" style="animation-delay:.3s"/>${lit ? `<circle cy="-4" r="16" fill="#F0A64A" opacity=".12"/>` : ""}</g>`;
-    if ((catN.creative || 0) >= 3) s += `<g transform="translate(128 138)"><path d="M-6 14 L0 -6 L6 14 M0 -6 V14" stroke="#B08A6A" stroke-width="1.4"/><rect x="-7" y="-4" width="14" height="10" fill="#EDE8FA"/><circle cx="-2" cy="1" r="2" fill="#C08BFF"/><circle cx="3" cy="2" r="1.6" fill="#7FD6A6"/></g>`;
-    if ((catN.social || 0) >= 3) s += `<g><path d="M260 134 V112 M300 136 V114" stroke="#6E5A8A" stroke-width="1.4"/><path d="M260 113 Q280 124 300 115" stroke="#6E5A8A" stroke-width=".8" fill="none"/>${[266, 273, 280, 287, 294].map((x, i) => `<circle cx="${x}" cy="${117 + Math.sin(i * .9) * 2 + 3}" r="1.5" fill="#FFD27A" class="twk" style="animation-delay:${i * .4}s"/>`).join("")}</g>`;
-    if ((catN.other || 0) >= 3) s += `<path d="M96 154 L106 140 L116 154Z" fill="#7A5AC8"/><path d="M106 140 V154" stroke="#4A3480"/>`;
+    if ((catN.movie || 0) >= 3) s += `<g data-sk="lm:cat-movie" class="sk-hit"><g transform="translate(40 132)"><rect x="0" y="-16" width="30" height="17" rx="1.5" fill="#0B0618" stroke="#C08BFF" stroke-width=".9"/><rect x="2" y="-14" width="26" height="13" fill="${lit ? "#6A4BFF" : "#2B1A55"}" opacity="${lit ? .55 : .9}"/><rect x="13" y="1" width="4" height="6" fill="#3E2A78"/></g></g>`;
+    if ((catN.food || 0) >= 3) s += `<g data-sk="lm:cat-food" class="sk-hit"><g transform="translate(176 150)"><path d="M-8 4 L8 -2 M-8 -2 L8 4" stroke="#6B3E2E" stroke-width="2"/><path class="flick" d="M-5 0 Q0 -16 5 0Z" fill="#F0A64A"/><path class="flick" d="M-2 0 Q0 -9 2 0Z" fill="#FFE2A0" style="animation-delay:.3s"/>${lit ? `<circle cy="-4" r="16" fill="#F0A64A" opacity=".12"/>` : ""}</g></g>`;
+    if ((catN.creative || 0) >= 3) s += `<g data-sk="lm:cat-creative" class="sk-hit"><g transform="translate(128 138)"><path d="M-6 14 L0 -6 L6 14 M0 -6 V14" stroke="#B08A6A" stroke-width="1.4"/><rect x="-7" y="-4" width="14" height="10" fill="#EDE8FA"/><circle cx="-2" cy="1" r="2" fill="#C08BFF"/><circle cx="3" cy="2" r="1.6" fill="#7FD6A6"/></g></g>`;
+    if ((catN.social || 0) >= 3) s += `<g data-sk="lm:cat-social" class="sk-hit"><g><path d="M260 134 V112 M300 136 V114" stroke="#6E5A8A" stroke-width="1.4"/><path d="M260 113 Q280 124 300 115" stroke="#6E5A8A" stroke-width=".8" fill="none"/>${[266, 273, 280, 287, 294].map((x, i) => `<circle cx="${x}" cy="${117 + Math.sin(i * .9) * 2 + 3}" r="1.5" fill="#FFD27A" class="twk" style="animation-delay:${i * .4}s"/>`).join("")}</g></g>`;
+    if ((catN.other || 0) >= 3) s += `<g data-sk="lm:cat-other" class="sk-hit"><path d="M96 154 L106 140 L116 154Z" fill="#7A5AC8"/><path d="M106 140 V154" stroke="#4A3480"/></g>`;
     // trees: more with a longer streak; storms leave them bare
     const TX = [10, 26, 58, 150, 166, 300, 316, 334, 346, 112, 196, 62];
     const nT = Math.min(TX.length, 3 + st), tc = TREEC[se];
+    s += `<g data-sk="lm:trees" class="sk-hit">`;
     for (let i = 0; i < nT; i++){
       const x = TX[i], y = 156 + (i % 3) * 3, hgt = 16 + (i % 4) * 3;
       if (wx === "storm") s += `<path d="M${x} ${y} V${y - hgt} M${x} ${y - hgt * .6} l-5 -5 M${x} ${y - hgt * .45} l5 -6" stroke="#4A3A5A" stroke-width="1.4"/>`;
@@ -1262,6 +1297,7 @@ body{background:var(--bg)}
         if (se === "spring" && i % 2 === 0) s += `<circle cx="${x + 2}" cy="${y - hgt / 2}" r="1.5" fill="#F4B8D8"/>`;
       }
     }
+    s += `</g>`;
     // season particles + rain
     if (!RM){
       if (wx === "storm") for (let i = 0; i < 26; i++) s += `<path class="rain" d="M${(r() * 380).toFixed(0)} ${(r() * 60).toFixed(0)} l-3 9" stroke="#9A93C8" stroke-width=".8" opacity=".7" style="animation-delay:${(r() * .7).toFixed(2)}s"/>`;
@@ -1271,7 +1307,7 @@ body{background:var(--bg)}
       else if (se === "summer" && lit) for (let i = 0; i < 10; i++) s += `<circle class="fly" cx="${(r() * 360).toFixed(0)}" cy="${(120 + r() * 40).toFixed(0)}" r="1.3" fill="#FFF3A0" style="animation-delay:${(r() * 4).toFixed(2)}s"/>`;
     }
     s += `<path d="M0 118.5 H360" stroke="${ph === "night" ? "rgba(192,139,255,.25)" : "rgba(255,255,255,.12)"}" stroke-width=".6"/>`;
-    return s + `</svg>`;
+    return s + (o.inner ? "" : `</svg>`);
   }
   function worldTag(){
     const ph = dayPhase(), se = season(), wx = weather(), st = streak();
@@ -1300,6 +1336,161 @@ body{background:var(--bg)}
   }
 
   SKY.init();
+  // ===================================================================================
+  // SKY TAB: your whole sky and scenery, full screen, tap anything to see how and when
+  // ===================================================================================
+  let skyLabels = false, skyBare = false;
+  const fmtLong = (ds) => DOW[dowIdx(parse(ds))] + ", " + short(parse(ds));
+  function nthInCat(cat, n){ return S.log.filter((l) => l.cat === cat).sort((a, b) => a.date.localeCompare(b.date))[n - 1] || null; }
+  function questWeeksSorted(){ return Object.entries(qState().done).sort((a, b) => a[0].localeCompare(b[0])); }
+  // layout of the sky: one cell per completed week, gold campaign constellations after, loose stars for other weeks
+  function skyLayout(W){
+    const hw = hitWeeks(), camps = Object.keys(qState().camp).sort(), cols = W < 520 ? 2 : 3, cw = W / cols, ch = 150, top = 86;
+    const cells = hw.map((wk) => ({type: "wk", key: iso(wk.ws), wk})).concat(camps.map((ym) => ({type: "camp", key: ym})));
+    const rows = Math.max(1, Math.ceil(cells.length / cols));
+    const landH = Math.round(Math.min(330, W * .66)), pad = 92, skyH = Math.max(window.innerHeight - landH - pad + landH * .45, top + rows * ch + 30), Hs = Math.round(skyH + landH * .55 + pad);
+    cells.forEach((c, i) => {
+      const col = i % cols, row = Math.floor(i / cols), r = rng(hashS("cell" + c.key));
+      c.x = col * cw + 14 + r() * 10; c.y = top + row * ch + r() * 18; c.w = cw - 34; c.h = ch - 44;
+    });
+    return {cells, cols, Hs, landH, top, W, pad};
+  }
+  const SHAPES = {1:[[.5, .5]], 2:[[.2, .6], [.8, .35]], 3:[[.1, .75], [.5, .15], [.9, .6]], 4:[[.05, .6], [.35, .15], [.65, .45], [.95, .1]], 5:[[.05, .7], [.28, .2], [.5, .55], [.72, .1], [.95, .5]], 6:[[.02, .5], [.2, .1], [.4, .45], [.6, .05], [.8, .4], [.98, .75]]};
+  function consShape(key, n){
+    const r = rng(hashS("shape" + key)); n = Math.max(1, Math.min(6, n));
+    if (n === 1) return [[.5, .5]];
+    const out = []; let y = .2 + r() * .6;
+    for (let i = 0; i < n; i++){
+      const x = n === 1 ? .5 : i / (n - 1) * .9 + .05 + (r() - .5) * (.5 / n);
+      if (i) y = Math.max(.05, Math.min(.95, y + (r() < .5 ? -1 : 1) * (.25 + r() * .45)));
+      out.push([Math.max(.02, Math.min(.98, x)), y]);
+    }
+    return out;
+  }
+  function cellPts(c, n){ return consShape(c.key, n).map(([fx, fy]) => [c.x + fx * c.w, c.y + fy * c.h]); }
+  function viewSky(){
+    const W = window.innerWidth, L = skyLayout(W), Hs = L.Hs, r = rng(99);
+    let s = `<svg class="skysvg" viewBox="0 0 ${W} ${Hs}" width="${W}" height="${Hs}" role="img" aria-label="Your sky: ${L.cells.length} constellations, ${S.log.length} stars">
+      <defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#04030B"/><stop offset=".55" stop-color="#0E0A24"/><stop offset="1" stop-color="#2B1A55"/></linearGradient>
+      <radialGradient id="sglow"><stop offset="0" stop-color="#C08BFF" stop-opacity=".6"/><stop offset="1" stop-color="#C08BFF" stop-opacity="0"/></radialGradient>
+      <radialGradient id="ggolw"><stop offset="0" stop-color="#F2CF7A" stop-opacity=".7"/><stop offset="1" stop-color="#F2CF7A" stop-opacity="0"/></radialGradient></defs>
+      <rect width="${W}" height="${Hs}" fill="url(#skyg)" data-sk="bg"/>`;
+    // background dust
+    s += `<g fill="#fff" pointer-events="none">`;
+    for (let i = 0; i < Math.round(W * Hs / 1400); i++){ const x = r() * W, y = r() * (Hs - L.landH * .5); s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r() < .1 ? 1 : .55}" opacity="${(.25 + r() * .6).toFixed(2)}"${i % 6 === 0 ? ` class="twk" style="animation-delay:${(r() * 3).toFixed(1)}s"` : ""}/>`; }
+    s += `</g>`;
+    // loose stars: activities from weeks that didn't become constellations
+    const inCons = new Set(); L.cells.forEach((c) => { if (c.type === "wk") c.wk.logs.slice(0, 6).forEach((l) => inCons.add(l.id)); });
+    S.log.filter((l) => !inCons.has(l.id)).forEach((l) => {
+      const h = hashS("loose" + l.id), x = 16 + (h % 1000) / 1000 * (W - 32), y = L.top + ((h >>> 10) % 1000) / 1000 * (Hs - L.landH - L.pad - L.top);
+      s += `<g data-sk="log:${esc(l.id)}" class="sk-hit"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="transparent"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="url(#sglow)"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.8" fill="#E9DDFF"/></g>`;
+    });
+    // gold stars from quests and events
+    goldStars().forEach((k) => {
+      const h = hashS("gs" + k), x = 16 + (h % 1000) / 1000 * (W - 32), y = L.top + ((h >>> 10) % 1000) / 1000 * (Hs - L.landH - L.pad - L.top);
+      s += `<g data-sk="gold:${esc(k)}" class="sk-hit"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="transparent"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9" fill="url(#ggolw)" class="twk"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.2" fill="#FFF3D0"/></g>`;
+    });
+    // constellations
+    L.cells.forEach((c) => {
+      const gold = c.type === "camp", logs = gold ? [] : c.wk.logs.slice(0, 6), n = gold ? 5 : logs.length, pts = cellPts(c, n), col = gold ? "#F2CF7A" : "#C08BFF";
+      s += `<g data-sk="${gold ? "camp" : "wk"}:${esc(c.key)}" class="sk-hit"><rect x="${(c.x - 8).toFixed(1)}" y="${(c.y - 8).toFixed(1)}" width="${(c.w + 16).toFixed(1)}" height="${(c.h + 16).toFixed(1)}" fill="transparent"/>`;
+      s += `<polyline points="${pts.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="${col}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".75" style="filter:drop-shadow(0 0 3px ${col})"/></g>`;
+      pts.forEach((p, i) => {
+        const key = gold ? `camp:${c.key}` : `log:${logs[i].id}`;
+        s += `<g data-sk="${esc(key)}" class="sk-hit"><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="16" fill="transparent"/><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="10" fill="url(#${gold ? "ggolw" : "sglow"})"/><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6" fill="#fff"/></g>`;
+      });
+      if (skyLabels){
+        const nm = gold ? campName(c.key) : c.wk.name;
+        s += `<text x="${(c.x + c.w / 2).toFixed(1)}" y="${(c.y + c.h + 22).toFixed(1)}" text-anchor="middle" font-size="11" fill="${gold ? "#F2CF7A" : "#CFC2F5"}" opacity=".85" pointer-events="none">${esc(nm)}</text>`;
+        if (!gold) pts.forEach((p, i) => { s += `<text x="${p[0].toFixed(1)}" y="${(p[1] - 9).toFixed(1)}" text-anchor="middle" font-size="9.5" fill="#B9B0D6" pointer-events="none">${esc(logs[i].name.length > 16 ? logs[i].name.slice(0, 15) + "…" : logs[i].name)}</text>`; });
+      }
+    });
+    // the scenery along the bottom (night version of your horizon)
+    s += `<svg x="0" y="${Hs - L.landH - L.pad}" width="${W}" height="${L.landH}" viewBox="40 0 280 184" preserveAspectRatio="xMidYMax slice">${worldSVG({landOnly: true, phase: "night", inner: true})}</svg><rect x="0" y="${Hs - L.pad - 1}" width="${W}" height="${L.pad + 1}" fill="${LANDC.night[2]}"/>`;
+    s += `</svg>`;
+    const btn = (attr, label, icon, on) => `<button type="button" class="skybtn${on ? " on" : ""}" ${attr} aria-label="${label}" aria-pressed="${!!on}">${icon}</button>`;
+    const ui = `<div class="skyui">${btn("data-skylabels", "Show names", '<svg viewBox="0 0 24 24"><path d="M4 18L9 6l5 12M6 14h6M15 18v-6a3 3 0 0 1 6 0v6M15 15h6"/></svg>', skyLabels)}${btn("data-skybare", "Hide buttons and tabs", '<svg viewBox="0 0 24 24"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/></svg>', skyBare)}</div>`;
+    const empty = !S.log.length ? `<div class="skyempty">Your sky is empty for now. Every activity you check off becomes a star here.</div>` : "";
+    return `<section class="skyv${skyBare ? " bare" : ""}" id="skyv" aria-label="Your sky">${s}${ui}${empty}</section>`;
+  }
+  function campName(ym){ const m = Number(ym.slice(5, 7)) - 1; return (CAMPS[m] ? CAMPS[m].n : "Campaign") + " · " + MON[m] + " " + ym.slice(0, 4); }
+  function skyInfo(key){
+    const [type, ...rest] = key.split(":"), id = rest.join(":");
+    let title = "", body = "", extra = "";
+    if (type === "log"){
+      const l = S.log.find((x) => x.id === id); if (!l) return;
+      const ws = weekStart(parse(l.date)), wk = hitWeeks().find((w) => iso(w.ws) === iso(ws));
+      title = `${cic(l.cat)}<span>${esc(l.name)}</span>`;
+      const rows = [["Done", fmtLong(l.date)], ["Category", catOf(l.cat).name]];
+      if (l.prev && l.prev.date) rows.push(["Planned for", fmtLong(l.prev.date) + (l.prev.time ? " · " + fmtTime(l.prev.time) : "")]);
+      else rows.push(["Planned", "Done on the spot"]);
+      if (l.with) rows.push(["With", l.with]);
+      if (wk) rows.push(["Part of", wk.name]);
+      body = rows.map(([k, v]) => `<div class="kv"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("") + (l.note ? `<p class="sknote">"${esc(l.note)}"</p>` : "");
+      extra = `<button type="button" class="save ghost" data-skyopenlog="${esc(l.id)}">Edit this entry</button>`;
+    } else if (type === "wk"){
+      const wk = hitWeeks().find((w) => iso(w.ws) === id); if (!wk) return;
+      title = `<span>${esc(wk.name)}</span>`;
+      body = `<div class="kv"><span>Week of</span><b>${esc(weekLabel(wk.ws))}</b></div><div class="kv"><span>Activities</span><b>${wk.logs.length} of ${S.settings.goal}</b></div>` + wk.logs.map((l) => `<button type="button" class="skrow" data-skyopen="log:${esc(l.id)}">${cic(l.cat)}<span>${esc(l.name)}</span><small>${esc(fmtLong(l.date))}</small></button>`).join("");
+      extra = `<button type="button" class="save ghost" data-wkreplay="${esc(id)}">Replay this constellation</button>`;
+    } else if (type === "camp"){
+      const m = Number(id.slice(5, 7)) - 1, c = CAMPS[m];
+      title = `<span>${esc(campName(id))}</span>`;
+      body = `<div class="kv"><span>Earned by</span><b>${esc(c ? c.d : "Monthly campaign")}</b></div><div class="kv"><span>Month</span><b>${esc(MON[m] + " " + id.slice(0, 4))}</b></div><p class="sknote">A gold constellation for finishing a monthly campaign.</p>`;
+    } else if (type === "gold"){
+      if (id.startsWith("e")){
+        const k = id.slice(1), nm = {halloween:"Jack-o'-lantern star", nye:"Midnight star", valentine:"Kindred star", july4:"Firework star", solstice:"Solstice star", thanks:"Harvest star"}[k.split("-").slice(1).join("-")] || "Event star";
+        title = `<span>${esc(nm)}</span>`; body = `<div class="kv"><span>Earned</span><b>${esc(k.split("-").slice(1).join(" "))} event, ${esc(k.split("-")[0])}</b></div>`;
+      } else {
+        const wk = id.slice(1, 11), d = qState().done[wk];
+        title = `<span>Gold star</span>`;
+        body = `<div class="kv"><span>Quest</span><b>${esc(d ? d.n : "Weekly quest")}</b></div><div class="kv"><span>Week of</span><b>${esc(weekLabel(parse(wk)))}</b></div><div class="kv"><span>Reward</span><b>${d ? d.stars : 1} gold star${d && d.stars > 1 ? "s" : ""}</b></div>`;
+      }
+    } else if (type === "lm"){
+      const info = landmarkInfo(id); if (!info) return;
+      title = `<span>${esc(info.n)}</span>`; body = `<div class="kv"><span>How</span><b>${esc(info.how)}</b></div>${info.when ? `<div class="kv"><span>When</span><b>${esc(info.when)}</b></div>` : ""}`;
+    } else return;
+    const sh = openSheet(`<div class="headrow" style="align-items:center"><h2 class="skh">${title}</h2><button type="button" class="iconbtn" data-close aria-label="Close">${IC.close}</button></div><div class="skinfo">${body}</div>${extra}`, "Details");
+    sh.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.skyopenlog){ const lid = b.dataset.skyopenlog; closeSheet(); setTimeout(() => openLog(lid), 220); }
+      else if (b.dataset.skyopen){ skyInfo(b.dataset.skyopen); }
+      else if (b.dataset.wkreplay){ const w = b.dataset.wkreplay; closeSheet(); setTimeout(() => playConstellation(parse(w)), 260); }
+    });
+  }
+  function landmarkInfo(id){
+    const CATL = {movie:["Drive-in screen", "movie"], food:["Campfire", "food"], creative:["Easel", "creative"], social:["String lights", "social"], other:["Tent", "other"], outdoors:["Mountain trail", "outdoors"]};
+    if (id.startsWith("cat-")){
+      const c = id.slice(4), d = CATL[c]; if (!d) return null; const l = nthInCat(c, 3);
+      return {n: d[0], how: `Your 3rd ${catOf(c).name.toLowerCase()} activity${l ? `: "${l.name}"` : ""}`, when: l ? fmtLong(l.date) : ""};
+    }
+    if (id.startsWith("chain-")){
+      const k = id.slice(6), i = CHAINS.findIndex((c) => c.id === k), qs = questWeeksSorted(), q = qs[(i + 1) * 3 - 1];
+      return {n: CHAINS[i] ? CHAINS[i].n : "Landmark", how: `Finished quest chain ${i + 1} (3 weekly quests)`, when: q ? "Week of " + weekLabel(parse(q[0])) : ""};
+    }
+    if (id === "lake") return {n: "Lake", how: "Appears while your streak is 2 weeks or more, and grows with it", when: `Streak right now: ${streak()} weeks`};
+    if (id === "trees") return {n: "Trees", how: "One more tree for every week in your current streak", when: `Streak right now: ${streak()} weeks`};
+    return null;
+  }
+
+  // ---------- History: weeks (with their constellations) + changes ----------
+  function consThumb(wk){
+    const n = Math.min(6, wk.logs.length), pts = consShape(iso(wk.ws), n).map(([fx, fy]) => [6 + fx * 60, 6 + fy * 32]);
+    return `<svg viewBox="0 0 72 44" width="72" height="44" aria-hidden="true"><rect width="72" height="44" rx="10" fill="#0B0720"/><polyline points="${pts.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="#C08BFF" stroke-width="1" opacity=".85"/>${pts.map((p) => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="1.8" fill="#fff" style="filter:drop-shadow(0 0 2px #C08BFF)"/>`).join("")}</svg>`;
+  }
+  function viewWeeks(){
+    const g = S.settings.goal, w = weekInfo(), st = streak();
+    let h = `<div class="stats"><div class="stat"><span class="l">This week</span><span class="v">${w.done.length} / ${g}</span></div><div class="stat"><span class="l">Streak</span><span class="v">${st} wk</span></div><div class="stat"><span class="l">All time</span><span class="v">${S.log.length}</span></div></div>`;
+    h += `<section class="card" aria-label="Last 8 weeks" style="display:flex;flex-direction:column;gap:10px"><div class="sechead" style="margin:0"><h2>Last 8 weeks</h2><span>dashed line = goal of ${g}</span></div>${bars()}</section>`;
+    if (!S.log.length){ h += `<p class="empty">Nothing logged yet. Tap the check on any planned activity when you do it.</p>`; return h; }
+    const groups = new Map(), hw = new Map(hitWeeks().map((x) => [iso(x.ws), x]));
+    S.log.slice().sort((a, b) => b.date.localeCompare(a.date)).forEach((l) => { const k = iso(weekStart(parse(l.date))); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(l); });
+    groups.forEach((list, k) => {
+      const ws = parse(k), wk = hw.get(k);
+      h += `<div class="wkhead">${wk ? `<button type="button" class="wkthumb" data-wkreplay="${k}" aria-label="View constellation ${esc(wk.name)}">${consThumb(wk)}</button>` : `<span class="wkthumb none" aria-hidden="true"></span>`}<span class="wkt"><b>${esc(weekLabel(ws))}</b><span>${wk ? esc(wk.name) + " · " : ""}${list.length}/${g}${list.length >= g ? " · goal hit" : ""}</span></span></div><div class="logcard">${list.map(logRow).join("")}</div>`;
+    });
+    return h;
+  }
 
   function viewWeek(){
     const w = weekInfo(), g = S.settings.goal, done = w.done.length, st = streak();
@@ -1439,8 +1630,11 @@ body{background:var(--bg)}
     const f = S.hfilter || "all";
     const match = (h) => f === "all" || h.type === f || (f === "completed" && (h.type === "undone" || h.type === "removed")) || (f === "added" && h.type === "restored" && h.actId);
     const list = S.hist.filter(match).sort((a, b) => b.ts - a.ts);
-    let h = head("History", "Every change, newest first");
+    const hv = S.hview || "weeks";
+    let h = head("History", hv === "weeks" ? `${S.log.length} logged in total` : "Every change, newest first");
     h += syncNote();
+    h += `<div class="seg2" role="group" aria-label="History view"><button type="button" data-hview="weeks" aria-pressed="${hv === "weeks"}">Weeks</button><button type="button" data-hview="changes" aria-pressed="${hv === "changes"}">Changes</button></div>`;
+    if (hv === "weeks"){ if (S.status === "loading") return h + `<p class="empty">Loading…</p>`; return h + viewWeeks(); }
     h += `<div class="filters" role="group" aria-label="Filter history">${HFILTERS.map((x) => `<button type="button" class="chip" data-hfilter="${x[0]}" aria-pressed="${f === x[0]}">${x[1]}</button>`).join("")}</div>`;
     if (S.status === "loading"){ h += `<p class="empty">Loading…</p>`; return h; }
     if (!list.length){ h += `<p class="empty">${S.hist.length ? "Nothing of that kind yet." : "Changes you make from now on show up here: adding, moving, editing, completing and deleting."}</p>`; return h; }
@@ -1476,7 +1670,7 @@ body{background:var(--bg)}
     });
     return h;
   }
-  const TABS = ["week", "ideas", "done", "hist"];
+  const TABS = ["week", "ideas", "sky", "hist"];
   function placeInd(instant){
     const nav = document.querySelector(".nav .in"), ind = nav && nav.querySelector(".ind"), tb = nav && nav.querySelector(`.tab[data-tab="${S.tab}"]`);
     if (!ind || !tb) return;
@@ -1576,7 +1770,8 @@ body{background:var(--bg)}
     S.pending = false;
     queuePaper();
     const app = document.getElementById("app");
-    app.innerHTML = S.tab === "ideas" ? viewIdeas() : S.tab === "done" ? viewDone() : S.tab === "hist" ? viewHist() : viewWeek();
+    app.innerHTML = S.tab === "ideas" ? viewIdeas() : S.tab === "sky" ? viewSky() : S.tab === "hist" ? viewHist() : viewWeek();
+    document.body.classList.toggle("tab-sky", S.tab === "sky"); document.body.classList.toggle("sky-bare", S.tab === "sky" && skyBare);
     document.querySelectorAll(".tab").forEach((t) => { if (t.dataset.tab === S.tab) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
     placeInd(); placeStrip(); SKY.rebuild(); if (S.tab === "week") questTick();
     if (S.justLogged){
@@ -2641,6 +2836,15 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     }
   }, {passive:true});
   document.getElementById("fab").addEventListener("click", () => openEdit(null));
+  // Sky tab: tap a star, constellation or landmark to see how and when you earned it
+  document.getElementById("app").addEventListener("click", (e) => {
+    if (S.tab !== "sky" || e.target.closest("button")) return;
+    const g = e.target.closest("[data-sk]"); if (!g) return;
+    const k = g.getAttribute("data-sk");
+    if (k === "bg"){ if (skyBare){ skyBare = false; render(); } return; }
+    if (skyBare){ skyBare = false; render(); }
+    sfx("tab"); skyInfo(k);
+  });
   document.getElementById("app").addEventListener("click", (e) => {
     const t = e.target.closest("button"); if (!t || S.anim) return;
     if (t.hasAttribute("data-alert")){
@@ -2660,6 +2864,10 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     if (t.dataset.move){ openMove(t.dataset.move); return; }
     if (t.dataset.dayview){ openDay(t.dataset.dayview); return; }
     if (t.dataset.hfilter){ S.hfilter = t.dataset.hfilter; render(); return; }
+    if (t.dataset.hview){ S.hview = t.dataset.hview; render(); return; }
+    if (t.dataset.wkreplay){ playConstellation(parse(t.dataset.wkreplay)); return; }
+    if (t.hasAttribute("data-skylabels")){ skyLabels = !skyLabels; render(); return; }
+    if (t.hasAttribute("data-skybare")){ skyBare = !skyBare; render(); if (skyBare) toast("Tap the sky to bring the buttons back."); return; }
     if (t.dataset.hputback){ const l = S.log.find((x) => x.id === t.dataset.hputback); if (l) restoreLog(l); return; }
     if (t.dataset.hrestore){
       const h = S.hist.find((x) => x.id === t.dataset.hrestore);
