@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Oct 31, 2026 · 2:55 PM ET. Slower, calmer opening animation. (Old version kept at /previous/ just in case.)
+Last updated: Oct 31, 2026 · 3:05 PM ET. Auto-save every few minutes, weekly save-file reminder, load a save file from anywhere, smaller star chart text.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 

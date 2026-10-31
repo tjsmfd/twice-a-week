@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1793472388">
+<meta name="twa-build" content="1793473121">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1793472388";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1793473121";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -43,6 +43,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{height:100%}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 /* iOS 26 home-screen bug (WebKit 301108): the viewport comes up short by the status-bar height. Making the page
    at least screen-tall gives fixed elements the full screen again. The min() cap avoids extra scroll elsewhere. */
 @media (display-mode: standalone){ html{min-height:min(100lvh, calc(100% + env(safe-area-inset-top,0px)))} }
@@ -479,17 +480,17 @@ body{background:var(--bg)}
 /* ===== ideas star chart (1E) ===== */
 .ichart{position:relative;border-radius:22px;border:1px solid var(--edge);background:radial-gradient(120% 90% at 30% 0%,rgba(43,26,85,.55),rgba(11,7,32,.75) 60%,rgba(5,5,6,.6));overflow:hidden}
 .ichart .grp{position:absolute}
-.ichart .gl{position:absolute;left:10px;top:8px;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8E8E95;display:flex;gap:5px;align-items:center}
+.ichart .gl{position:absolute;left:10px;top:8px;font-size:8.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8E8E95;display:flex;gap:5px;align-items:center}
 .ichart .gl .ic{width:12px;height:12px}
 .ichart svg.gln{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.istar{position:absolute;transform:translate(-50%,-50%);background:none;border:0;padding:4px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#8C8CA0;font-size:10.5px;max-width:112px}
-.istar i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.32);flex:none}
+.istar{position:absolute;transform:translate(-6px,-50%);background:none;border:0;padding:3px;display:flex;flex-direction:row;align-items:center;gap:6px;color:#8C8CA0;font-size:9px;line-height:1.2;max-width:128px;text-align:left}
+.istar i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.32);flex:none}
 .istar.lit{color:#E3D8FF}
-.istar.lit i{width:10px;height:10px;background:#fff;box-shadow:0 0 12px 3px rgba(192,139,255,.85);animation:wtwk 3s ease-in-out infinite}
-.istar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:108px}
-.istar small{font-size:9.5px;color:#C08BFF;font-weight:700}
+.istar.lit i{width:8px;height:8px;background:#fff;box-shadow:0 0 10px 3px rgba(192,139,255,.85);animation:wtwk 3s ease-in-out infinite}
+.istar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:104px}
+.istar small{font-size:8px;color:#C08BFF;font-weight:700;flex:none}
 .ichart .more{position:absolute;right:10px;bottom:6px;font-size:10px;color:#6E6E75}
-.ichart .ih{position:absolute;left:12px;bottom:8px;font-size:10.5px;color:#6E6E75}
+.ichart .ih{position:absolute;left:12px;bottom:8px;font-size:9px;color:#6E6E75}
 /* ===== quests (3A–3E) ===== */
 .qcard{border-radius:22px;border:1px solid var(--edge);background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:10px}
 .qhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -748,11 +749,26 @@ body.sky-bare .nav .in{pointer-events:none}
   function buildBackup(){ return {app:"twice-a-week", version:1, savedAt:new Date().toISOString(), acts:S.acts, log:S.log, hist:S.hist, settings:S.settings, link:((store.get("twa_gas") || store.get("twa_gcid")) ? {gas:store.get("twa_gas") || "", key:store.get("twa_gkey") || "", gcid:store.get("twa_gcid") || ""} : undefined)}; }
   function snaps(){ try { return JSON.parse(store.get("twa_snaps") || "[]"); } catch (e){ return []; } }
   function takeSnap(label){
-    let list = snaps(); list.unshift({at: Date.now(), label, data: buildBackup()}); list = list.slice(0, 7);
+    let list = snaps();
+    // keep the newest auto-saves plus one snapshot per day, so a bad edit can always be undone
+    if (label === "Auto-save" && list[0] && list[0].label === "Auto-save" && Date.now() - list[0].at < 6 * 3600e3 && iso(new Date(list[0].at)) === iso(today())) list.shift();
+    list.unshift({at: Date.now(), label, data: buildBackup()}); list = list.slice(0, 12);
     while (list.length){ try { localStorage.setItem("twa_snaps", JSON.stringify(list)); break; } catch (e){ list.pop(); } }
   }
+  // Auto-save: every few minutes (and when you leave the app), save a snapshot if anything changed.
+  let autoSig = "";
+  const dataSig = () => JSON.stringify([S.acts.length, S.log.length, S.hist.length, S.hist.reduce((m, h) => Math.max(m, h.ts || 0), 0), S.acts.reduce((m, a) => m + (a.name || "").length + (a.date || "").length, 0), JSON.stringify(S.settings).length]);
+  function autoSave(force){
+    if (S.status === "loading" || window.TWA_PREVIEW_NOSAVE) return;
+    if (!S.acts.length && !S.log.length) return;
+    const sg = dataSig(); if (!autoSig){ autoSig = sg; return; }
+    if (sg === autoSig && !force) return;
+    autoSig = sg; takeSnap("Auto-save"); store.set("twa_autoat", String(Date.now()));
+  }
+  setInterval(() => autoSave(false), 4 * 60e3);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) autoSave(false); });
   const bkSummary = (d) => `${(d.acts || []).length} activit${(d.acts || []).length === 1 ? "y" : "ies"}, ${(d.log || []).length} logged`;
-  function backupStale(){ const t = Number(store.get("twa_lastbk") || 0); return S.acts.length > 0 && (!t || Date.now() - t > 14 * 864e5); }
+  function backupStale(){ const t = Number(store.get("twa_lastbk") || 0); return S.acts.length > 0 && (!t || Date.now() - t > 7 * 864e5); }
   async function saveBackup(){
     const json = JSON.stringify(buildBackup(), null, 1), name = bkFile();
     try {
@@ -774,6 +790,19 @@ body.sky-bare .nav .in{pointer-events:none}
       else toast("Couldn't save the backup file. Try again.");
       return false;
     }
+  }
+  // Pick a save file from Files and restore it (used in Settings and on an empty app)
+  function pickSaveFile(){
+    const fi = document.createElement("input"); fi.type = "file"; fi.accept = ".json,application/json"; fi.style.display = "none"; document.body.appendChild(fi);
+    fi.addEventListener("change", () => {
+      const f = fi.files && fi.files[0]; fi.remove(); if (!f) return;
+      const r = new FileReader();
+      r.onload = () => { let d = null; try { d = JSON.parse(String(r.result)); } catch (e){}
+        if (!validBackup(d)){ toast("That file isn't an S ≠ L save file.", null, 4000); return; }
+        confirmRestore(d, "Restored a save file from " + (d.savedAt ? short(new Date(d.savedAt)) : "a file")); };
+      r.readAsText(f);
+    });
+    fi.click();
   }
   function validBackup(d){ return d && d.app === "twice-a-week" && Array.isArray(d.acts) && Array.isArray(d.log); }
   async function applyData(d, label){
@@ -1318,14 +1347,14 @@ body.sky-bare .nav .in{pointer-events:none}
   function ideaChart(){
     const open = openActs(); if (!open.length) return "";
     const groups = CATS.map((c) => ({c, items: open.filter((x) => x.cat === c.id).sort((a, b) => (b.date ? 1 : 0) - (a.date ? 1 : 0) || (a.created || 0) - (b.created || 0))})).filter((g) => g.items.length);
-    const rowH = (ri) => 44 + Math.ceil(Math.max(...groups.slice(ri * 2, ri * 2 + 2).map((g) => Math.min(5, g.items.length))) / 2) * 34;
+    const rowH = (ri) => 38 + Math.max(...groups.slice(ri * 2, ri * 2 + 2).map((g) => Math.min(6, g.items.length))) * 19;
     const rows = Math.ceil(groups.length / 2), rowY = [0]; for (let i = 0; i < rows; i++) rowY.push(rowY[i] + rowH(i));
     const H = rowY[rows] + 24;
     let h = `<section class="ichart" style="height:${H}px" aria-label="Ideas star chart">`;
     groups.forEach((g, gi) => {
       const col = gi % 2, row = Math.floor(gi / 2), x0 = col * 50, y0 = rowY[row], RH = rowY[row + 1] - y0;
-      const show = g.items.slice(0, 5), more = g.items.length - show.length;
-      const r = rng(hashS(g.c.id)), pts = show.map((x, i) => ({x: x0 + 9 + (i % 2) * 20 + (i >= 4 ? 10 : 0) + r() * 6, y: y0 + 40 + Math.floor(i / 2) * 34 + (i % 2) * 10 + r() * 4, it: x}));
+      const show = g.items.slice(0, 6), more = g.items.length - show.length;
+      const r = rng(hashS(g.c.id)), pts = show.map((x, i) => ({x: x0 + 4 + (i % 2) * 7 + r() * 3, y: y0 + 32 + i * 19 + r() * 2, it: x}));
       h += `<div class="grp" style="left:${x0}%;top:${y0}px;width:50%;height:${RH}px"><div class="gl">${CI[g.c.id]}${esc(g.c.name)}</div></div>`;
       h += `<svg class="gln" viewBox="0 0 100 ${H}" preserveAspectRatio="none"><polyline points="${pts.map((p) => p.x.toFixed(1) + "," + p.y.toFixed(1)).join(" ")}" fill="none" stroke="rgba(192,139,255,.28)" stroke-width="1" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/></svg>`;
       pts.forEach((p) => { const lit = !!p.it.date; h += `<button type="button" class="istar${lit ? " lit" : ""}" data-edit="${esc(p.it.id)}" style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}px" aria-label="${esc(p.it.name)}${lit ? ", planned " + esc(fmtDay(p.it.date)) : ", idea"}"><i></i><span>${esc(p.it.name)}</span>${lit ? `<small>${esc(fmtShortDay(p.it.date))}</small>` : ""}</button>`; });
@@ -1964,6 +1993,7 @@ body.sky-bare .nav .in{pointer-events:none}
       if (si) h += `<div class="notice"><span><b>${si.mon ? "Sunday plan" : "Saturday plan"}</b>Pick ${si.need} for ${si.mon ? "this" : "next"} week</span><span class="nbtns"><button type="button" class="pillbtn" data-sunday>Plan</button><button type="button" class="x" data-sunx="${si.a}" aria-label="Hide until next week">${IC.close}</button></span></div>`;
     }
     h += `<section class="card hero scn ${dayPhase()}" aria-label="Weekly progress">${ring(done, g)}<div class="txt"><span class="wtag">${esc(worldTag())}</span><div class="big${done >= g ? " hit" : ""}">${done}<small> / ${g}</small></div><div class="sub">${done >= g ? badge() + badge() : ""}<span>${msg}</span></div>${chip ? `<div class="chiprow">${chip}</div>` : ""}</div></section>`;
+    if (S.status !== "loading" && backupStale()){ const t = Number(store.get("twa_lastbk") || 0), d = t ? Math.round((Date.now() - t) / 864e5) : 0; h += `<div class="notice soft"><span><b>Save a backup</b>${t ? `Your last save file is ${d} days old.` : "You haven't saved a file yet."} One tap keeps a copy in your Files app in case you lose the app.</span><button type="button" class="pillbtn" data-savefile>Save</button></div>`; }
     if (S.status !== "loading") h += questCard();
     const mustId = (sk.level !== "ok" && w.sched[0]) ? w.sched[0].id : "";
 
@@ -1983,6 +2013,7 @@ body.sky-bare .nav .in{pointer-events:none}
     if (S.status === "loading"){ h += `<p class="empty">Loading your list…</p>`; return h; }
     if (!S.acts.length && !S.log.length){
       h += `<div class="notice"><span><b>Start here</b>Add something you keep putting off</span><button type="button" class="pillbtn" data-add>Add one</button></div>`;
+      h += `<div class="notice soft"><span><b>Lost your data?</b>Load a save file from your Files app to bring everything back.</span><button type="button" class="pillbtn ghost" data-loadsave>Load file</button></div>`;
       return h;
     }
     if (slots > 0 && done < g && sk.level === "ok" && !sunInfo()){
@@ -3146,10 +3177,10 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       <div class="setblock"><div class="togrow"><div><b>Sounds</b><span>Soft tones for checking off, moving and more</span></div><button type="button" class="sw" id="s-snd" role="switch" aria-checked="${S.settings.sound !== false}" aria-label="Sounds"></button></div></div>
       <div class="setblock"><span class="lbl" style="margin:0">Your data</span>
         <div class="dataline"><div><b>Last backup</b><span>${lastbk ? esc(DOW[dowIdx(new Date(lastbk))] + ", " + short(new Date(lastbk))) + " · " + esc(bkSummary(buildBackup())) + " now" : "Never. Save one now."}</span></div>${backupStale() ? `<span class="warnchip">${lastbk ? "Over 2 weeks old" : "Not backed up"}</span>` : ""}</div>
-        <button type="button" class="save savebtn2" id="s-bk">${IC.dl}<span>Save backup file</span></button>
-        <button type="button" class="save ghost savebtn2" id="s-rs">${IC.ul}<span>Restore from file</span></button>
+        <button type="button" class="save savebtn2" id="s-bk">${IC.dl}<span>Save a file</span></button>
+        <button type="button" class="save ghost savebtn2" id="s-rs">${IC.ul}<span>Load a save file</span></button>
         <input type="file" id="s-file" accept=".json,application/json" hidden>
-        <p class="hint" style="margin:0">The backup file goes to your Files app and survives cleared browser data or a new phone. It also moves your data between the Claude and GitHub versions.</p>
+        <p class="hint" style="margin:0"><b style="color:var(--fg)">Auto-save is on.</b> ${(() => { const a = Number(store.get("twa_autoat") || 0); return a ? "Last auto-save " + (Date.now() - a < 6e4 ? "just now" : Date.now() - a < 3600e3 ? Math.round((Date.now() - a) / 6e4) + " min ago" : short(new Date(a)) + ", " + fmtTime(pad(new Date(a).getHours()) + ":" + pad(new Date(a).getMinutes()))) + "." : "It saves a snapshot every few minutes while you use the app."; })()} Snapshots live on this phone; a save file in your Files app (or the cloud backup in Calendar) survives losing the app or getting a new phone.</p>
         ${sl.length ? `<span class="lbl" style="margin:6px 0 0">Automatic snapshots</span><div class="snaps">${sl.map((x, i) => { const d = new Date(x.at); return `<div class="hev"><span class="bub">${HICON.restored}</span><span class="tx"><span class="t"><b>${esc((iso(d) === iso(today()) ? "Today" : DOW[dowIdx(d)] + ", " + short(d)) + ", " + fmtTime(pad(d.getHours()) + ":" + pad(d.getMinutes())))}</b></span><span class="m">${esc(x.label)} · ${esc(bkSummary(x.data))}</span></span><button type="button" class="act" data-snap="${i}">Restore</button></div>`; }).join("")}</div>` : ""}
       </div>
       <div class="how">
@@ -3248,7 +3279,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     ss.addEventListener("click", () => { S.settings.sound = S.settings.sound === false; ss.setAttribute("aria-checked", String(S.settings.sound)); putSettings(); if (S.settings.sound) sfx("add"); });
     sh.querySelector("#s-bk").addEventListener("click", async () => { if (await saveBackup()) closeSheet(); });
     const fi = sh.querySelector("#s-file");
-    sh.querySelector("#s-rs").addEventListener("click", () => fi.click());
+    sh.querySelector("#s-rs").addEventListener("click", () => { closeSheet(); setTimeout(pickSaveFile, 250); });
     fi.addEventListener("change", () => {
       const f = fi.files && fi.files[0]; if (!f) return;
       const r = new FileReader();
@@ -3329,6 +3360,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       if (x){ const nx = Object.assign({}, x, {date: iso(addDays(today(), 1))}); rec("moved", nx, {from: absDay(x), to: absDay(nx)}); sfx("move"); saveWithCal(nx, "Moved to tomorrow. Don't skip this one."); }
     }
     else if (t.hasAttribute("data-sunday")) openSunday();
+    else if (t.hasAttribute("data-savefile")) saveBackup();
+    else if (t.hasAttribute("data-loadsave")) pickSaveFile();
     else if (t.dataset.qpick !== undefined){ const o = questOptions(weekStart(today()))[Number(t.dataset.qpick)]; if (o){ qState().pick = Object.assign({wk: iso(weekStart(today()))}, o); sfx("add"); putSettings(); toast("Quest set: " + o.n + "."); } }
     else if (t.hasAttribute("data-qchange")){ qState().pick = null; putSettings(); }
     else if (t.dataset.sunx){ store.set("twa_sun", t.dataset.sunx); render(); toast("Hidden until next weekend."); }
@@ -3444,6 +3477,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         setTimeout(() => { loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); loadCal(addDays(weekStart(today()), 14)); if (STANDALONE && GAS() && store.get("twa_cloudok") !== "1") cloudSync().then((r) => { if (r === "restored") toast("Your data was restored from the cloud."); }).catch(() => {}); }, 300);
         const last = snaps()[0];
         if ((S.acts.length || S.log.length) && (!last || iso(new Date(last.at)) !== iso(today()))) setTimeout(() => takeSnap("Daily"), 1500);
+        setTimeout(() => { autoSig = dataSig(); }, 1600); // starting point for auto-save
       }
     };
     let pruned = false;
