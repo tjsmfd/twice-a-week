@@ -10,10 +10,10 @@
 <meta name="apple-mobile-web-app-title" content="S ≠ L β">
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>window.TWA_PREVIEW=true</script>
-<meta name="twa-build" content="1793471213">
+<meta name="twa-build" content="1793472144">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1793471213";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1793472144";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L preview</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -1741,32 +1741,33 @@ body.sky-bare .nav .in{pointer-events:none}
       // sky band (stars + milky way), exact loop
       { const L = Math.round(P * .25), [c, x] = off(L, H * .7), rr = rng(1);
         const band = (xx) => H * .2 + Math.sin(xx / L * 6.283) * H * .1, both = (xx, f) => { f(xx); if (xx < 120) f(xx + L); if (xx > L - 120) f(xx - L); };
-        for (let i = 0; i < 90; i++){ const xx = rr() * L, yy = band(xx) + (rr() - .5) * H * .12, R = 30 + rr() * 70, c1 = `rgba(${150 + rr() * 60 | 0},${120 + rr() * 50 | 0},255,.05)`; both(xx, (q) => { const g = x.createRadialGradient(q, yy, 0, q, yy, R); g.addColorStop(0, c1); g.addColorStop(1, "rgba(150,120,255,0)"); x.fillStyle = g; x.beginPath(); x.arc(q, yy, R, 0, 6.283); x.fill(); }); }
+        for (let i = 0; i < 30; i++){ const xx = rr() * L, yy = band(xx) + (rr() - .5) * H * .12, R = 30 + rr() * 70, c1 = `rgba(${150 + rr() * 60 | 0},${120 + rr() * 50 | 0},255,.05)`; both(xx, (q) => { const g = x.createRadialGradient(q, yy, 0, q, yy, R); g.addColorStop(0, c1); g.addColorStop(1, "rgba(150,120,255,0)"); x.fillStyle = g; x.beginPath(); x.arc(q, yy, R, 0, 6.283); x.fill(); }); }
         const dens = 1 + Math.min(1.5, S.log.length / 40);
-        for (let i = 0; i < 1300 * dens; i++){ const xx = rr() * L, near = rr() < .55, yy = near ? band(xx) + (rr() - .5) * H * .1 : rr() * H * .66, s = rr(); both(xx, (q) => { x.globalAlpha = .25 + s * .6; x.fillStyle = s > .93 ? "#E8DCFF" : "#fff"; x.beginPath(); x.arc(q, yy, s > .96 ? 1.2 : s > .8 ? .8 : .45, 0, 6.283); x.fill(); }); }
+        for (let i = 0; i < 520 * dens; i++){ const xx = rr() * L, near = rr() < .55, yy = near ? band(xx) + (rr() - .5) * H * .1 : rr() * H * .66, s = rr(); both(xx, (q) => { x.globalAlpha = .12 + s * .35; x.fillStyle = s > .93 ? "#E8DCFF" : "#fff"; x.beginPath(); x.arc(q, yy, s > .96 ? 1.2 : s > .8 ? .8 : .45, 0, 6.283); x.fill(); }); }
         x.globalAlpha = 1; layers.sky = {c, L, sp: .12, y: 0, h: H * .7, exact: true};
       }
       // far ridge
       { const L = Math.round(P * .3), [c, x] = off(L + 2, H), base = horizon - H * .1, tall = (D.catN.outdoors || 0) >= 3 ? 1.25 : 1;
         const yAt = (xx) => base - H * .12 * tall - fbm(xx, L, "far", 9, .55) * H * .12 * tall;
         x.beginPath(); x.moveTo(0, H); for (let xx = 0; xx <= L + 2; xx += 1.5) x.lineTo(xx, yAt(xx)); x.lineTo(L + 2, H); x.closePath();
-        const g = x.createLinearGradient(0, base - H * .3, 0, horizon); g.addColorStop(0, "#3A3068"); g.addColorStop(1, "#1A1438"); x.fillStyle = g; x.fill();
+        const g = x.createLinearGradient(0, base - H * .3, 0, horizon); g.addColorStop(0, "#221C46"); g.addColorStop(1, "#151030"); x.fillStyle = g; x.fill();
         x.save(); x.clip();
+        if (se === "winter"){
         const snowLine = se === "winter" ? base - H * .1 : base - H * .2;
-        for (let xx = 0; xx <= L; xx += 1.5){ const yy = yAt(xx); if (yy < snowLine){ x.fillStyle = "rgba(235,230,255,.55)"; x.fillRect(xx, yy, 1.6, (snowLine - yy) * .8 + 3); } }
-        const rr = rng(4); x.strokeStyle = "rgba(10,6,24,.35)"; x.lineWidth = .7; for (let i = 0; i < 260; i++){ const xx = rr() * L, yy = yAt(xx) + 4 + rr() * 50; x.beginPath(); x.moveTo(xx, yy); x.lineTo(xx + (rr() - .5) * 12, yy + 8 + rr() * 14); x.stroke(); }
+        for (let xx = 0; xx <= L; xx += 1.5){ const yy = yAt(xx); if (yy < snowLine){ x.fillStyle = "rgba(235,230,255,.18)"; x.fillRect(xx, yy, 1.6, (snowLine - yy) * .8 + 3); } } }
         const hz = x.createLinearGradient(0, base - H * .05, 0, horizon); hz.addColorStop(0, "rgba(90,70,150,0)"); hz.addColorStop(1, "rgba(90,70,150,.45)"); x.fillStyle = hz; x.fillRect(0, base - H * .05, L + 2, H);
         x.restore();
-        x.strokeStyle = "rgba(220,210,255,.35)"; x.lineWidth = 1; x.beginPath(); for (let xx = 0; xx <= L; xx += 1.5){ const yy = yAt(xx); xx ? x.lineTo(xx, yy) : x.moveTo(xx, yy); } x.stroke();
+        x.strokeStyle = "rgba(220,210,255,.12)"; x.lineWidth = 1; x.beginPath(); for (let xx = 0; xx <= L; xx += 1.5){ const yy = yAt(xx); xx ? x.lineTo(xx, yy) : x.moveTo(xx, yy); } x.stroke();
         layers.far = {c, L, sp: .3, y: 0, h: H};
       }
       // pine hills
       { const L = Math.round(P * .55), [c, x] = off(L + 2, H), base = horizon - H * .03;
         const yAt = (xx) => base - H * .05 - fbm(xx, L, "mid", 7, .5) * H * .06;
-        x.beginPath(); x.moveTo(0, H); for (let xx = 0; xx <= L + 2; xx += 2) x.lineTo(xx, yAt(xx)); x.lineTo(L + 2, H); x.closePath(); x.fillStyle = "#151030"; x.fill();
-        const rr = rng(8); for (let i = 0; i < Math.round(L / 9); i++){ const xx = rr() * L, hh = H * (.035 + rr() * .03); [0, L, -L].forEach((d) => { if (d === 0 || (d > 0 && xx < 30) || (d < 0 && xx > L - 30)) drawPine(x, xx + d, yAt(xx) + 3, hh, i * 13 + 1); }); }
+        x.beginPath(); x.moveTo(0, H); for (let xx = 0; xx <= L + 2; xx += 2) x.lineTo(xx, yAt(xx)); x.lineTo(L + 2, H); x.closePath(); x.fillStyle = "#100C24"; x.fill();
+        const rr = rng(8); for (let i = 0; i < Math.round(L / 26); i++){ const xx = rr() * L, hh = H * (.035 + rr() * .03); [0, L, -L].forEach((d) => { if (d === 0 || (d > 0 && xx < 30) || (d < 0 && xx > L - 30)) drawPine(x, xx + d, yAt(xx) + 3, hh, i * 13 + 1); }); }
         if (se === "winter"){ x.globalCompositeOperation = "source-atop"; x.fillStyle = "rgba(230,225,255,.12)"; x.fillRect(0, 0, L + 2, H); x.globalCompositeOperation = "source-over"; }
         const hz = x.createLinearGradient(0, base - H * .1, 0, H); hz.addColorStop(0, "rgba(40,28,90,0)"); hz.addColorStop(1, "rgba(40,28,90,.35)"); x.fillStyle = hz; x.fillRect(0, base - H * .1, L + 2, H);
+        x.globalCompositeOperation = "source-atop"; x.fillStyle = "rgba(12,8,28,.55)"; x.fillRect(0, 0, L + 2, H); x.globalCompositeOperation = "source-over";
         layers.mid = {c, L, sp: .55, y: 0, h: H};
       }
       // main ground: path, lanterns, leaves, rocks, trees, static landmarks
@@ -1774,19 +1775,19 @@ body.sky-bare .nav .in{pointer-events:none}
         const yAt = (xx) => base - fbm(xx, L, "near", 6, .5) * H * .02;
         x.beginPath(); x.moveTo(0, H); for (let xx = 0; xx <= L + 2; xx += 2) x.lineTo(xx, yAt(xx)); x.lineTo(L + 2, H); x.closePath();
         const g = x.createLinearGradient(0, base - 10, 0, H); g.addColorStop(0, se === "winter" ? "#3A3460" : "#221838"); g.addColorStop(.3, se === "winter" ? "#221C40" : "#140E26"); g.addColorStop(1, "#08060F"); x.fillStyle = g; x.fill();
-        const rr = rng(12); for (let i = 0; i < 1600; i++){ const xx = rr() * L, yy = yAt(xx) + rr() * H * .3; x.fillStyle = `rgba(${rr() < .5 ? "190,170,240" : "10,6,20"},${.04 + rr() * .06})`; x.fillRect(xx, yy, 1 + rr() * 2, 1); }
+        const rr = rng(12); for (let i = 0; i < 300; i++){ const xx = rr() * L, yy = yAt(xx) + rr() * H * .3; x.fillStyle = `rgba(${rr() < .5 ? "190,170,240" : "10,6,20"},${.04 + rr() * .06})`; x.fillRect(xx, yy, 1 + rr() * 2, 1); }
         const pathY = (xx) => base + H * .1 + Math.sin(xx / L * 6.283 * 3) * H * .035 + Math.sin(xx / L * 6.283 * 7) * H * .012;
         x.beginPath(); for (let xx = 0; xx <= L + 2; xx += 3) x.lineTo(xx, pathY(xx) - 7); for (let xx = L + 2; xx >= 0; xx -= 3) x.lineTo(xx, pathY(xx) + 9); x.closePath();
-        const pg = x.createLinearGradient(0, base + H * .05, 0, base + H * .16); pg.addColorStop(0, se === "winter" ? "#5A5280" : "#3A2C50"); pg.addColorStop(1, "#24193A"); x.fillStyle = pg; x.fill();
-        const pr = rng(31); for (let i = 0; i < 900; i++){ const xx = pr() * L, yy = pathY(xx) + (pr() - .5) * 14; x.fillStyle = `rgba(${pr() < .6 ? "200,185,240" : "12,8,22"},${.08 + pr() * .1})`; x.fillRect(xx, yy, 1 + pr() * 1.5, 1); }
-        if (se !== "winter") for (let i = 0; i < (se === "autumn" ? 700 : 240); i++){ const xx = pr() * L, yy = yAt(xx) + 6 + pr() * H * .2; x.fillStyle = pal[i % pal.length]; x.globalAlpha = .3 + pr() * .4; x.beginPath(); x.ellipse(xx, yy, 1.8 + pr() * 1.2, .9, pr() * 3, 0, 6.283); x.fill(); }
-        else for (let i = 0; i < 900; i++){ const xx = pr() * L, yy = yAt(xx) + pr() * H * .3; x.fillStyle = "rgba(240,236,255,.25)"; x.fillRect(xx, yy, 2 + pr() * 4, 1); }
+        const pg = x.createLinearGradient(0, base + H * .05, 0, base + H * .16); pg.addColorStop(0, se === "winter" ? "#3A3460" : "#241A38"); pg.addColorStop(1, "#18112A"); x.fillStyle = pg; x.fill();
+        const pr = rng(31); for (let i = 0; i < 120; i++){ const xx = pr() * L, yy = pathY(xx) + (pr() - .5) * 14; x.fillStyle = `rgba(${pr() < .6 ? "200,185,240" : "12,8,22"},${.08 + pr() * .1})`; x.fillRect(xx, yy, 1 + pr() * 1.5, 1); }
+        if (se !== "winter") for (let i = 0; i < (se === "autumn" ? 60 : 20); i++){ const xx = pr() * L, yy = yAt(xx) + 6 + pr() * H * .2; x.fillStyle = pal[i % pal.length]; x.globalAlpha = .3 + pr() * .4; x.beginPath(); x.ellipse(xx, yy, 1.8 + pr() * 1.2, .9, pr() * 3, 0, 6.283); x.fill(); }
+        else for (let i = 0; i < 200; i++){ const xx = pr() * L, yy = yAt(xx) + pr() * H * .3; x.fillStyle = "rgba(240,236,255,.18)"; x.fillRect(xx, yy, 2 + pr() * 4, 1); }
         x.globalAlpha = 1;
-        for (let i = 0; i < 40; i++){ const xx = pr() * L, yy = yAt(xx) + H * .03 + pr() * H * .16, rw = 4 + pr() * 9;
+        for (let i = 0; i < 0; i++){ const xx = pr() * L, yy = yAt(xx) + H * .03 + pr() * H * .16, rw = 4 + pr() * 9;
           if (pr() < .5){ const rg = x.createLinearGradient(xx - rw, yy - rw, xx + rw, yy); rg.addColorStop(0, "#6A6088"); rg.addColorStop(1, "#1E1830"); x.fillStyle = rg; x.beginPath(); x.ellipse(xx, yy, rw, rw * .55, 0, Math.PI, 0); x.fill(); }
           else for (let k = 0; k < 40; k++){ const a = pr() * 3.14, rr2 = pr() * rw; x.fillStyle = se === "winter" ? "#4A4470" : mix(pal[k % pal.length].slice(1), "1A0E1A", .45 + pr() * .3); x.beginPath(); x.ellipse(xx + Math.cos(a) * rr2, yy - Math.sin(a) * rr2 * .8, 1.6, 1, pr() * 3, 0, 6.283); x.fill(); } }
-        for (let i = 0; i < 8; i++){ const xx = (i + .5) / 8 * L, yy = pathY(xx) - 9; x.strokeStyle = "#2A2236"; x.lineWidth = 1.6; x.beginPath(); x.moveTo(xx, yy); x.lineTo(xx, yy - 22); x.stroke(); x.fillStyle = "#3A2E50"; x.fillRect(xx - 3, yy - 28, 6, 7); }
-        const lanterns = Array.from({length: 8}, (_, i) => [(i + .5) / 8 * L, pathY((i + .5) / 8 * L) - 33]);
+        for (let i = 0; i < 0; i++){ const xx = (i + .5) / 8 * L, yy = pathY(xx) - 9; x.strokeStyle = "#2A2236"; x.lineWidth = 1.6; x.beginPath(); x.moveTo(xx, yy); x.lineTo(xx, yy - 22); x.stroke(); x.fillStyle = "#3A2E50"; x.fillRect(xx - 3, yy - 28, 6, 7); }
+        const lanterns = [] || Array.from({length: 8}, (_, i) => [(i + .5) / 8 * L, pathY((i + .5) / 8 * L) - 33]);
         // trees: 4 to start, +2 per streak week, kept clear of every landmark slot
         const nT = Math.min(26, 4 + D.streak * 2), cand = [];
         for (let i = 0; i < 40; i++){ const f = mod((i * .618034) + .03, 1) * L; if (Object.values(SLOTS).every((sx) => Math.abs(sx * L - f) > W * .17 && Math.abs(sx * L - f + L) > W * .17 && Math.abs(sx * L - f - L) > W * .17)) cand.push(f); }
@@ -1860,6 +1861,14 @@ body.sky-bare .nav .in{pointer-events:none}
       const at = (id) => wrapX(SLOTS[id] * G.L, o, 1, G.L), yat = (id) => G.yAt(SLOTS[id] * G.L);
       const box = (id, x, y, w, h) => hits.push({k: "lm:" + id, box: [x - w / 2, y - h, x + w / 2, y + 10]});
       const E = (id) => D.earned.includes(id);
+      const HALO = {"cat-movie": 120, "cat-food": 80, "chain-windmill": 90, "chain-cabin": 80, "chain-observatory": 85, "chain-tower": 95, "cat-creative": 60, "cat-outdoors": 60, "lake": 120, "chain-lighthouse": 100, "cat-social": 90, "cat-other": 65};
+      const pulse = .75 + .25 * Math.sin(t * 1.4);
+      Object.keys(HALO).forEach((id) => {
+        if (!E(id)) return; const hx = at(id); if (hx < -170 || hx > W + 170) return;
+        const r = HALO[id], hy = yat(id) + 4;
+        ctx.globalCompositeOperation = "lighter"; const g1 = ctx.createRadialGradient(hx, hy - r * .45, 0, hx, hy - r * .45, r); g1.addColorStop(0, `rgba(192,139,255,${.2 * pulse})`); g1.addColorStop(1, "rgba(192,139,255,0)"); ctx.fillStyle = g1; ctx.beginPath(); ctx.arc(hx, hy - r * .45, r, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = "source-over";
+        ctx.strokeStyle = `rgba(214,190,255,${.35 * pulse})`; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.ellipse(hx, hy + 6, r * .55, r * .09, 0, 0, 6.283); ctx.stroke();
+      });
       if (E("cat-movie")){ const x = at("cat-movie"); if (x > -170 && x < W + 170){ driveIn(ctx, x, yat("cat-movie") + 4, 1.05, t); box("cat-movie", x, yat("cat-movie"), 150, 120); } }
       if (E("cat-food")){ const x = at("cat-food"); if (x > -120 && x < W + 120){ campfire(ctx, x, yat("cat-food") + 6, 1.1, t, true); box("cat-food", x, yat("cat-food"), 90, 50); } }
       if (E("chain-windmill")){ const x = at("chain-windmill"); if (x > -80 && x < W + 80){ windmill(ctx, x, yat("chain-windmill") + 2, 1, t); box("chain-windmill", x, yat("chain-windmill"), 80, 100); } }
@@ -1879,7 +1888,7 @@ body.sky-bare .nav .in{pointer-events:none}
       // season particles + rain
       if (!RM){
         const se = D.season, pal = SEASON_PAL[se];
-        if (!wleaves.length) for (let i = 0; i < 28; i++) wleaves.push({x: Math.random(), y: Math.random(), s: .6 + Math.random() * .8, p: Math.random() * 6, c: i});
+        if (!wleaves.length) for (let i = 0; i < 10; i++) wleaves.push({x: Math.random(), y: Math.random(), s: .6 + Math.random() * .8, p: Math.random() * 6, c: i});
         if (D.weather === "storm"){ ctx.strokeStyle = "rgba(170,160,210,.45)"; ctx.lineWidth = 1; for (let i = 0; i < 70; i++){ const rx = mod(i * 37.3 + t * 40 - o * .5, W + 40) - 20, ry = mod(i * 91.7 + t * 520, H); ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx - 4, ry + 12); ctx.stroke(); } }
         else wleaves.forEach((l) => {
           l.y += .0012 * l.s * (se === "winter" ? .7 : 1); l.x += .0004 + Math.sin(t + l.p) * .0004; if (l.y > 1){ l.y = 0; l.x = Math.random(); }

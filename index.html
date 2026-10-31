@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1793168298">
+<meta name="twa-build" content="1793472144">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1793168298";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1793472144";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -424,6 +424,137 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
 .splash .aw{opacity:0}
 .splash .tag{font-size:14px;color:var(--muted);opacity:0}
 .sheet .grab,.sheet .headrow{touch-action:none}
+/* ===== night sky (1A) ===== */
+#nightsky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.app{position:relative;z-index:1}
+body{background:var(--bg)}
+:root{--card:rgba(20,20,22,.84); --card2:rgba(30,30,34,.9); --surface:linear-gradient(160deg,rgba(24,24,27,.86) 0%,rgba(17,17,19,.86) 100%)}
+.sheet{background:#141416}
+/* ===== star check-off (1D) ===== */
+.svig{position:fixed;inset:0;z-index:38;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,rgba(5,5,6,0) 30%,rgba(5,3,14,.72) 100%);opacity:0}
+.sblink{position:fixed;z-index:42;width:0;height:0;pointer-events:none}
+.sblink svg{position:absolute;left:-46px;top:-46px;width:92px;height:92px;filter:drop-shadow(0 0 10px #fff) drop-shadow(0 0 22px #C08BFF)}
+.sblink i{position:absolute;left:-30px;top:-30px;width:60px;height:60px;border-radius:50%;border:2px solid rgba(233,221,255,.9);box-shadow:0 0 18px rgba(192,139,255,.8)}
+.sflight{position:fixed;inset:0;width:100%;height:100%;z-index:41;pointer-events:none}
+/* ===== living horizon hero (2A–2E) ===== */
+.card.hero.scn{padding:0;display:block;min-height:184px;background:#0B0720;isolation:isolate}
+.scn .ring.hzw{position:absolute;inset:0;width:auto;height:auto;z-index:0}
+.scn .wsvg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scn .hsky{position:absolute;left:0;right:0;top:0;bottom:34%;clip-path:inset(-120px -120px 0 -120px);z-index:1}
+.scn .hsun{left:22%;width:40px;height:40px;margin-left:-20px}
+.scn.night .hsun{background:radial-gradient(circle at 38% 36%,#FFFFFF 0%,#E8E2FA 55%,#B7AADF 100%);box-shadow:0 0 30px rgba(220,210,255,.55)}
+.scn.night .hzw.hit .hsun{box-shadow:0 0 42px rgba(230,220,255,.9),0 0 90px rgba(192,139,255,.4)}
+.scn .hln{display:none}
+.scn .hticks{left:22%;right:auto;transform:translateX(-50%);bottom:9px;z-index:2}
+.scn .hticks span{background:rgba(255,255,255,.18)}
+.scn .txt{position:relative;z-index:3;min-height:184px;padding:16px 16px 14px 46%;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.scn .txt::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,5,6,0) 32%,rgba(5,5,6,.5) 62%,rgba(5,5,6,.62) 100%)}
+.scn .sub{color:#CFCFD6}
+.scn .wtag{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#D9C6FF;opacity:.85}
+.wsvg .fall,.skysvg .fall{animation:wfall 7s linear infinite}
+.wsvg .snow,.skysvg .snow{animation:wsnow 9s linear infinite}
+.wsvg .rain,.skysvg .rain{animation:wrain .7s linear infinite}
+.wsvg .fly,.skysvg .fly{animation:wfly 4s ease-in-out infinite}
+.wsvg .flick,.skysvg .flick{animation:wflick 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.wsvg .twk,.skysvg .twk{animation:wtwk 3s ease-in-out infinite}
+.wsvg .beam,.skysvg .beam{animation:wbeam 6s linear infinite;transform-box:view-box}
+@keyframes wfall{from{transform:translate(0,-30px) rotate(0)}to{transform:translate(-40px,200px) rotate(260deg)}}
+@keyframes wsnow{from{transform:translate(0,-20px)}to{transform:translate(14px,200px)}}
+@keyframes wrain{from{transform:translate(0,-30px)}to{transform:translate(-14px,190px)}}
+@keyframes wfly{0%,100%{opacity:.15;transform:translate(0,0)}50%{opacity:1;transform:translate(6px,-5px)}}
+@keyframes wflick{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.82)}}
+@keyframes wtwk{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes wbeam{0%,100%{opacity:.0}10%,40%{opacity:.55}50%{opacity:0}}
+/* ===== week-complete constellation ===== */
+.consov{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(120% 80% at 50% 35%,rgba(23,13,51,.94),rgba(5,5,6,.97) 70%);opacity:0;cursor:pointer}
+.consov svg{position:absolute;inset:0;width:100%;height:100%}
+.consov .cst{position:absolute;transform:translate(-50%,-50%);text-align:center;opacity:0}
+.consov .cst i{display:block;width:12px;height:12px;margin:0 auto;border-radius:50%;background:#fff;box-shadow:0 0 14px 5px rgba(192,139,255,.85)}
+.consov .cst span{display:block;font-size:12px;color:#E3D8FF;margin-top:7px;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis}
+.consov .ctx{position:absolute;left:0;right:0;bottom:22%;text-align:center;opacity:0;padding:0 24px}
+.consov .ck{font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#C08BFF}
+.consov .cn{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-top:8px}
+.consov .cs{font-size:13px;color:#CFCFD6;margin-top:8px}
+.consov .cx{font-size:11.5px;color:#8E8E95;margin-top:18px}
+/* ===== ideas star chart (1E) ===== */
+.ichart{position:relative;border-radius:22px;border:1px solid var(--edge);background:radial-gradient(120% 90% at 30% 0%,rgba(43,26,85,.55),rgba(11,7,32,.75) 60%,rgba(5,5,6,.6));overflow:hidden}
+.ichart .grp{position:absolute}
+.ichart .gl{position:absolute;left:10px;top:8px;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8E8E95;display:flex;gap:5px;align-items:center}
+.ichart .gl .ic{width:12px;height:12px}
+.ichart svg.gln{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.istar{position:absolute;transform:translate(-50%,-50%);background:none;border:0;padding:4px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#8C8CA0;font-size:10.5px;max-width:112px}
+.istar i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.32);flex:none}
+.istar.lit{color:#E3D8FF}
+.istar.lit i{width:10px;height:10px;background:#fff;box-shadow:0 0 12px 3px rgba(192,139,255,.85);animation:wtwk 3s ease-in-out infinite}
+.istar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:108px}
+.istar small{font-size:9.5px;color:#C08BFF;font-weight:700}
+.ichart .more{position:absolute;right:10px;bottom:6px;font-size:10px;color:#6E6E75}
+.ichart .ih{position:absolute;left:12px;bottom:8px;font-size:10.5px;color:#6E6E75}
+/* ===== quests (3A–3E) ===== */
+.qcard{border-radius:22px;border:1px solid var(--edge);background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:10px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.qhead b{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.qopt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:14px;border:1px solid var(--edge);background:var(--card2);padding:10px 12px;color:var(--fg)}
+.qopt .qt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.qopt .qt b{font-size:14px}
+.qopt .qt span{font-size:12px;color:var(--muted);line-height:1.35}
+.qtier{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;flex:none}
+.qtier.e{background:rgba(127,214,166,.14);color:#9FE3BD}.qtier.m{background:rgba(232,194,122,.14);color:#E8C27A}.qtier.h{background:rgba(240,138,128,.14);color:#F4A79F}
+.qrew{font-size:11px;font-weight:800;color:#F2CF7A;white-space:nowrap;flex:none}
+.qmain{border-radius:14px;padding:11px 12px;background:linear-gradient(135deg,rgba(106,75,255,.22),rgba(192,139,255,.06));border:1px solid rgba(192,139,255,.45);display:flex;flex-direction:column;gap:4px}
+.qmain.done{background:linear-gradient(135deg,rgba(242,207,122,.18),rgba(106,75,255,.08));border-color:rgba(242,207,122,.5)}
+.qmain .r1{display:flex;align-items:center;gap:8px}
+.qmain .r1 b{flex:1;font-size:15px}
+.qmain p{margin:0;font-size:12.5px;color:#CFCFD6;line-height:1.4}
+.qsteps{display:flex;gap:5px}
+.qsteps i{flex:1;height:5px;border-radius:3px;background:var(--track)}
+.qsteps i.on{background:var(--a2);box-shadow:0 0 6px rgba(192,139,255,.6)}
+.qsteps i.cur{background:linear-gradient(90deg,var(--a1),rgba(106,75,255,.25))}
+.qline{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);gap:8px}
+.qline b{color:var(--fg);font-weight:700}
+.qbar{height:5px;border-radius:3px;background:var(--track);overflow:hidden}
+.qbar i{display:block;height:100%;background:var(--g-warm);border-radius:3px}
+.qev{border-radius:14px;padding:11px 12px;background:linear-gradient(135deg,rgba(240,138,60,.24),rgba(106,75,255,.1));border:1px solid rgba(240,166,74,.55);display:flex;flex-direction:column;gap:3px}
+.qev .r1{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.qev b{font-size:14px}
+.qev span.t{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#FFD9A8}
+.qev p{margin:0;font-size:12.5px;color:#E7D8C8}
+.qev.done{opacity:.7}
+.qsmall{font-size:11.5px;color:var(--muted)}
+.qchange{background:none;border:0;color:var(--a2);font-size:12px;font-weight:700;padding:0}
+/* ===== Sky tab ===== */
+.skyv{position:fixed;inset:0;z-index:5;overflow:hidden;background:#04030B;overscroll-behavior:contain}
+.skyv canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.skysvg{display:block}
+.skysvg .sk-hit{cursor:pointer}
+.skyui{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:max(14px,env(safe-area-inset-right,0px));display:flex;gap:8px;z-index:6;transition:opacity .3s}
+.skybtn{width:38px;height:38px;border-radius:19px;border:1px solid rgba(255,255,255,.12);background:rgba(10,8,24,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:grid;place-items:center;color:#CFC2F5;padding:0}
+.skybtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.skybtn.on{background:rgba(106,75,255,.45);color:#fff}
+.skyv.bare .skyui{opacity:0;pointer-events:none}
+body.tab-sky .fab{display:none}
+body.sky-bare .nav{opacity:0;pointer-events:none;transition:opacity .3s}
+body.sky-bare .nav .in{pointer-events:none}
+.skyempty{position:fixed;left:24px;right:24px;top:38%;text-align:center;color:#B9B0D6;font-size:14px;line-height:1.5;pointer-events:none}
+.skh{display:flex;align-items:center;gap:10px;font-size:18px}
+.skinfo{display:flex;flex-direction:column;gap:2px}
+.skinfo .kv{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--edge);font-size:14px}
+.skinfo .kv span{color:var(--muted)}
+.skinfo .kv b{text-align:right;font-weight:600}
+.sknote{margin:10px 0 0;font-size:14px;color:#CFCFD6;font-style:italic;line-height:1.45}
+.skrow{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;border-bottom:1px solid var(--edge);padding:11px 0;text-align:left;color:var(--fg)}
+.skrow span{flex:1;font-weight:600}
+.skrow small{color:var(--muted);font-size:12px}
+/* ===== History: weeks view ===== */
+.seg2{display:flex;background:var(--card);border:1px solid var(--edge);border-radius:999px;padding:3px}
+.seg2 button{flex:1;border:0;background:none;color:var(--muted);font-weight:700;font-size:14px;padding:8px 0;border-radius:999px}
+.seg2 button[aria-pressed="true"]{background:var(--g-warm);color:#fff}
+.wkhead{display:flex;align-items:center;gap:12px;margin:8px 2px 0}
+.wkthumb{flex:none;width:72px;height:44px;border-radius:10px;border:1px solid rgba(192,139,255,.3);padding:0;background:none;overflow:hidden}
+.wkthumb.none{border:1px dashed var(--edge);background:rgba(255,255,255,.02)}
+.wkt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.wkt b{font-size:14px}
+.wkt span{font-size:12.5px;color:var(--muted)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -431,13 +562,14 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   <linearGradient id="rgOk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#C08BFF"/></linearGradient>
 </defs></svg>
 
+<canvas id="nightsky" aria-hidden="true"></canvas>
 <main class="app" id="app" aria-live="polite"></main>
 
 <nav class="nav" aria-label="Sections">
   <div class="in">
     <button class="tab" data-tab="week" aria-label="This week" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span class="tl">This week</span></button>
     <button class="tab" data-tab="ideas" aria-label="Ideas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 7h11M8 12h11M8 17h11"/><circle cx="4.5" cy="7" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="17" r="1" fill="currentColor"/></svg><span class="tl">Ideas</span></button>
-    <button class="tab" data-tab="done" aria-label="Done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><span class="tl">Done</span></button>
+    <button class="tab" data-tab="sky" aria-label="Sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M19 15.5c.2 1.6.9 2.3 2.5 2.5-1.6.2-2.3.9-2.5 2.5-.2-1.6-.9-2.3-2.5-2.5 1.6-.2 2.3-.9 2.5-2.5z"/></svg><span class="tl">Sky</span></button>
     <button class="tab" data-tab="hist" aria-label="History"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/></svg><span class="tl">History</span></button>
     <span class="ind" aria-hidden="true"></span>
   </div>
@@ -486,7 +618,9 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   // Standalone (GitHub) build: no Claude around, so data lives on this device and calendar sync is hidden.
   const STANDALONE = !(window.claude && window.claude.use);
   function localDb(){
-    const KEY = "twa_data_v1";
+    // Preview builds work on a copy of your data so nothing real changes.
+    const KEY = window.TWA_PREVIEW ? "twa_data_preview" : "twa_data_v1";
+    try { if (window.TWA_PREVIEW && !localStorage.getItem(KEY) && localStorage.getItem("twa_data_v1")) localStorage.setItem(KEY, localStorage.getItem("twa_data_v1")); } catch (e){}
     let data; try { data = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e){ data = null; }
     data = data || {acts:{}, log:{}, hist:{}, config:{}};
     const subs = {};
@@ -732,11 +866,11 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
 
   // ---------- pieces ----------
   // Horizon progress: the sun rises one step per activity done and clears the horizon at the goal.
-  const sunTop = (p) => (54 - Math.min(1, p) * 46) + "px";
+  const sunTop = (p) => (86 - Math.min(1, p) * 74) + "%";
   function ring(done, goal){
     const n = Math.max(1, goal), lit = Math.min(done, n), hit = done >= n, p = lit / n;
     let t = ""; for (let i = 0; i < n; i++) t += `<span class="${i < lit ? "on" : ""}"></span>`;
-    return `<div class="ring hzw${hit ? " hit" : ""}" data-goal="${n}" role="img" aria-label="${done} of ${goal} done this week"><div class="hsky"><div class="hsun" style="top:${sunTop(p)};opacity:${(.4 + p * .6).toFixed(2)}"></div></div><div class="hln"></div><div class="hticks">${t}</div></div>`;
+    return `<div class="ring hzw${hit ? " hit" : ""}" data-goal="${n}" role="img" aria-label="${done} of ${goal} done this week">${worldSVG()}<div class="hsky"><div class="hsun" style="top:${sunTop(p)};opacity:${(.4 + p * .6).toFixed(2)}"></div></div><div class="hln"></div><div class="hticks">${t}</div></div>`;
   }
   function setRing(el, p, ok){
     const n = Number(el.dataset.goal) || 1, lit = Math.round(Math.min(1, p) * n), q = lit / n;
@@ -787,6 +921,1022 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   const syncNote = () => S.status === "offline" ? `<div class="notice soft"><span>Not syncing right now. Changes stay on this screen only and won't be kept after you close it.</span></div>` : "";
 
   // ---------- views ----------
+  // ===================================================================================
+  // NIGHT SKY WORLD: background sky (1A), star check-off (1D), living horizon (2A–2E),
+  // constellations, ideas star chart (1E), weekly quests (3A–3E)
+  // ===================================================================================
+  const hashS = (s) => { let h = 2166136261; s = String(s); for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+  const rng = (seed) => { let a = seed >>> 0 || 1; return () => { a ^= a << 13; a >>>= 0; a ^= a >>> 17; a ^= a << 5; a >>>= 0; return (a % 100000) / 100000; }; };
+  const fmtShortDay = (ds) => DOW[dowIdx(parse(ds))];
+
+  // ---------- quests: state lives in settings so it syncs and is included in backups ----------
+  const qState = () => { const q = S.settings.q && typeof S.settings.q === "object" ? S.settings.q : {}; q.done = q.done || {}; q.camp = q.camp || {}; q.ev = q.ev || {}; S.settings.q = q; return q; };
+  const CHAINS = [
+    {id:"observatory", n:"The Observatory"}, {id:"lighthouse", n:"The Lighthouse"}, {id:"bridge", n:"The Old Bridge"},
+    {id:"windmill", n:"The Windmill"}, {id:"cabin", n:"The Cabin"}, {id:"tower", n:"The Star Tower"}
+  ];
+  function chainInfo(){
+    const n = Object.keys(qState().done).length, idx = Math.floor(n / 3);
+    return {n, idx, step: n % 3, cur: CHAINS[idx % CHAINS.length], built: CHAINS.slice(0, Math.min(CHAINS.length, idx)).map((c) => c.id)};
+  }
+  const CAMPS = [
+    {n:"Fresh start", d:"8 activities this month", need:8},
+    {n:"Heart of it", d:"3 social or food activities", need:3, cats:["social", "food"]},
+    {n:"Spring loose", d:"3 outdoor activities", need:3, cats:["outdoors"]},
+    {n:"Make something", d:"2 creative activities", need:2, cats:["creative"]},
+    {n:"Outside more", d:"4 outdoor activities", need:4, cats:["outdoors"]},
+    {n:"Summer screen", d:"3 movies", need:3, cats:["movie"]},
+    {n:"Long days", d:"10 activities this month", need:10},
+    {n:"Taste test", d:"3 food activities", need:3, cats:["food"]},
+    {n:"Back to it", d:"8 activities this month", need:8},
+    {n:"Spooky season", d:"3 movies", need:3, cats:["movie"]},
+    {n:"Before the cold", d:"4 outdoor activities", need:4, cats:["outdoors"]},
+    {n:"Wrap the year", d:"8 activities this month", need:8}
+  ];
+  function campInfo(d){
+    d = d || today();
+    const m = d.getMonth(), ym = d.getFullYear() + "-" + pad(m + 1), c = CAMPS[m];
+    const got = S.log.filter((l) => l.date.slice(0, 7) === ym && (!c.cats || c.cats.includes(l.cat))).length;
+    return Object.assign({ym, got, done: !!qState().camp[ym] || got >= c.need}, c);
+  }
+  function thanksgiving(y){ const d = new Date(y, 10, 1); const off = (4 - d.getDay() + 7) % 7; return iso(new Date(y, 10, 1 + off + 21)); }
+  function eventToday(){
+    const t = today(), md = iso(t).slice(5), y = t.getFullYear(), ds = iso(t);
+    const L = [
+      {md:"10-31", k:"halloween", n:"🎃 Halloween night", d:"Watch a scary movie tonight.", star:"Jack-o'-lantern star", chk:(l) => l.cat === "movie"},
+      {md:"12-31", k:"nye", n:"🎆 New Year's Eve", d:"Do one last thing for the year.", star:"Midnight star", chk:() => true},
+      {md:"02-14", k:"valentine", n:"💜 Valentine's Day", d:"Share a meal or plans with someone.", star:"Kindred star", chk:(l) => l.cat === "food" || l.cat === "social" || !!l.with},
+      {md:"07-04", k:"july4", n:"🎇 Fourth of July", d:"Get outside tonight.", star:"Firework star", chk:(l) => l.cat === "outdoors" || l.cat === "social"},
+      {md:"12-21", k:"solstice", n:"🌌 Longest night", d:"Do something after dark.", star:"Solstice star", chk:() => true},
+      {md:thanksgiving(y).slice(5), k:"thanks", n:"🍂 Thanksgiving", d:"Share a meal with someone.", star:"Harvest star", chk:(l) => l.cat === "food" || !!l.with}
+    ];
+    const e = L.find((x) => x.md === md); if (!e) return null;
+    const key = y + "-" + e.k, logs = S.log.filter((l) => l.date === ds);
+    return Object.assign({key, done: !!qState().ev[key] || logs.some(e.chk)}, e);
+  }
+  // Quest pool for a week: one easy, one medium (often built from your own data or social), one hard.
+  function questDefs(){
+    const g = S.settings.goal;
+    return {
+      early:{t:"e", n:"Early start", d:"Do one activity by Tuesday.", chk:(c) => c.logs.some((l) => l.date <= iso(addDays(c.ws, 2)))},
+      weeknight:{t:"e", n:"School night", d:"Do one on a weeknight (Mon–Thu).", chk:(c) => c.logs.some((l) => { const d = dowIdx(parse(l.date)); return d >= 1 && d <= 4; })},
+      planned:{t:"e", n:"Planned ahead", d:"Do one you'd already put on the calendar.", chk:(c) => c.logs.some((l) => l.prev && l.prev.date)},
+      mix:{t:"m", n:"Mix it up", d:"Your activities span 2 categories.", chk:(c) => new Set(c.logs.map((l) => l.cat)).size >= 2},
+      friend:{t:"m", n:"Bring a friend", d:"Do one with someone and tag them when you log it.", chk:(c) => c.logs.some((l) => l.with)},
+      sunset:{t:"m", n:"Look up", d:"Do one after sunset (planned for 6 PM or later).", chk:(c) => c.logs.some((l) => l.prev && l.prev.time && l.prev.time >= "18:00")},
+      explorer:{t:"h", n:"Off the map", d:"3 different categories this week.", chk:(c) => new Set(c.logs.map((l) => l.cat)).size >= 3},
+      beat:{t:"h", n:"Overachiever", d:`Do ${g + 1} this week.`, chk:(c) => c.logs.length >= g + 1},
+      fresh:{t:"h", n:"Brand new", d:"Add a new idea and do it the same week.", chk:(c) => c.logs.some((l) => { const a = S.acts.find((x) => x.id === l.actId); return a && a.created && iso(new Date(a.created)) >= iso(c.ws); })}
+    };
+  }
+  function questCheck(q, c){
+    if (!q) return false;
+    if (q.id.startsWith("dust:")){ const id = q.id.slice(5); return c.logs.some((l) => l.actId === id); }
+    if (q.id.startsWith("back:")){ const cat = q.id.slice(5); return c.logs.some((l) => l.cat === cat); }
+    const d = questDefs()[q.id]; return d ? d.chk(c) : false;
+  }
+  function questOptions(ws){
+    const r = rng(hashS("q" + iso(ws))), D = questDefs(), pick = (arr) => arr[Math.floor(r() * arr.length)];
+    const mk = (id) => ({id, t: D[id].t, n: D[id].n, d: D[id].d});
+    const smart = [];
+    const waiting = openActs().filter((x) => !x.date && x.created).sort((a, b) => a.created - b.created)[0];
+    if (waiting){ const days = Math.round((today() - new Date(waiting.created)) / 864e5); if (days >= 10) smart.push({id:"dust:" + waiting.id, t:"m", n:"Dust it off", d:`"${waiting.name}" has waited ${days} days. Do it this week.`, smart:true}); }
+    const cutoff = iso(addDays(today(), -30));
+    const idleCat = CATS.find((c) => openActs().some((x) => x.cat === c.id) && !S.log.some((l) => l.cat === c.id && l.date >= cutoff));
+    if (idleCat) smart.push({id:"back:" + idleCat.id, t:"m", n:"Back to " + idleCat.name.toLowerCase(), d:`Nothing ${idleCat.name.toLowerCase()} in a month. Do one this week.`, smart:true});
+    const med = smart.length && r() < .7 ? pick(smart) : mk(pick(["mix", "friend", "sunset"]));
+    return [mk(pick(["early", "weeknight", "planned"])), med, mk(pick(["explorer", "beat", "fresh"]))];
+  }
+  const QSTARS = {e:1, m:2, h:3};
+  let questBusy = false;
+  // Award quests, campaigns and events once their condition is met (runs after each render of This week).
+  function questTick(){
+    if (questBusy || S.status === "loading") return;
+    const q = qState(), w = weekInfo(), wk = iso(w.ws), c = {logs: w.done, ws: w.ws};
+    const won = [];
+    if (q.pick && q.pick.wk === wk && !q.done[wk] && questCheck(q.pick, c)){ q.done[wk] = {id: q.pick.id, n: q.pick.n, stars: QSTARS[q.pick.t] || 1}; won.push(`Quest complete: ${q.pick.n}. +${QSTARS[q.pick.t]} gold star${QSTARS[q.pick.t] > 1 ? "s" : ""}`); }
+    const cp = campInfo();
+    if (!q.camp[cp.ym] && cp.got >= cp.need){ q.camp[cp.ym] = 1; won.push(`Campaign complete: ${cp.n}. A gold constellation joins your sky.`); }
+    const ev = eventToday();
+    if (ev && !q.ev[ev.key] && ev.done){ q.ev[ev.key] = 1; won.push(`${ev.n.replace(/^\S+\s/, "")} done: the ${ev.star} is yours.`); }
+    if (!won.length) return;
+    questBusy = true;
+    const ci = chainInfo();
+    if (ci.step === 0 && ci.n > 0 && won[0].startsWith("Quest")) won.push(`${CHAINS[(ci.idx - 1) % CHAINS.length].n} is built on your horizon.`);
+    setTimeout(async () => { sfx("goal"); SKY.rebuild(); SKY.flashGold(); toast(won.join(" "), null, 6000); await putSettings(); questBusy = false; }, 900);
+  }
+  function goldStars(){
+    const q = qState(), out = [];
+    Object.entries(q.done).forEach(([wk, d]) => { for (let i = 0; i < (d.stars || 1); i++) out.push("g" + wk + i); });
+    Object.keys(q.ev).forEach((k) => out.push("e" + k));
+    return out;
+  }
+  function questCard(){
+    const q = qState(), w = weekInfo(), wk = iso(w.ws), ci = chainInfo(), cp = campInfo(), ev = eventToday();
+    let h = `<section class="qcard" aria-label="Weekly quest">`;
+    if (ev) h += `<div class="qev${ev.done ? " done" : ""}"><div class="r1"><b>${esc(ev.n)}</b><span class="t">${ev.done ? "Done ✓" : "Today only"}</span></div><p>${esc(ev.d)} Reward: the ${esc(ev.star)}.</p></div>`;
+    const pickNow = q.pick && q.pick.wk === wk ? q.pick : null, doneNow = q.done[wk];
+    if (!pickNow){
+      const opts = questOptions(w.ws);
+      h += `<div class="qhead"><b>Choose this week's quest</b><span class="qsmall">Harder pays more</span></div>`;
+      h += opts.map((o, i) => `<button type="button" class="qopt" data-qpick="${i}"><span class="qtier ${o.t}">${o.t === "e" ? "Easy" : o.t === "m" ? "Medium" : "Hard"}</span><span class="qt"><b>${esc(o.n)}</b><span>${esc(o.d)}</span></span><span class="qrew">+${QSTARS[o.t]} ★</span></button>`).join("");
+    } else {
+      h += `<div class="qhead"><b>This week's quest</b>${doneNow ? "" : `<button type="button" class="qchange" data-qchange>Change</button>`}</div>`;
+      h += `<div class="qmain${doneNow ? " done" : ""}"><div class="r1"><span class="qtier ${pickNow.t}">${pickNow.t === "e" ? "Easy" : pickNow.t === "m" ? "Medium" : "Hard"}</span><b>${esc(pickNow.n)}</b><span class="qrew">${doneNow ? "Done ✓" : "+" + QSTARS[pickNow.t] + " ★"}</span></div><p>${esc(pickNow.d)}${pickNow.id === "friend" && !doneNow ? " Tap a logged activity in Done to add who was with you." : ""}</p></div>`;
+    }
+    const steps = [0, 1, 2].map((i) => `<i class="${i < ci.step ? "on" : i === ci.step && pickNow && !doneNow ? "cur" : ""}"></i>`).join("");
+    h += `<div><div class="qline"><span>Chain · <b>${esc(ci.cur.n)}</b></span><span>step ${Math.min(3, ci.step + 1)} of 3</span></div><div class="qsteps" style="margin-top:6px">${steps}</div></div>`;
+    h += `<div><div class="qline"><span>${MON[today().getMonth()]} campaign · <b>${esc(cp.n)}</b></span><span>${Math.min(cp.got, cp.need)} / ${cp.need}${cp.done ? " ✓" : ""}</span></div><div class="qbar" style="margin-top:6px"><i style="width:${Math.min(100, cp.got / cp.need * 100)}%"></i></div><div class="qsmall" style="margin-top:4px">${esc(cp.d)}. Reward: a gold constellation.</div></div>`;
+    return h + `</section>`;
+  }
+
+  // ---------- constellations: every week you hit your goal becomes one ----------
+  const CADJ = {movie:["Silver", "Midnight", "Velvet"], outdoors:["Wandering", "High", "Wild"], food:["Ember", "Golden", "Warm"], creative:["Painted", "Bright", "Dreaming"], social:["Kindred", "Twin", "Gathered"], other:["Quiet", "Lucky", "Hidden"]};
+  const CNOUN = {movie:["Reel", "Screen", "Lantern"], outdoors:["Trail", "Ridge", "Pathfinder"], food:["Feast", "Hearth", "Table"], creative:["Brush", "Muse", "Spark"], social:["Circle", "Company", "Crew"], other:["Compass", "Wanderer", "Key"]};
+  function consName(ws, logs){
+    const cnt = {}; logs.forEach((l) => { cnt[l.cat] = (cnt[l.cat] || 0) + 1; });
+    const cats = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]), top = CNOUN[cats[0]] ? cats[0] : "other", sec = CADJ[cats[1]] ? cats[1] : top;
+    const h = hashS(iso(ws));
+    return "The " + CADJ[sec][h % 3] + " " + CNOUN[top][(h >>> 4) % 3];
+  }
+  function hitWeeks(){
+    if (!S.log.length) return [];
+    const first = S.log.reduce((m, l) => l.date < m ? l.date : m, S.log[0].date), g = S.settings.goal, out = [];
+    for (let ws = weekStart(parse(first)); ws <= today(); ws = addDays(ws, 7)){
+      const a = iso(ws), b = iso(addDays(ws, 6)), logs = S.log.filter((l) => l.date >= a && l.date <= b).sort((x, y) => x.date.localeCompare(y.date));
+      if (logs.length >= g) out.push({ws, logs, name: consName(ws, logs)});
+    }
+    return out;
+  }
+
+  // ---------- 1A + 1D: the night sky behind the app ----------
+  const SKY = (() => {
+    let cv = null, ctx = null, W = 0, H = 0, dpr = 1, amb = [], acts = [], gold = [], shoot = null, last = 0, nextShoot = 0, flashes = [], running = false;
+    const posFor = (id) => { const h = hashS(id); return {x: (.06 + (h % 1000) / 1000 * .88) * W, y: (.035 + ((h >>> 10) % 1000) / 1000 * .5) * H}; };
+    function size(){
+      if (!cv) return;
+      dpr = Math.min(2, window.devicePixelRatio || 1); W = window.innerWidth; H = window.innerHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const dens = 1 + Math.min(1, S.log.length / 60) * .8, n = Math.round(W * H / 2600 * dens), r = rng(7);
+      amb = Array.from({length: n}, () => ({x: r() * W, y: r() * H * .92, r: r() < .07 ? 1.25 : .3 + r() * .75, p: r() * 6.28, s: .4 + r() * 1.2}));
+      rebuild();
+    }
+    function rebuild(){
+      if (!cv) return;
+      acts = S.log.map((l) => Object.assign({id: l.id, p: (hashS(l.id) % 628) / 100}, posFor(l.id)));
+      gold = goldStars().map((k) => Object.assign({id: k, p: (hashS(k) % 628) / 100}, posFor("gold" + k)));
+      if (RM) draw(performance.now());
+    }
+    function star(x, y, r, col, glow, a){
+      ctx.globalAlpha = a;
+      if (glow){ const g = ctx.createRadialGradient(x, y, 0, x, y, glow); g.addColorStop(0, col.replace("A", ".55")); g.addColorStop(1, col.replace("A", "0")); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, glow, 0, 6.283); ctx.fill(); }
+      ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+    }
+    function draw(now){
+      const t = now / 1000;
+      ctx.globalAlpha = 1;
+      const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#0C0722"); g.addColorStop(.5, "#07050F"); g.addColorStop(1, "#050506");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      const gl = ctx.createRadialGradient(0, -60, 0, 0, -60, Math.max(380, W * .9)); gl.addColorStop(0, "rgba(106,75,255,.24)"); gl.addColorStop(1, "rgba(106,75,255,0)"); ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H);
+      for (const s of amb){ ctx.globalAlpha = RM ? .6 : .25 + .6 * (.5 + .5 * Math.sin(t * s.s + s.p)); ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill(); }
+      for (const s of acts) star(s.x, s.y, 1.35, "rgba(192,139,255,A)", 7 + 2 * Math.sin(t * .9 + s.p), RM ? .9 : .7 + .3 * Math.sin(t * .9 + s.p));
+      for (const s of gold) star(s.x, s.y, 1.5, "rgba(242,207,122,A)", 9 + 2 * Math.sin(t * 1.1 + s.p), RM ? 1 : .75 + .25 * Math.sin(t * 1.1 + s.p));
+      if (!RM){
+        if (!shoot && now > nextShoot){ shoot = {x: W * (.3 + Math.random() * .7), y: H * Math.random() * .3, l: 0}; nextShoot = now + 18000 + Math.random() * 24000; }
+        if (shoot){
+          shoot.l += 1; const x = shoot.x - shoot.l * 9, y = shoot.y + shoot.l * 4, gr = ctx.createLinearGradient(x, y, x + 80, y - 36);
+          gr.addColorStop(0, "rgba(255,255,255,.95)"); gr.addColorStop(1, "rgba(192,139,255,0)");
+          ctx.globalAlpha = Math.max(0, 1 - shoot.l / 26); ctx.strokeStyle = gr; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 80, y - 36); ctx.stroke();
+          if (shoot.l > 26) shoot = null;
+        }
+        flashes = flashes.filter((f) => now - f.t0 < 1400);
+        for (const f of flashes){
+          const k = (now - f.t0) / 1400, a = 1 - k, R = 6 + k * 46;
+          ctx.globalAlpha = a * .9; ctx.strokeStyle = f.gold ? "rgba(242,207,122,1)" : "rgba(233,221,255,1)"; ctx.lineWidth = 1.4;
+          ctx.beginPath(); ctx.arc(f.x, f.y, R, 0, 6.283); ctx.stroke();
+          ctx.globalAlpha = a; ctx.lineWidth = 1.2; const L = 26 * (1 - k * .6);
+          ctx.beginPath(); ctx.moveTo(f.x - L, f.y); ctx.lineTo(f.x + L, f.y); ctx.moveTo(f.x, f.y - L); ctx.lineTo(f.x, f.y + L); ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+    function loop(now){
+      if (!running) return;
+      if (now - last > 33){ last = now; draw(now); }
+      requestAnimationFrame(loop);
+    }
+    function start(){ if (RM || running || document.hidden) return; running = true; requestAnimationFrame(loop); }
+    function init(){
+      cv = document.getElementById("nightsky"); if (!cv) return; ctx = cv.getContext("2d");
+      size(); window.addEventListener("resize", size);
+      document.addEventListener("visibilitychange", () => { if (document.hidden) running = false; else start(); });
+      nextShoot = performance.now() + 6000;
+      if (RM) draw(performance.now()); else start();
+    }
+    return {
+      init, rebuild,
+      posFor: (id) => posFor(id),
+      addAndFlash(id, gold){ const p = posFor(id); acts.push(Object.assign({id, p: 0}, p)); flashes.push({x: p.x, y: p.y, t0: performance.now(), gold}); if (RM) draw(performance.now()); },
+      flashGold(){ const last2 = gold.slice(-3); last2.forEach((g, i) => setTimeout(() => flashes.push({x: g.x, y: g.y, t0: performance.now(), gold: true}), i * 220)); }
+    };
+  })();
+
+  // 1D: the checkmark blinks into a star, then streaks up into the sky and stays there.
+  async function starFlight(fromEl, id, goal){
+    const a = ctr(fromEl), b = SKY.posFor(id);
+    if (RM){ SKY.addAndFlash(id); return; }
+    const vig = document.createElement("div"); vig.className = "svig"; document.body.appendChild(vig);
+    vig.animate([{opacity:0},{opacity:1, offset:.25},{opacity:1, offset:.7},{opacity:0}], {duration:2300, easing:"ease-in-out", fill:"forwards"});
+    // blink: a four-point star flares at the checkmark with a ring
+    const bl = document.createElement("div"); bl.className = "sblink"; bl.style.left = a.x + "px"; bl.style.top = a.y + "px";
+    bl.innerHTML = `<svg viewBox="-50 -50 100 100"><path d="M0 -46 C3 -9 9 -3 46 0 C9 3 3 9 0 46 C-3 9 -9 3 -46 0 C-9 -3 -3 -9 0 -46Z" fill="#fff"/><circle r="5" fill="#fff"/></svg><i></i>`;
+    document.body.appendChild(bl);
+    const sv = bl.querySelector("svg"), ri = bl.querySelector("i");
+    sv.animate([{transform:"scale(0) rotate(-30deg)", opacity:0},{transform:"scale(1.25) rotate(0deg)", opacity:1, offset:.35},{transform:"scale(.85) rotate(12deg)", opacity:1, offset:.6},{transform:"scale(.25) rotate(45deg)", opacity:1}], {duration:620, easing:"cubic-bezier(.2,.8,.3,1)", fill:"forwards"});
+    ri.animate([{transform:"scale(.2)", opacity:1},{transform:"scale(2.4)", opacity:0}], {duration:600, easing:"ease-out", fill:"forwards"});
+    await sleep(560);
+    bl.remove();
+    // flight: a glowing head with a long fading trail and sparks along a curved path
+    const cv = document.createElement("canvas"); cv.className = "sflight"; document.body.appendChild(cv);
+    const dpr = Math.min(2, window.devicePixelRatio || 1), W = window.innerWidth, H = window.innerHeight, c = cv.getContext("2d");
+    cv.width = W * dpr; cv.height = H * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const p0 = a, p3 = b, p1 = {x: a.x + (b.x - a.x) * .1 - (b.x > a.x ? 70 : -70), y: a.y - Math.min(220, (a.y - b.y) * .55)}, p2 = {x: b.x + (b.x > a.x ? 50 : -50), y: b.y + 140};
+    const at = (k) => { const u = 1 - k; return {x: u * u * u * p0.x + 3 * u * u * k * p1.x + 3 * u * k * k * p2.x + k * k * k * p3.x, y: u * u * u * p0.y + 3 * u * u * k * p1.y + 3 * u * k * k * p2.y + k * k * k * p3.y}; };
+    const ease = (k) => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+    const trail = [], sparks = [], D = 1050;
+    await new Promise((res) => {
+      const t0 = performance.now();
+      function fr(now){
+        const k = Math.min(1, (now - t0) / D), e = ease(k), p = at(e);
+        trail.push(p); if (trail.length > 26) trail.shift();
+        if (k < .95) for (let i = 0; i < 2; i++) sparks.push({x: p.x, y: p.y, vx: (Math.random() - .5) * 1.6, vy: (Math.random() - .3) * 1.4, l: 1});
+        c.clearRect(0, 0, W, H);
+        for (let i = 1; i < trail.length; i++){
+          const q = i / trail.length; c.strokeStyle = `rgba(${Math.round(192 + 63 * q)},${Math.round(139 + 116 * q)},255,${q * .85})`; c.lineWidth = 1 + q * 5; c.lineCap = "round";
+          c.beginPath(); c.moveTo(trail[i - 1].x, trail[i - 1].y); c.lineTo(trail[i].x, trail[i].y); c.stroke();
+        }
+        sparks.forEach((s) => { s.x += s.vx; s.y += s.vy; s.l -= .035; if (s.l > 0){ c.globalAlpha = s.l; c.fillStyle = "#E9DDFF"; c.fillRect(s.x, s.y, 1.6, 1.6); } });
+        c.globalAlpha = 1;
+        const gr = c.createRadialGradient(p.x, p.y, 0, p.x, p.y, 18); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(.25, "rgba(233,221,255,.85)"); gr.addColorStop(1, "rgba(192,139,255,0)");
+        c.fillStyle = gr; c.beginPath(); c.arc(p.x, p.y, 18, 0, 6.283); c.fill();
+        if (k < 1) requestAnimationFrame(fr); else res();
+      }
+      requestAnimationFrame(fr);
+    });
+    cv.animate([{opacity:1},{opacity:0}], {duration:260, fill:"forwards"}).finished.then(() => cv.remove());
+    SKY.addAndFlash(id, goal);
+    await sleep(240);
+    setTimeout(() => vig.remove(), 1200);
+  }
+
+  // Week complete: this week's activities rise as stars and form a named constellation.
+  function playConstellation(wsIn){
+    const w0 = wsIn ? weekStart(wsIn) : weekInfo().ws, a0 = iso(w0), b0 = iso(addDays(w0, 6));
+    const w = {ws: w0}, logs = S.log.filter((l) => l.date >= a0 && l.date <= b0).sort((x, y) => x.date.localeCompare(y.date)).slice(0, 6); if (!logs.length) return Promise.resolve();
+    const hw = hitWeeks(), idx = hw.findIndex((x) => iso(x.ws) === a0), num = idx >= 0 ? idx + 1 : hw.length, name = consName(w.ws, logs);
+    const n = logs.length, r = rng(hashS(iso(w.ws)));
+    const SH = {1:[[50, 40]], 2:[[32, 46], [68, 34]], 3:[[24, 50], [50, 28], [76, 46]], 4:[[20, 44], [40, 26], [62, 36], [80, 22]], 5:[[18, 50], [34, 30], [52, 42], [68, 24], [84, 40]], 6:[[16, 46], [30, 28], [46, 40], [60, 22], [74, 36], [86, 52]]};
+    const VW = window.innerWidth, VH = window.innerHeight;
+    const pts = consShape(iso(w.ws), n).map(([fx, fy]) => [12 + fx * 76, 22 + fy * 34]), px = pts.map(([x, y]) => [x / 100 * VW, y / 100 * VH]);
+    const ov = document.createElement("div"); ov.className = "consov"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "Week complete");
+    ov.innerHTML = `<svg viewBox="0 0 ${VW} ${VH}"><polyline points="${px.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="#C08BFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #C08BFF)" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
+      ${pts.map((p, i) => `<div class="cst" style="left:${p[0]}%;top:${p[1]}%"><i></i><span>${esc(logs[i].name)}</span></div>`).join("")}
+      <div class="ctx"><div class="ck">Week complete · constellation ${num}</div><div class="cn">"${esc(name)}"</div><div class="cs">${wsIn ? esc(weekLabel(w0)) + " · " + n + " activities" : n + " of " + S.settings.goal + " done. Added to your sky."}</div><div class="cx">Tap to continue</div></div>`;
+    document.body.appendChild(ov);
+    return new Promise((res) => {
+      let closed = false;
+      const close = () => { if (closed) return; closed = true; ov.animate([{opacity:1},{opacity:0}], {duration:350, fill:"forwards"}).finished.then(() => { ov.remove(); res(); }); };
+      ov.addEventListener("click", close);
+      if (RM){ ov.style.opacity = 1; ov.querySelectorAll(".cst,.ctx").forEach((e) => { e.style.opacity = 1; }); ov.querySelector("polyline").setAttribute("stroke-dashoffset", "0"); setTimeout(close, 4000); return; }
+      ov.animate([{opacity:0},{opacity:1}], {duration:450, fill:"forwards"});
+      ov.querySelectorAll(".cst").forEach((s, i) => s.animate([{opacity:0, transform:"translate(-50%,240px) scale(.4)"},{opacity:1, transform:"translate(-50%,-50%) scale(1)"}], {duration:800, delay:350 + i * 280, easing:"cubic-bezier(.2,.9,.3,1.15)", fill:"forwards"}));
+      const t1 = 350 + n * 280 + 450;
+      ov.querySelector("polyline").animate([{strokeDashoffset:100},{strokeDashoffset:0}], {duration:1000, delay:t1, easing:"ease-in-out", fill:"forwards"});
+      ov.querySelector(".ctx").animate([{opacity:0, transform:"translateY(14px)"},{opacity:1, transform:"none"}], {duration:600, delay:t1 + 800, fill:"forwards"});
+      setTimeout(close, t1 + 4200);
+    });
+  }
+
+  // ---------- 2A–2E: the living horizon scene ----------
+  function dayPhase(){ const h = new Date().getHours() + new Date().getMinutes() / 60; return h >= 5.5 && h < 8 ? "dawn" : h >= 8 && h < 17.5 ? "day" : h >= 17.5 && h < 20 ? "dusk" : "night"; }
+  function season(){ const d = today(), md = (d.getMonth() + 1) * 100 + d.getDate(); return md >= 321 && md < 621 ? "spring" : md >= 621 && md < 922 ? "summer" : md >= 922 && md < 1221 ? "autumn" : "winter"; }
+  function weather(){
+    if (!S.log.length) return "clear";
+    const g = S.settings.goal, ws = weekStart(today()), cur = countWeek(ws);
+    const h1 = S.log.some((l) => l.date < iso(addDays(ws, -7))), h2 = S.log.some((l) => l.date < iso(addDays(ws, -14)));
+    const m1 = h1 && countWeek(addDays(ws, -7)) < g, m2 = h2 && countWeek(addDays(ws, -14)) < g;
+    if (cur >= g && m1) return "rainbow";
+    if (m1 && m2 && cur < g) return "storm";
+    if (m1 && cur < g) return "cloudy";
+    return "clear";
+  }
+  const SKYC = {dawn:["#120B2A", "#4B2A7A", "#E39AB8"], day:["#4A42B8", "#8C7BE8", "#E2D6FF"], dusk:["#1E1040", "#6A2E7A", "#F09A8A"], night:["#04030B", "#0E0A24", "#271850"]};
+  const LANDC = {dawn:["#2B1A55", "#1C1238", "#140D2A"], day:["#5A4AA8", "#3E3080", "#2A2060"], dusk:["#3A1E52", "#26143A", "#1A0E2A"], night:["#1C1238", "#120B26", "#0B0718"]};
+  const TREEC = {autumn:["#E08A3C", "#C9652E", "#F0A64A"], winter:["#3A3260", "#2E2850", "#3A3260"], spring:["#5FAF7A", "#4A9A6A", "#E8A0C8"], summer:["#2F8A5A", "#257048", "#3A9A64"]};
+  function worldSVG(o){
+    o = o || {};
+    const ph = o.phase || dayPhase(), se = season(), wx = weather(), st = streak(), sky = SKYC[ph], land = LANDC[ph];
+    const catN = {}; S.log.forEach((l) => { catN[l.cat] = (catN[l.cat] || 0) + 1; });
+    const built = chainInfo().built, r = rng(11), lit = ph === "night" || ph === "dusk";
+    let s = (o.inner ? "" : `<svg class="wsvg" viewBox="0 0 360 184" preserveAspectRatio="xMidYMid slice" aria-hidden="true">`) + `<defs>
+      <linearGradient id="wsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset=".62" stop-color="${sky[1]}"/><stop offset="1" stop-color="${sky[2]}"/></linearGradient>
+      <linearGradient id="wlake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[2]}" stop-opacity=".7"/><stop offset="1" stop-color="${sky[1]}" stop-opacity=".3"/></linearGradient></defs>
+` + (o.landOnly ? "" : `<rect width="360" height="184" fill="url(#wsky)"/>`);
+    // stars (night strong, dusk/dawn faint)
+    const sa = o.landOnly ? 0 : ph === "night" ? 1 : ph === "day" ? 0 : .45;
+    if (sa){ s += `<g fill="#fff">`; for (let i = 0; i < 46; i++){ const x = r() * 360, y = r() * 108; s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r() < .15 ? 1.1 : .6}" opacity="${(sa * (.4 + r() * .6)).toFixed(2)}"${i % 4 === 0 ? ` class="twk" style="animation-delay:${(r() * 3).toFixed(1)}s"` : ""}/>`; } s += `</g>`; }
+    // 2D: your constellations in the sky (recent weeks, plus gold ones from campaigns)
+    const ca = ph === "night" ? .95 : ph === "day" ? .22 : .6;
+    const weeks = o.landOnly ? [] : hitWeeks().slice(-5), camps = o.landOnly ? [] : Object.keys(qState().camp).slice(-2);
+    const slots = [[200, 14], [262, 34], [140, 12], [306, 12], [96, 30], [40, 14], [330, 56]];
+    const drawCons = (key, n, x0, y0, col) => {
+      const rr = rng(hashS(key)), pts = [];
+      for (let i = 0; i < n; i++) pts.push([x0 + i * 13 + rr() * 6, y0 + rr() * 20]);
+      s += `<g opacity="${ca}"><polyline points="${pts.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="${col}" stroke-width=".7" opacity=".85"/>${pts.map((p) => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="1.5" fill="#fff" style="filter:drop-shadow(0 0 2px ${col})"/>`).join("")}</g>`;
+    };
+    weeks.forEach((wk, i) => { const sl = slots[i % slots.length]; drawCons(iso(wk.ws), Math.min(5, wk.logs.length), sl[0], sl[1], "#C08BFF"); });
+    camps.forEach((k, i) => { const sl = slots[(weeks.length + i) % slots.length]; drawCons("camp" + k, 5, sl[0], sl[1] + 6, "#F2CF7A"); });
+    // weather in the sky
+    if (wx === "cloudy" || wx === "storm") s += `<g fill="${ph === "night" ? "#2A2640" : "#4A4468"}" opacity="${wx === "storm" ? .95 : .8}"><ellipse cx="70" cy="40" rx="46" ry="12"/><ellipse cx="104" cy="32" rx="32" ry="12"/><ellipse cx="236" cy="48" rx="50" ry="13"/><ellipse cx="276" cy="40" rx="30" ry="11"/></g>`;
+    if (wx === "rainbow") s += `<g fill="none" opacity=".55"><path d="M120 122 A90 90 0 0 1 300 122" stroke="#C08BFF" stroke-width="3"/><path d="M127 122 A83 83 0 0 1 293 122" stroke="#7FD6A6" stroke-width="3"/><path d="M134 122 A76 76 0 0 1 286 122" stroke="#E8C27A" stroke-width="3"/></g>`;
+    // land: far ridge, (trail peak), near hills
+    const tall = (catN.outdoors || 0) >= 3;
+    s += `<path d="M0 104 L40 80 L72 96 L118 ${tall ? 50 : 64} L160 98 L206 70 L248 92 L300 66 L360 96 V184 H0Z" fill="${land[0]}"/>`;
+    if (tall) s += `<g data-sk="lm:cat-outdoors" class="sk-hit"><rect x="104" y="46" width="28" height="44" fill="transparent"/><path d="M118 ${tall ? 50 : 64} L112 62 L120 70 L114 84" stroke="#C08BFF" stroke-dasharray="2 2" fill="none" opacity=".6"/></g>`;
+    if (se === "winter") s += `<path d="M118 50 L110 60 L126 60Z M300 66 L292 76 L308 76Z M206 70 L199 79 L213 79Z" fill="#EDE8FA" opacity=".85"/>`;
+    s += `<path d="M0 122 Q60 112 120 120 T240 118 T360 120 V184 H0Z" fill="${land[1]}"/><rect y="150" width="360" height="34" fill="${land[2]}"/>`;
+    // lake (streak 2+)
+    if (st >= 2) s += `<ellipse data-sk="lm:lake" class="sk-hit" cx="226" cy="146" rx="${Math.min(60, 30 + st * 4)}" ry="6" fill="url(#wlake)"/>`;
+    // chain landmarks (3E)
+    const LM = {
+      observatory:`<g transform="translate(300 118)"><rect x="-9" y="0" width="18" height="12" fill="#2E2260"/><path d="M-11 0 A11 11 0 0 1 11 0Z" fill="#C9C2EA"/><rect x="-1" y="-11" width="3" height="7" fill="#2E2260" transform="rotate(25)"/></g>`,
+      lighthouse:`<g transform="translate(18 104)"><path d="M-5 30 L-3 0 H3 L5 30Z" fill="#E9E3FA"/><rect x="-3" y="8" width="6" height="4" fill="#C0566A"/><rect x="-3" y="18" width="6" height="4" fill="#C0566A"/><rect x="-4" y="-5" width="8" height="5" fill="#FFE7A8"/>${lit ? `<path class="beam" d="M0 -3 L-60 -18 L-60 8Z" fill="#FFE7A8" opacity=".4"/>` : ""}</g>`,
+      bridge:`<path d="M186 146 Q226 128 266 146" stroke="#8C6A4A" stroke-width="2.4" fill="none"/><path d="M196 141 v6 M216 136 v10 M236 136 v10 M256 141 v6" stroke="#8C6A4A" stroke-width="1.4"/>`,
+      windmill:`<g transform="translate(82 112)"><path d="M-4 24 L-2 0 H2 L4 24Z" fill="#D9CFF2"/><g class="flick" style="animation-duration:6s"><path d="M0 0 L0 -14 M0 0 L13 4 M0 0 L-13 4" stroke="#EDE8FA" stroke-width="2"/></g></g>`,
+      cabin:`<g transform="translate(150 128)"><path d="M-10 0 L0 -9 L10 0Z" fill="#6B3E2E"/><rect x="-8" y="0" width="16" height="10" fill="#8C5A3E"/><rect x="-2" y="3" width="4" height="7" fill="${lit ? "#FFD27A" : "#4A2A1E"}"/></g>`,
+      tower:`<g transform="translate(332 100)"><path d="M-4 40 L-2 0 H2 L4 40Z" fill="#B7AADF"/><circle cy="-3" r="3" fill="#F2CF7A" class="twk"/></g>`
+    };
+    built.forEach((id) => { s += `<g data-sk="lm:chain-${id}" class="sk-hit">${LM[id] || ""}</g>`; });
+    // category landmarks (2C)
+    if ((catN.movie || 0) >= 3) s += `<g data-sk="lm:cat-movie" class="sk-hit"><g transform="translate(40 132)"><rect x="0" y="-16" width="30" height="17" rx="1.5" fill="#0B0618" stroke="#C08BFF" stroke-width=".9"/><rect x="2" y="-14" width="26" height="13" fill="${lit ? "#6A4BFF" : "#2B1A55"}" opacity="${lit ? .55 : .9}"/><rect x="13" y="1" width="4" height="6" fill="#3E2A78"/></g></g>`;
+    if ((catN.food || 0) >= 3) s += `<g data-sk="lm:cat-food" class="sk-hit"><g transform="translate(176 150)"><path d="M-8 4 L8 -2 M-8 -2 L8 4" stroke="#6B3E2E" stroke-width="2"/><path class="flick" d="M-5 0 Q0 -16 5 0Z" fill="#F0A64A"/><path class="flick" d="M-2 0 Q0 -9 2 0Z" fill="#FFE2A0" style="animation-delay:.3s"/>${lit ? `<circle cy="-4" r="16" fill="#F0A64A" opacity=".12"/>` : ""}</g></g>`;
+    if ((catN.creative || 0) >= 3) s += `<g data-sk="lm:cat-creative" class="sk-hit"><g transform="translate(128 138)"><path d="M-6 14 L0 -6 L6 14 M0 -6 V14" stroke="#B08A6A" stroke-width="1.4"/><rect x="-7" y="-4" width="14" height="10" fill="#EDE8FA"/><circle cx="-2" cy="1" r="2" fill="#C08BFF"/><circle cx="3" cy="2" r="1.6" fill="#7FD6A6"/></g></g>`;
+    if ((catN.social || 0) >= 3) s += `<g data-sk="lm:cat-social" class="sk-hit"><g><path d="M260 134 V112 M300 136 V114" stroke="#6E5A8A" stroke-width="1.4"/><path d="M260 113 Q280 124 300 115" stroke="#6E5A8A" stroke-width=".8" fill="none"/>${[266, 273, 280, 287, 294].map((x, i) => `<circle cx="${x}" cy="${117 + Math.sin(i * .9) * 2 + 3}" r="1.5" fill="#FFD27A" class="twk" style="animation-delay:${i * .4}s"/>`).join("")}</g></g>`;
+    if ((catN.other || 0) >= 3) s += `<g data-sk="lm:cat-other" class="sk-hit"><path d="M96 154 L106 140 L116 154Z" fill="#7A5AC8"/><path d="M106 140 V154" stroke="#4A3480"/></g>`;
+    // trees: more with a longer streak; storms leave them bare
+    const TX = [10, 26, 58, 150, 166, 300, 316, 334, 346, 112, 196, 62];
+    const nT = Math.min(TX.length, 3 + st), tc = TREEC[se];
+    s += `<g data-sk="lm:trees" class="sk-hit">`;
+    for (let i = 0; i < nT; i++){
+      const x = TX[i], y = 156 + (i % 3) * 3, hgt = 16 + (i % 4) * 3;
+      if (wx === "storm") s += `<path d="M${x} ${y} V${y - hgt} M${x} ${y - hgt * .6} l-5 -5 M${x} ${y - hgt * .45} l5 -6" stroke="#4A3A5A" stroke-width="1.4"/>`;
+      else {
+        s += `<path d="M${x - 7} ${y} L${x} ${y - hgt} L${x + 7} ${y}Z" fill="${tc[i % 3]}" opacity="${ph === "night" ? .55 : .9}"/>`;
+        if (se === "winter") s += `<path d="M${x - 3} ${y - hgt + 7} L${x} ${y - hgt} L${x + 3} ${y - hgt + 7}Z" fill="#EDE8FA" opacity=".85"/>`;
+        if (se === "spring" && i % 2 === 0) s += `<circle cx="${x + 2}" cy="${y - hgt / 2}" r="1.5" fill="#F4B8D8"/>`;
+      }
+    }
+    s += `</g>`;
+    // season particles + rain
+    if (!RM){
+      if (wx === "storm") for (let i = 0; i < 26; i++) s += `<path class="rain" d="M${(r() * 380).toFixed(0)} ${(r() * 60).toFixed(0)} l-3 9" stroke="#9A93C8" stroke-width=".8" opacity=".7" style="animation-delay:${(r() * .7).toFixed(2)}s"/>`;
+      else if (se === "autumn") for (let i = 0; i < 9; i++) s += `<ellipse class="fall" cx="${(40 + r() * 320).toFixed(0)}" cy="${(r() * 40).toFixed(0)}" rx="2.2" ry="1.3" fill="${tc[i % 3]}" style="animation-delay:${(-r() * 7).toFixed(2)}s"/>`;
+      else if (se === "winter") for (let i = 0; i < 22; i++) s += `<circle class="snow" cx="${(r() * 360).toFixed(0)}" cy="${(r() * 60).toFixed(0)}" r="${r() < .3 ? 1.4 : .9}" fill="#fff" opacity=".8" style="animation-delay:${(-r() * 9).toFixed(2)}s"/>`;
+      else if (se === "spring") for (let i = 0; i < 8; i++) s += `<ellipse class="fall" cx="${(40 + r() * 320).toFixed(0)}" cy="${(r() * 40).toFixed(0)}" rx="1.8" ry="1.1" fill="#F4B8D8" style="animation-delay:${(-r() * 7).toFixed(2)}s"/>`;
+      else if (se === "summer" && lit) for (let i = 0; i < 10; i++) s += `<circle class="fly" cx="${(r() * 360).toFixed(0)}" cy="${(120 + r() * 40).toFixed(0)}" r="1.3" fill="#FFF3A0" style="animation-delay:${(r() * 4).toFixed(2)}s"/>`;
+    }
+    s += `<path d="M0 118.5 H360" stroke="${ph === "night" ? "rgba(192,139,255,.25)" : "rgba(255,255,255,.12)"}" stroke-width=".6"/>`;
+    return s + (o.inner ? "" : `</svg>`);
+  }
+  function worldTag(){
+    const ph = dayPhase(), se = season(), wx = weather(), st = streak();
+    const W = {clear:"", cloudy:" · clouds rolling in", storm:" · storm, get back on track", rainbow:" · comeback rainbow"};
+    return `${se[0].toUpperCase() + se.slice(1)} ${ph}${W[wx]}${st ? " · streak " + st : ""}`;
+  }
+
+  // ---------- 1E: ideas as unlit stars ----------
+  function ideaChart(){
+    const open = openActs(); if (!open.length) return "";
+    const groups = CATS.map((c) => ({c, items: open.filter((x) => x.cat === c.id).sort((a, b) => (b.date ? 1 : 0) - (a.date ? 1 : 0) || (a.created || 0) - (b.created || 0))})).filter((g) => g.items.length);
+    const rowH = (ri) => 44 + Math.ceil(Math.max(...groups.slice(ri * 2, ri * 2 + 2).map((g) => Math.min(5, g.items.length))) / 2) * 34;
+    const rows = Math.ceil(groups.length / 2), rowY = [0]; for (let i = 0; i < rows; i++) rowY.push(rowY[i] + rowH(i));
+    const H = rowY[rows] + 24;
+    let h = `<section class="ichart" style="height:${H}px" aria-label="Ideas star chart">`;
+    groups.forEach((g, gi) => {
+      const col = gi % 2, row = Math.floor(gi / 2), x0 = col * 50, y0 = rowY[row], RH = rowY[row + 1] - y0;
+      const show = g.items.slice(0, 5), more = g.items.length - show.length;
+      const r = rng(hashS(g.c.id)), pts = show.map((x, i) => ({x: x0 + 9 + (i % 2) * 20 + (i >= 4 ? 10 : 0) + r() * 6, y: y0 + 40 + Math.floor(i / 2) * 34 + (i % 2) * 10 + r() * 4, it: x}));
+      h += `<div class="grp" style="left:${x0}%;top:${y0}px;width:50%;height:${RH}px"><div class="gl">${CI[g.c.id]}${esc(g.c.name)}</div></div>`;
+      h += `<svg class="gln" viewBox="0 0 100 ${H}" preserveAspectRatio="none"><polyline points="${pts.map((p) => p.x.toFixed(1) + "," + p.y.toFixed(1)).join(" ")}" fill="none" stroke="rgba(192,139,255,.28)" stroke-width="1" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/></svg>`;
+      pts.forEach((p) => { const lit = !!p.it.date; h += `<button type="button" class="istar${lit ? " lit" : ""}" data-edit="${esc(p.it.id)}" style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}px" aria-label="${esc(p.it.name)}${lit ? ", planned " + esc(fmtDay(p.it.date)) : ", idea"}"><i></i><span>${esc(p.it.name)}</span>${lit ? `<small>${esc(fmtShortDay(p.it.date))}</small>` : ""}</button>`; });
+      if (more > 0) h += `<div class="more" style="left:auto;right:${col ? 10 : 51}%;top:${y0 + RH - 18}px;bottom:auto;position:absolute">+${more} more</div>`;
+    });
+    return h + `<div class="ih">Dim = idea · glowing = planned · tap a star</div></section>`;
+  }
+
+  SKY.init();
+  // ===================================================================================
+  // SKY TAB: your whole sky and scenery, full screen, tap anything to see how and when
+  // ===================================================================================
+  let skyLabels = false, skyBare = false;
+  const fmtLong = (ds) => DOW[dowIdx(parse(ds))] + ", " + short(parse(ds));
+  function nthInCat(cat, n){ return S.log.filter((l) => l.cat === cat).sort((a, b) => a.date.localeCompare(b.date))[n - 1] || null; }
+  function questWeeksSorted(){ return Object.entries(qState().done).sort((a, b) => a[0].localeCompare(b[0])); }
+  // layout of the sky: one cell per completed week, gold campaign constellations after, loose stars for other weeks
+  function skyLayout(W){
+    const hw = hitWeeks(), camps = Object.keys(qState().camp).sort(), cols = W < 520 ? 2 : 3, cw = W / cols, ch = 150, top = 86;
+    const cells = hw.map((wk) => ({type: "wk", key: iso(wk.ws), wk})).concat(camps.map((ym) => ({type: "camp", key: ym})));
+    const rows = Math.max(1, Math.ceil(cells.length / cols));
+    const landH = Math.round(Math.min(330, W * .66)), pad = 92, skyH = Math.max(window.innerHeight - landH - pad + landH * .45, top + rows * ch + 30), Hs = Math.round(skyH + landH * .55 + pad);
+    cells.forEach((c, i) => {
+      const col = i % cols, row = Math.floor(i / cols), r = rng(hashS("cell" + c.key));
+      c.x = col * cw + 14 + r() * 10; c.y = top + row * ch + r() * 18; c.w = cw - 34; c.h = ch - 44;
+    });
+    return {cells, cols, Hs, landH, top, W, pad};
+  }
+  const SHAPES = {1:[[.5, .5]], 2:[[.2, .6], [.8, .35]], 3:[[.1, .75], [.5, .15], [.9, .6]], 4:[[.05, .6], [.35, .15], [.65, .45], [.95, .1]], 5:[[.05, .7], [.28, .2], [.5, .55], [.72, .1], [.95, .5]], 6:[[.02, .5], [.2, .1], [.4, .45], [.6, .05], [.8, .4], [.98, .75]]};
+  function consShape(key, n){
+    const r = rng(hashS("shape" + key)); n = Math.max(1, Math.min(6, n));
+    if (n === 1) return [[.5, .5]];
+    const out = []; let y = .2 + r() * .6;
+    for (let i = 0; i < n; i++){
+      const x = n === 1 ? .5 : i / (n - 1) * .9 + .05 + (r() - .5) * (.5 / n);
+      if (i) y = Math.max(.05, Math.min(.95, y + (r() < .5 ? -1 : 1) * (.25 + r() * .45)));
+      out.push([Math.max(.02, Math.min(.98, x)), y]);
+    }
+    return out;
+  }
+  function cellPts(c, n){ return consShape(c.key, n).map(([fx, fy]) => [c.x + fx * c.w, c.y + fy * c.h]); }
+  function viewSky(){
+    const btn = (attr, label, icon, on) => `<button type="button" class="skybtn${on ? " on" : ""}" ${attr} aria-label="${label}" aria-pressed="${!!on}">${icon}</button>`;
+    const ui = `<div class="skyui">${btn("data-skylabels", "Show names", '<svg viewBox="0 0 24 24"><path d="M4 18L9 6l5 12M6 14h6M15 18v-6a3 3 0 0 1 6 0v6M15 15h6"/></svg>', skyLabels)}${btn("data-skybare", "Hide buttons and tabs", '<svg viewBox="0 0 24 24"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/></svg>', skyBare)}</div>`;
+    return `<section class="skyv${skyBare ? " bare" : ""}" id="skyv" aria-label="Your sky and land. Drag to explore, tap a star or landmark for details."><canvas id="skycv"></canvas>${ui}</section>`;
+  }
+  function campName(ym){ const m = Number(ym.slice(5, 7)) - 1; return (CAMPS[m] ? CAMPS[m].n : "Campaign") + " · " + MON[m] + " " + ym.slice(0, 4); }
+  function skyInfo(key){
+    const [type, ...rest] = key.split(":"), id = rest.join(":");
+    let title = "", body = "", extra = "";
+    if (type === "log"){
+      const l = S.log.find((x) => x.id === id); if (!l) return;
+      const ws = weekStart(parse(l.date)), wk = hitWeeks().find((w) => iso(w.ws) === iso(ws));
+      title = `${cic(l.cat)}<span>${esc(l.name)}</span>`;
+      const rows = [["Done", fmtLong(l.date)], ["Category", catOf(l.cat).name]];
+      if (l.prev && l.prev.date) rows.push(["Planned for", fmtLong(l.prev.date) + (l.prev.time ? " · " + fmtTime(l.prev.time) : "")]);
+      else rows.push(["Planned", "Done on the spot"]);
+      if (l.with) rows.push(["With", l.with]);
+      if (wk) rows.push(["Part of", wk.name]);
+      body = rows.map(([k, v]) => `<div class="kv"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("") + (l.note ? `<p class="sknote">"${esc(l.note)}"</p>` : "");
+      extra = `<button type="button" class="save ghost" data-skyopenlog="${esc(l.id)}">Edit this entry</button>`;
+    } else if (type === "wk"){
+      const wk = hitWeeks().find((w) => iso(w.ws) === id); if (!wk) return;
+      title = `<span>${esc(wk.name)}</span>`;
+      body = `<div class="kv"><span>Week of</span><b>${esc(weekLabel(wk.ws))}</b></div><div class="kv"><span>Activities</span><b>${wk.logs.length} of ${S.settings.goal}</b></div>` + wk.logs.map((l) => `<button type="button" class="skrow" data-skyopen="log:${esc(l.id)}">${cic(l.cat)}<span>${esc(l.name)}</span><small>${esc(fmtLong(l.date))}</small></button>`).join("");
+      extra = `<button type="button" class="save ghost" data-wkreplay="${esc(id)}">Replay this constellation</button>`;
+    } else if (type === "camp"){
+      const m = Number(id.slice(5, 7)) - 1, c = CAMPS[m];
+      title = `<span>${esc(campName(id))}</span>`;
+      body = `<div class="kv"><span>Earned by</span><b>${esc(c ? c.d : "Monthly campaign")}</b></div><div class="kv"><span>Month</span><b>${esc(MON[m] + " " + id.slice(0, 4))}</b></div><p class="sknote">A gold constellation for finishing a monthly campaign.</p>`;
+    } else if (type === "gold"){
+      if (id.startsWith("e")){
+        const k = id.slice(1), nm = {halloween:"Jack-o'-lantern star", nye:"Midnight star", valentine:"Kindred star", july4:"Firework star", solstice:"Solstice star", thanks:"Harvest star"}[k.split("-").slice(1).join("-")] || "Event star";
+        title = `<span>${esc(nm)}</span>`; body = `<div class="kv"><span>Earned</span><b>${esc(k.split("-").slice(1).join(" "))} event, ${esc(k.split("-")[0])}</b></div>`;
+      } else {
+        const wk = id.slice(1, 11), d = qState().done[wk];
+        title = `<span>Gold star</span>`;
+        body = `<div class="kv"><span>Quest</span><b>${esc(d ? d.n : "Weekly quest")}</b></div><div class="kv"><span>Week of</span><b>${esc(weekLabel(parse(wk)))}</b></div><div class="kv"><span>Reward</span><b>${d ? d.stars : 1} gold star${d && d.stars > 1 ? "s" : ""}</b></div>`;
+      }
+    } else if (type === "lm"){
+      const info = landmarkInfo(id); if (!info) return;
+      title = `<span>${esc(info.n)}</span>`; body = `<div class="kv"><span>How</span><b>${esc(info.how)}</b></div>${info.when ? `<div class="kv"><span>When</span><b>${esc(info.when)}</b></div>` : ""}`;
+    } else return;
+    const sh = openSheet(`<div class="headrow" style="align-items:center"><h2 class="skh">${title}</h2><button type="button" class="iconbtn" data-close aria-label="Close">${IC.close}</button></div><div class="skinfo">${body}</div>${extra}`, "Details");
+    sh.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.skyopenlog){ const lid = b.dataset.skyopenlog; closeSheet(); setTimeout(() => openLog(lid), 220); }
+      else if (b.dataset.skyopen){ skyInfo(b.dataset.skyopen); }
+      else if (b.dataset.wkreplay){ const w = b.dataset.wkreplay; closeSheet(); setTimeout(() => playConstellation(parse(w)), 260); }
+    });
+  }
+  function landmarkInfo(id){
+    const CATL = {movie:["Drive-in", "movie"], food:["Campfire", "food"], creative:["Painter’s easel", "creative"], social:["String lights + picnic table", "social"], other:["Tent", "other"], outdoors:["Trailhead + taller peaks", "outdoors"]};
+    if (id.startsWith("cat-")){
+      const c = id.slice(4), d = CATL[c]; if (!d) return null; const l = nthInCat(c, 3);
+      return {n: d[0], how: `Your 3rd ${catOf(c).name.toLowerCase()} activity${l ? `: "${l.name}"` : ""}`, when: l ? fmtLong(l.date) : ""};
+    }
+    if (id.startsWith("chain-")){
+      const k = id.slice(6), i = CHAINS.findIndex((c) => c.id === k), qs = questWeeksSorted(), q = qs[(i + 1) * 3 - 1];
+      return {n: CHAINS[i] ? CHAINS[i].n : "Landmark", how: `Finished quest chain ${i + 1} (3 weekly quests)`, when: q ? "Week of " + weekLabel(parse(q[0])) : ""};
+    }
+    if (id === "lake") return {n: "Moonlit lake", how: "Appears while your streak is 2 weeks or more", when: `Streak right now: ${streak()} weeks`};
+    if (id === "trees") return {n: "Trees", how: "Two more trees for every week in your current streak. The season paints the leaves.", when: `Streak right now: ${streak()} weeks`};
+    return null;
+  }
+
+  // ---------- History: weeks (with their constellations) + changes ----------
+  function consThumb(wk){
+    const n = Math.min(6, wk.logs.length), pts = consShape(iso(wk.ws), n).map(([fx, fy]) => [6 + fx * 60, 6 + fy * 32]);
+    return `<svg viewBox="0 0 72 44" width="72" height="44" aria-hidden="true"><rect width="72" height="44" rx="10" fill="#0B0720"/><polyline points="${pts.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="#C08BFF" stroke-width="1" opacity=".85"/>${pts.map((p) => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="1.8" fill="#fff" style="filter:drop-shadow(0 0 2px #C08BFF)"/>`).join("")}</svg>`;
+  }
+  function viewWeeks(){
+    const g = S.settings.goal, w = weekInfo(), st = streak();
+    let h = `<div class="stats"><div class="stat"><span class="l">This week</span><span class="v">${w.done.length} / ${g}</span></div><div class="stat"><span class="l">Streak</span><span class="v">${st} wk</span></div><div class="stat"><span class="l">All time</span><span class="v">${S.log.length}</span></div></div>`;
+    h += `<section class="card" aria-label="Last 8 weeks" style="display:flex;flex-direction:column;gap:10px"><div class="sechead" style="margin:0"><h2>Last 8 weeks</h2><span>dashed line = goal of ${g}</span></div>${bars()}</section>`;
+    if (!S.log.length){ h += `<p class="empty">Nothing logged yet. Tap the check on any planned activity when you do it.</p>`; return h; }
+    const groups = new Map(), hw = new Map(hitWeeks().map((x) => [iso(x.ws), x]));
+    S.log.slice().sort((a, b) => b.date.localeCompare(a.date)).forEach((l) => { const k = iso(weekStart(parse(l.date))); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(l); });
+    groups.forEach((list, k) => {
+      const ws = parse(k), wk = hw.get(k);
+      h += `<div class="wkhead">${wk ? `<button type="button" class="wkthumb" data-wkreplay="${k}" aria-label="View constellation ${esc(wk.name)}">${consThumb(wk)}</button>` : `<span class="wkthumb none" aria-hidden="true"></span>`}<span class="wkt"><b>${esc(weekLabel(ws))}</b><span>${wk ? esc(wk.name) + " · " : ""}${list.length}/${g}${list.length >= g ? " · goal hit" : ""}</span></span></div><div class="logcard">${list.map(logRow).join("")}</div>`;
+    });
+    return h;
+  }
+
+  // ===================================================================================
+  // SKY TAB PANORAMA: a detailed, looping, swipeable night world built from your data
+  // ===================================================================================
+  const PANO = (() => {
+    const DPR = Math.min(2, window.devicePixelRatio || 1);
+    const hashS = (s) => { let h = 2166136261; s = String(s); for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+    const rng = (seed) => { let a = seed >>> 0 || 1; return () => { a ^= a << 13; a >>>= 0; a ^= a >>> 17; a ^= a << 5; a >>>= 0; return (a % 1000000) / 1000000; }; };
+    const mod = (a, n) => ((a % n) + n) % n;
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const mix = (c1, c2, t) => { const a = c1.match(/\w\w/g).map((h) => parseInt(h, 16)), b = c2.match(/\w\w/g).map((h) => parseInt(h, 16)); return "rgb(" + a.map((v, i) => Math.round(lerp(v, b[i], t))).join(",") + ")"; };
+    function off(w, h){ const c = document.createElement("canvas"); c.width = Math.ceil(w * DPR); c.height = Math.ceil(h * DPR); const x = c.getContext("2d"); x.scale(DPR, DPR); return [c, x]; }
+    function fbm(x, L, seed, oct, rough){
+      const r = rng(hashS(seed)); let v = 0, amp = 1, tot = 0;
+      for (let k = 1; k <= oct; k++){ const f = Math.round(k * k * .7 + k), ph = r() * 6.283, ph2 = r() * 6.283; v += amp * (Math.sin(x / L * 6.283 * f + ph) * .65 + Math.sin(x / L * 6.283 * (f + 1) + ph2) * .35); tot += amp; amp *= rough; }
+      return v / tot;
+    }
+    // ===================== ASSETS =====================
+    const MOON = {x: -1, y: -1}; // light comes from upper left
+    // Deciduous tree: recursive tapered branches, leaves in clusters, moonlit rim
+    function drawTree(ctx, x, y, h, seed, pal, opt){
+      opt = opt || {};
+      const r = rng(seed), leaves = [];
+      function branch(x0, y0, len, ang, w, d){
+        const x1 = x0 + Math.cos(ang) * len, y1 = y0 + Math.sin(ang) * len, bend = (r() - .5) * len * .25;
+        const mx = (x0 + x1) / 2 + Math.cos(ang + Math.PI / 2) * bend, my = (y0 + y1) / 2 + Math.sin(ang + Math.PI / 2) * bend;
+        ctx.strokeStyle = d > 3 ? "#1A1020" : "#241628"; ctx.lineWidth = w; ctx.lineCap = "round";
+        ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(mx, my, x1, y1); ctx.stroke();
+        if (d < 3 && w > 2){ ctx.strokeStyle = "rgba(185,170,230,.18)"; ctx.lineWidth = w * .3; ctx.beginPath(); ctx.moveTo(x0 - w * .3, y0); ctx.quadraticCurveTo(mx - w * .3, my, x1 - w * .2, y1); ctx.stroke(); }
+        if (d >= 5 || len < h * .05){ leaves.push([x1, y1]); return; }
+        const n = d < 2 ? 2 + (r() < .5 ? 1 : 0) : 2;
+        for (let i = 0; i < n; i++){ const a = ang + (i - (n - 1) / 2) * (.55 + r() * .35) + (r() - .5) * .3; branch(x1, y1, len * (.74 + r() * .12), a, w * .64, d + 1); }
+        if (d >= 2) leaves.push([x1, y1]);
+      }
+      // roots / base flare
+      ctx.fillStyle = "#1A1020"; ctx.beginPath(); ctx.ellipse(x, y, h * .06, h * .015, 0, 0, 6.283); ctx.fill();
+      branch(x, y, h * .24, -Math.PI / 2 + (r() - .5) * .12, h * .06, 0);
+      if (opt.bare) return;
+      // foliage: hundreds of small leaves per cluster, shaded dark below and lit at the top-left
+      // shadowed volume behind the leaves so the crown reads as one mass
+      leaves.forEach(([lx, ly]) => { const cr = h * .11; const g = ctx.createRadialGradient(lx + cr * .2, ly + cr * .25, 0, lx, ly, cr * 1.1); g.addColorStop(0, "rgba(40,14,20,.55)"); g.addColorStop(1, "rgba(40,14,20,0)"); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(lx, ly, cr * 1.1, 0, 6.283); ctx.fill(); });
+      leaves.forEach(([lx, ly]) => {
+        const cr = h * (.08 + r() * .05), n = Math.round(30 + r() * 22);
+        for (let i = 0; i < n; i++){
+          const a = r() * 6.283, rr = Math.sqrt(r()) * cr, px = lx + Math.cos(a) * rr, py = ly + Math.sin(a) * rr * .85;
+          const lit = Math.max(0, (-(px - lx) * .6 - (py - ly)) / cr * .5 + .35) + (r() - .5) * .25;
+          const base = pal[Math.floor(r() * pal.length)];
+          ctx.fillStyle = mix(base.replace("#", ""), lit > .55 ? "E8DCFF" : "120A1A", lit > .55 ? (lit - .55) * .55 : (.55 - lit) * .9);
+          ctx.globalAlpha = .85 + r() * .15;
+          ctx.beginPath(); ctx.ellipse(px, py, h * (.011 + r() * .008), h * (.006 + r() * .004), r() * 6.283, 0, 6.283); ctx.fill();
+        }
+      });
+      ctx.globalAlpha = 1;
+    }
+    // Pine: trunk + drooping tiers of needles, cold rim light
+    function drawPine(ctx, x, y, h, seed){
+      const r = rng(seed); ctx.strokeStyle = "#1A1020"; ctx.lineWidth = h * .03; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - h); ctx.stroke();
+      const tiers = 9;
+      for (let t = 0; t < tiers; t++){
+        const ty = y - h * .12 - (h * .86) * (t / tiers), wid = h * .34 * (1 - t / tiers) + h * .03;
+        for (let i = 0; i < 70; i++){
+          const side = r() < .5 ? -1 : 1, len = wid * (.4 + r() * .6), sx = x + side * r() * wid * .2, sy = ty - r() * h * .04;
+          const ex = sx + side * len, ey = sy + len * (.25 + r() * .25);
+          const lit = side < 0 ? .35 + r() * .4 : r() * .2;
+          ctx.strokeStyle = mix("0E2A26", "8FB8C8", lit * (1 - t / tiers * .3)); ctx.globalAlpha = .9; ctx.lineWidth = .7 + r() * .6;
+          ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo((sx + ex) / 2, sy + (ey - sy) * .2, ex, ey); ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+    // Drive-in: lattice-braced screen, film frame, projection booth, cars with tail lights
+    function driveIn(ctx, x, y, s, t){
+      const sw = 120 * s, sh = 64 * s, sx = x - sw / 2, sy = y - 104 * s;
+      // supports
+      ctx.strokeStyle = "#2A2140"; ctx.lineWidth = 1.2 * s;
+      [sx + sw * .12, sx + sw * .88].forEach((px) => { ctx.beginPath(); ctx.moveTo(px - 8 * s, y); ctx.lineTo(px, sy + sh); ctx.lineTo(px + 8 * s, y); ctx.stroke(); for (let k = 0; k < 5; k++){ const yy = y - (y - sy - sh) * k / 5, yy2 = y - (y - sy - sh) * (k + 1) / 5; ctx.beginPath(); ctx.moveTo(px - 8 * s * (1 - k / 5), yy); ctx.lineTo(px + 8 * s * (1 - (k + 1) / 5), yy2); ctx.moveTo(px + 8 * s * (1 - k / 5), yy); ctx.lineTo(px - 8 * s * (1 - (k + 1) / 5), yy2); ctx.stroke(); } });
+      // frame
+      ctx.fillStyle = "#14101F"; ctx.fillRect(sx - 4 * s, sy - 4 * s, sw + 8 * s, sh + 8 * s);
+      // the picture: a sunset desert frame, gently flickering
+      const fl = .9 + .1 * Math.sin(t * 11) * Math.sin(t * 3.7);
+      const g = ctx.createLinearGradient(0, sy, 0, sy + sh); g.addColorStop(0, "#2B1B5A"); g.addColorStop(.55, "#B85A7A"); g.addColorStop(.75, "#F2A86A"); g.addColorStop(1, "#3A1E2E");
+      ctx.globalAlpha = fl; ctx.fillStyle = g; ctx.fillRect(sx, sy, sw, sh);
+      ctx.fillStyle = "#FFE2B0"; ctx.beginPath(); ctx.arc(sx + sw * .66, sy + sh * .62, sh * .12, 0, 6.283); ctx.fill();
+      ctx.fillStyle = "#24122A"; ctx.beginPath(); ctx.moveTo(sx, sy + sh); for (let i = 0; i <= 12; i++) ctx.lineTo(sx + sw * i / 12, sy + sh * (.74 + Math.sin(i * 1.7) * .06)); ctx.lineTo(sx + sw, sy + sh); ctx.fill();
+      ctx.fillStyle = "#120818"; ctx.fillRect(sx + sw * .2, sy + sh * .55, 2 * s, sh * .3); ctx.fillRect(sx + sw * .2 - 3 * s, sy + sh * .64, 8 * s, 1.6 * s);
+      ctx.globalAlpha = 1;
+      // screen glow onto the night
+      ctx.globalCompositeOperation = "lighter";
+      const gl = ctx.createRadialGradient(x, sy + sh / 2, 0, x, sy + sh / 2, sw * .9); gl.addColorStop(0, `rgba(242,168,140,${.18 * fl})`); gl.addColorStop(1, "rgba(242,168,140,0)"); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(x, sy + sh / 2, sw * .9, 0, 6.283); ctx.fill();
+      // projector beam from booth
+      const bx = x + 60 * s, by = y - 14 * s;
+      const bg = ctx.createLinearGradient(bx, by, x, sy + sh / 2); bg.addColorStop(0, `rgba(255,240,210,${.22 * fl})`); bg.addColorStop(1, "rgba(255,240,210,0)");
+      ctx.fillStyle = bg; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(sx + sw * .1, sy); ctx.lineTo(sx + sw * .9, sy + sh); ctx.closePath(); ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+      // booth
+      ctx.fillStyle = "#1E1830"; ctx.fillRect(bx - 4 * s, by - 6 * s, 16 * s, 20 * s); ctx.fillStyle = "#FFE7B0"; ctx.fillRect(bx - 4 * s, by - 2 * s, 3 * s, 3 * s);
+      // cars facing the screen
+      [-44, -6, 30].forEach((dx, i) => {
+        const cx = x + dx * s, cy = y + 4 * s + (i % 2) * 3 * s;
+        ctx.fillStyle = "#0E0A18"; ctx.beginPath(); ctx.moveTo(cx - 16 * s, cy); ctx.lineTo(cx - 15 * s, cy - 7 * s); ctx.quadraticCurveTo(cx - 10 * s, cy - 8 * s, cx - 8 * s, cy - 13 * s); ctx.lineTo(cx + 6 * s, cy - 13 * s); ctx.quadraticCurveTo(cx + 9 * s, cy - 8 * s, cx + 15 * s, cy - 7 * s); ctx.lineTo(cx + 16 * s, cy); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = "rgba(242,168,140,.25)"; ctx.fillRect(cx - 7 * s, cy - 12 * s, 12 * s, 4 * s);
+        ctx.globalCompositeOperation = "lighter"; [cx - 14 * s, cx + 14 * s].forEach((tx) => { const tg = ctx.createRadialGradient(tx, cy - 4 * s, 0, tx, cy - 4 * s, 6 * s); tg.addColorStop(0, "rgba(255,60,70,.9)"); tg.addColorStop(1, "rgba(255,60,70,0)"); ctx.fillStyle = tg; ctx.beginPath(); ctx.arc(tx, cy - 4 * s, 6 * s, 0, 6.283); ctx.fill(); }); ctx.globalCompositeOperation = "source-over";
+      });
+    }
+    // Campfire: stone ring, logs with bark, layered flames, sparks, warm light on the ground
+    const sparks = [];
+    function campfire(ctx, x, y, s, t, live){
+      ctx.globalCompositeOperation = "lighter";
+      const gl = ctx.createRadialGradient(x, y - 8 * s, 0, x, y - 8 * s, 70 * s); gl.addColorStop(0, "rgba(255,150,60,.35)"); gl.addColorStop(.5, "rgba(255,110,40,.12)"); gl.addColorStop(1, "rgba(255,110,40,0)"); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(x, y - 8 * s, 70 * s, 0, 6.283); ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+      // benches
+      [[-34, 2], [36, 4]].forEach(([dx, dy]) => { const bxx = x + dx * s, byy = y + dy * s; ctx.fillStyle = "#3A2418"; ctx.beginPath(); ctx.ellipse(bxx, byy - 3 * s, 14 * s, 3.5 * s, 0, 0, 6.283); ctx.fill(); ctx.fillStyle = "rgba(255,150,80,.35)"; ctx.beginPath(); ctx.ellipse(bxx - dx * .05 * s, byy - 4.5 * s, 12 * s, 1.4 * s, 0, 0, 6.283); ctx.fill(); });
+      // stones
+      for (let i = 0; i < 9; i++){ const a = i / 9 * 6.283, sx = x + Math.cos(a) * 13 * s, sy = y + Math.sin(a) * 4 * s; ctx.fillStyle = "#3C3446"; ctx.beginPath(); ctx.ellipse(sx, sy, 4 * s, 2.6 * s, 0, 0, 6.283); ctx.fill(); ctx.fillStyle = "rgba(255,160,90,.45)"; ctx.beginPath(); ctx.ellipse(sx - Math.cos(a) * 1.2 * s, sy - 1.2 * s, 2.4 * s, 1 * s, 0, 0, 6.283); ctx.fill(); }
+      // logs
+      [[-.5, 1], [.45, -1], [0, 0]].forEach(([a, k], i) => { ctx.save(); ctx.translate(x, y - 3 * s); ctx.rotate(a); ctx.fillStyle = "#4A2C1A"; ctx.fillRect(-13 * s, -2.4 * s, 26 * s, 4.8 * s); ctx.fillStyle = "#2A170E"; for (let b = 0; b < 5; b++) ctx.fillRect(-11 * s + b * 5 * s, -2.4 * s, 1 * s, 4.8 * s); ctx.fillStyle = "#FF8A3A"; ctx.globalAlpha = .7; ctx.fillRect(-3 * s, -2.4 * s, 6 * s, 1.4 * s); ctx.globalAlpha = 1; ctx.restore(); });
+      // flames: several tongues, additive
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = 0; i < 7; i++){
+        const ph = t * (5 + i) + i * 1.7, fx = x + (i - 3) * 2.6 * s + Math.sin(ph * .7) * 1.5 * s, fh = (18 + 10 * Math.sin(ph) + (3 - Math.abs(i - 3)) * 5) * s, fw = (4 + (3 - Math.abs(i - 3))) * s;
+        const fg = ctx.createLinearGradient(0, y - 4 * s, 0, y - 4 * s - fh); fg.addColorStop(0, "rgba(255,240,180,.9)"); fg.addColorStop(.35, "rgba(255,170,60,.75)"); fg.addColorStop(1, "rgba(255,80,30,0)");
+        ctx.fillStyle = fg; ctx.beginPath(); ctx.moveTo(fx - fw, y - 4 * s); ctx.bezierCurveTo(fx - fw, y - fh * .5, fx + Math.sin(ph) * 4 * s, y - fh * .8, fx + Math.sin(ph * 1.3) * 3 * s, y - 4 * s - fh); ctx.bezierCurveTo(fx + fw * .4, y - fh * .6, fx + fw, y - fh * .4, fx + fw, y - 4 * s); ctx.fill();
+      }
+      // sparks
+      if (live && !RM && Math.random() < .5) sparks.push({x: x + (Math.random() - .5) * 8 * s, y: y - 14 * s, vx: (Math.random() - .5) * .5, vy: -.6 - Math.random() * .8, l: 1, s});
+      for (let i = sparks.length - 1; i >= 0; i--){ const p = sparks[i]; if (Math.abs(p.s - s) > .01) continue; p.x += p.vx + Math.sin(t * 3 + i) * .2; p.y += p.vy; p.l -= .012; if (p.l <= 0){ sparks.splice(i, 1); continue; } ctx.fillStyle = `rgba(255,${Math.round(150 + 80 * p.l)},90,${p.l})`; ctx.fillRect(p.x, p.y, 1.3, 1.3); }
+      ctx.globalCompositeOperation = "source-over";
+    }
+    // Observatory: stone base with lit windows, paneled dome, open slit with telescope
+    function observatory(ctx, x, y, s){
+      const bw = 46 * s, bh = 30 * s, R = 25 * s;
+      const sg = ctx.createLinearGradient(x - bw / 2, 0, x + bw / 2, 0); sg.addColorStop(0, "#4A4466"); sg.addColorStop(1, "#1E1A30"); ctx.fillStyle = sg; ctx.fillRect(x - bw / 2, y - bh, bw, bh);
+      ctx.strokeStyle = "rgba(0,0,0,.25)"; ctx.lineWidth = .6; for (let r = 1; r < 5; r++){ ctx.beginPath(); ctx.moveTo(x - bw / 2, y - bh * r / 5); ctx.lineTo(x + bw / 2, y - bh * r / 5); ctx.stroke(); for (let c = 0; c < 6; c++){ const xx = x - bw / 2 + (c + (r % 2) * .5) * bw / 6; ctx.beginPath(); ctx.moveTo(xx, y - bh * r / 5); ctx.lineTo(xx, y - bh * (r - 1) / 5); ctx.stroke(); } }
+      // windows + door
+      [[-12, -18], [10, -18]].forEach(([dx, dy]) => { ctx.fillStyle = "#FFD98A"; ctx.fillRect(x + dx * s, y + dy * s, 5 * s, 7 * s); ctx.globalCompositeOperation = "lighter"; const wg = ctx.createRadialGradient(x + dx * s + 2.5 * s, y + dy * s + 3.5 * s, 0, x + dx * s + 2.5 * s, y + dy * s + 3.5 * s, 14 * s); wg.addColorStop(0, "rgba(255,210,120,.3)"); wg.addColorStop(1, "rgba(255,210,120,0)"); ctx.fillStyle = wg; ctx.beginPath(); ctx.arc(x + dx * s + 2.5 * s, y + dy * s + 3.5 * s, 14 * s, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = "source-over"; });
+      ctx.fillStyle = "#2A1E14"; ctx.fillRect(x - 4 * s, y - 11 * s, 8 * s, 11 * s); ctx.fillStyle = "#FFD98A"; ctx.fillRect(x - 3 * s, y - 10 * s, 6 * s, 1.2 * s);
+      // dome
+      const dg = ctx.createRadialGradient(x - R * .45, y - bh - R * .55, R * .1, x, y - bh, R * 1.1); dg.addColorStop(0, "#F2EEFF"); dg.addColorStop(.45, "#B7AEDA"); dg.addColorStop(1, "#4E4672");
+      ctx.fillStyle = dg; ctx.beginPath(); ctx.arc(x, y - bh, R, Math.PI, 0); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = "rgba(40,30,70,.35)"; ctx.lineWidth = .7; for (let k = 1; k < 6; k++){ const a = Math.PI + k / 6 * Math.PI; ctx.beginPath(); ctx.moveTo(x, y - bh - R); ctx.quadraticCurveTo(x + Math.cos(a) * R * .9, y - bh - R * .5, x + Math.cos(a) * R, y - bh); ctx.stroke(); }
+      // slit + telescope
+      ctx.fillStyle = "#0B0718"; ctx.save(); ctx.beginPath(); ctx.arc(x, y - bh, R, Math.PI, 0); ctx.clip(); ctx.fillRect(x + 2 * s, y - bh - R, 7 * s, R); ctx.restore();
+      ctx.save(); ctx.translate(x + 6 * s, y - bh - R * .55); ctx.rotate(-.75); ctx.fillStyle = "#D9D2F2"; ctx.fillRect(0, -2.4 * s, 22 * s, 4.8 * s); ctx.fillStyle = "#8F86B8"; ctx.fillRect(19 * s, -3 * s, 4 * s, 6 * s); ctx.restore();
+      ctx.fillStyle = "#2A2440"; ctx.fillRect(x - bw / 2 - 3 * s, y - bh - 1.5 * s, bw + 6 * s, 3 * s);
+    }
+    // Lake: sky reflection, moon column shimmer, reeds
+    function lake(ctx, x, y, w, t, moonX){
+      ctx.save(); ctx.beginPath(); ctx.ellipse(x, y, w, w * .14, 0, 0, 6.283); ctx.clip();
+      const g = ctx.createLinearGradient(0, y - w * .14, 0, y + w * .14); g.addColorStop(0, "#4A3688"); g.addColorStop(1, "#120B2A"); ctx.fillStyle = g; ctx.fillRect(x - w, y - w * .14, w * 2, w * .28);
+      const mx = moonX == null ? x - w * .3 : moonX;
+      for (let i = 0; i < 14; i++){ const yy = y - w * .08 + i * w * .012, len = (w * .22) * (1 - i / 18) * (.6 + .4 * Math.sin(t * 2 + i * 1.3)); ctx.fillStyle = `rgba(240,232,255,${.55 - i * .03})`; ctx.fillRect(mx - len / 2 + Math.sin(t * 1.5 + i) * 3, yy, len, 1.1); }
+      for (let i = 0; i < 18; i++){ const yy = y - w * .09 + (i / 18) * w * .18, xx = x - w + mod(i * 53 + t * 8, w * 2); ctx.fillStyle = "rgba(200,190,255,.12)"; ctx.fillRect(xx, yy, 10 + (i % 4) * 4, .8); }
+      ctx.restore();
+      // reeds
+      const r = rng(77);
+      for (let i = 0; i < 26; i++){ const rx = x - w + r() * w * .5 + (i > 13 ? w * 1.45 : 0), rh = 8 + r() * 12; ctx.strokeStyle = "#1A1426"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(rx, y + w * .06); ctx.quadraticCurveTo(rx + 2 + Math.sin(t + i) * 1.2, y + w * .06 - rh * .6, rx + 3 + Math.sin(t + i) * 2, y + w * .06 - rh); ctx.stroke(); if (i % 4 === 0){ ctx.fillStyle = "#3A2418"; ctx.fillRect(rx + 2.4 + Math.sin(t + i) * 2, y + w * .06 - rh - 1, 2.2, 5); } }
+    }
+    // String lights over a picnic table
+    function lights(ctx, x, y, s, t){
+      ctx.strokeStyle = "#2A2236"; ctx.lineWidth = 2 * s; [-38, 38].forEach((dx) => { ctx.beginPath(); ctx.moveTo(x + dx * s, y); ctx.lineTo(x + dx * s, y - 44 * s); ctx.stroke(); });
+      ctx.lineWidth = .8; ctx.beginPath(); ctx.moveTo(x - 38 * s, y - 42 * s); ctx.quadraticCurveTo(x, y - 22 * s, x + 38 * s, y - 42 * s); ctx.stroke();
+      ctx.fillStyle = "#2E2030"; ctx.fillRect(x - 18 * s, y - 10 * s, 36 * s, 3 * s); ctx.fillRect(x - 15 * s, y - 7 * s, 2 * s, 7 * s); ctx.fillRect(x + 13 * s, y - 7 * s, 2 * s, 7 * s); ctx.fillRect(x - 22 * s, y - 4 * s, 44 * s, 2 * s);
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = 0; i < 9; i++){ const k = (i + .5) / 9, px = x - 38 * s + 76 * s * k, py = y - 42 * s + Math.sin(k * Math.PI) * 20 * s * .98 + 3 * s, a = .7 + .3 * Math.sin(t * 2 + i * 1.4); const g = ctx.createRadialGradient(px, py, 0, px, py, 9 * s); g.addColorStop(0, `rgba(255,214,130,${a})`); g.addColorStop(1, "rgba(255,214,130,0)"); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(px, py, 9 * s, 0, 6.283); ctx.fill(); ctx.fillStyle = "#FFF0C8"; ctx.beginPath(); ctx.arc(px, py, 1.6 * s, 0, 6.283); ctx.fill(); }
+      const tg = ctx.createRadialGradient(x, y - 6 * s, 0, x, y - 6 * s, 40 * s); tg.addColorStop(0, "rgba(255,200,120,.12)"); tg.addColorStop(1, "rgba(255,200,120,0)"); ctx.fillStyle = tg; ctx.beginPath(); ctx.arc(x, y - 6 * s, 40 * s, 0, 6.283); ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+    }
+    // Tent with a lantern glowing inside
+    function tent(ctx, x, y, s, t){
+      const g = ctx.createLinearGradient(x - 22 * s, 0, x + 22 * s, 0); g.addColorStop(0, "#8A6AD8"); g.addColorStop(.5, "#5A40A0"); g.addColorStop(1, "#2E2060");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(x - 24 * s, y); ctx.lineTo(x - 2 * s, y - 28 * s); ctx.lineTo(x + 2 * s, y - 28 * s); ctx.lineTo(x + 24 * s, y); ctx.closePath(); ctx.fill();
+      const a = .75 + .15 * Math.sin(t * 4);
+      ctx.fillStyle = `rgba(255,200,110,${a})`; ctx.beginPath(); ctx.moveTo(x - 7 * s, y); ctx.lineTo(x, y - 16 * s); ctx.lineTo(x + 7 * s, y); ctx.fill();
+      ctx.globalCompositeOperation = "lighter"; const lg = ctx.createRadialGradient(x, y - 4 * s, 0, x, y - 4 * s, 34 * s); lg.addColorStop(0, `rgba(255,190,100,${.28 * a})`); lg.addColorStop(1, "rgba(255,190,100,0)"); ctx.fillStyle = lg; ctx.beginPath(); ctx.arc(x, y - 4 * s, 34 * s, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = "source-over";
+      ctx.strokeStyle = "rgba(20,10,30,.6)"; ctx.lineWidth = .8; ctx.beginPath(); ctx.moveTo(x - 2 * s, y - 28 * s); ctx.lineTo(x - 30 * s, y + 2 * s); ctx.moveTo(x + 2 * s, y - 28 * s); ctx.lineTo(x + 30 * s, y + 2 * s); ctx.stroke();
+    }
+    function moon(ctx, x, y, R){
+      const halo = ctx.createRadialGradient(x, y, R * .8, x, y, R * 5); halo.addColorStop(0, "rgba(230,220,255,.22)"); halo.addColorStop(1, "rgba(230,220,255,0)"); ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(x, y, R * 5, 0, 6.283); ctx.fill();
+      const g = ctx.createRadialGradient(x - R * .3, y - R * .3, R * .1, x, y, R); g.addColorStop(0, "#FFFFFF"); g.addColorStop(.7, "#E6E0F6"); g.addColorStop(1, "#BDB2DE"); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, 6.283); ctx.fill();
+      const r = rng(5); ctx.fillStyle = "rgba(150,140,190,.28)"; for (let i = 0; i < 9; i++){ const a = r() * 6.283, d = r() * R * .7; ctx.beginPath(); ctx.arc(x + Math.cos(a) * d, y + Math.sin(a) * d, R * (.06 + r() * .12), 0, 6.283); ctx.fill(); }
+    }
+
+
+    // ---------- extra landmarks for quest chains + categories ----------
+    function lighthouse(ctx, x, y, s, t){
+      const g = ctx.createLinearGradient(x - 9 * s, 0, x + 9 * s, 0); g.addColorStop(0, "#F4F0FF"); g.addColorStop(1, "#9C92C4");
+      ctx.fillStyle = "#3C3446"; ctx.beginPath(); ctx.ellipse(x, y, 16 * s, 4 * s, 0, 0, 6.283); ctx.fill();
+      ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(x - 9 * s, y); ctx.lineTo(x - 5 * s, y - 60 * s); ctx.lineTo(x + 5 * s, y - 60 * s); ctx.lineTo(x + 9 * s, y); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#B8485E"; [[-44, 8], [-24, 8]].forEach(([dy, hh]) => { const w0 = 9 - (-(dy) / 60) * 4; ctx.beginPath(); ctx.moveTo(x - w0 * s, y + dy * s); ctx.lineTo(x - (w0 - .6) * s, y + (dy - hh) * s); ctx.lineTo(x + (w0 - .6) * s, y + (dy - hh) * s); ctx.lineTo(x + w0 * s, y + dy * s); ctx.fill(); });
+      ctx.fillStyle = "#2A2440"; ctx.fillRect(x - 7 * s, y - 62 * s, 14 * s, 3 * s); ctx.fillRect(x - 5 * s, y - 74 * s, 10 * s, 2 * s);
+      ctx.fillStyle = "#FFE7A8"; ctx.fillRect(x - 4 * s, y - 72 * s, 8 * s, 10 * s);
+      ctx.fillStyle = "#2A2440"; ctx.beginPath(); ctx.moveTo(x - 6 * s, y - 74 * s); ctx.lineTo(x, y - 82 * s); ctx.lineTo(x + 6 * s, y - 74 * s); ctx.fill();
+      ctx.fillStyle = "#FFD98A"; ctx.fillRect(x - 1.5 * s, y - 34 * s, 3 * s, 5 * s);
+      ctx.globalCompositeOperation = "lighter";
+      const a = t * .9, cx = x, cy = y - 67 * s;
+      [a, a + Math.PI].forEach((ang) => { const dir = Math.cos(ang); if (Math.abs(dir) < .05) return; const len = 190 * s, spread = 26 * s * Math.abs(dir); const bg = ctx.createLinearGradient(cx, cy, cx + dir * len, cy); bg.addColorStop(0, `rgba(255,236,170,${.35 * Math.abs(dir)})`); bg.addColorStop(1, "rgba(255,236,170,0)"); ctx.fillStyle = bg; ctx.beginPath(); ctx.moveTo(cx, cy - 2 * s); ctx.lineTo(cx + dir * len, cy - spread); ctx.lineTo(cx + dir * len, cy + spread); ctx.lineTo(cx, cy + 2 * s); ctx.fill(); });
+      const hg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 22 * s); hg.addColorStop(0, "rgba(255,236,170,.6)"); hg.addColorStop(1, "rgba(255,236,170,0)"); ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(cx, cy, 22 * s, 0, 6.283); ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+    }
+    function windmill(ctx, x, y, s, t){
+      const g = ctx.createLinearGradient(x - 12 * s, 0, x + 12 * s, 0); g.addColorStop(0, "#5A4E78"); g.addColorStop(1, "#2A2240");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(x - 13 * s, y); ctx.lineTo(x - 8 * s, y - 46 * s); ctx.lineTo(x + 8 * s, y - 46 * s); ctx.lineTo(x + 13 * s, y); ctx.fill();
+      ctx.strokeStyle = "rgba(0,0,0,.25)"; ctx.lineWidth = .6; for (let k = 1; k < 8; k++){ ctx.beginPath(); ctx.moveTo(x - 13 * s + k * .6 * s, y - k * 5.8 * s); ctx.lineTo(x + 13 * s - k * .6 * s, y - k * 5.8 * s); ctx.stroke(); }
+      ctx.fillStyle = "#3A2E50"; ctx.beginPath(); ctx.moveTo(x - 10 * s, y - 46 * s); ctx.quadraticCurveTo(x, y - 60 * s, x + 10 * s, y - 46 * s); ctx.fill();
+      ctx.fillStyle = "#FFD98A"; ctx.fillRect(x - 2.5 * s, y - 30 * s, 5 * s, 6 * s); ctx.fillStyle = "#1A1426"; ctx.fillRect(x - 3 * s, y - 10 * s, 6 * s, 10 * s);
+      const hx = x, hy = y - 50 * s;
+      for (let i = 0; i < 4; i++){
+        const a = t * .6 + i * Math.PI / 2; ctx.save(); ctx.translate(hx, hy); ctx.rotate(a);
+        ctx.strokeStyle = "#4A3E60"; ctx.lineWidth = 1.6 * s; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(38 * s, 0); ctx.stroke();
+        ctx.fillStyle = "rgba(225,215,245,.85)"; ctx.fillRect(8 * s, 0, 28 * s, 7 * s);
+        ctx.strokeStyle = "rgba(60,50,90,.6)"; ctx.lineWidth = .5; for (let k = 1; k < 7; k++){ ctx.beginPath(); ctx.moveTo(8 * s + k * 4 * s, 0); ctx.lineTo(8 * s + k * 4 * s, 7 * s); ctx.stroke(); }
+        ctx.restore();
+      }
+      ctx.fillStyle = "#2A2240"; ctx.beginPath(); ctx.arc(hx, hy, 2.6 * s, 0, 6.283); ctx.fill();
+    }
+    function cabin(ctx, x, y, s, t){
+      ctx.fillStyle = "#3A2418"; ctx.fillRect(x - 24 * s, y - 22 * s, 48 * s, 22 * s);
+      for (let k = 0; k < 6; k++){ ctx.fillStyle = k % 2 ? "#4A2E1E" : "#55361F"; ctx.fillRect(x - 24 * s, y - 22 * s + k * 3.7 * s, 48 * s, 3.2 * s); ctx.fillStyle = "rgba(255,190,130,.12)"; ctx.fillRect(x - 24 * s, y - 22 * s + k * 3.7 * s, 48 * s, .8 * s); }
+      ctx.fillStyle = "#2A1A20"; ctx.beginPath(); ctx.moveTo(x - 29 * s, y - 21 * s); ctx.lineTo(x, y - 42 * s); ctx.lineTo(x + 29 * s, y - 21 * s); ctx.fill();
+      ctx.fillStyle = "rgba(235,228,255,.5)"; ctx.beginPath(); ctx.moveTo(x - 29 * s, y - 21 * s); ctx.lineTo(x, y - 42 * s); ctx.lineTo(x + 2 * s, y - 40 * s); ctx.lineTo(x - 25 * s, y - 21 * s); ctx.fill();
+      ctx.fillStyle = "#3C3446"; ctx.fillRect(x + 12 * s, y - 46 * s, 6 * s, 14 * s);
+      const a = .85 + .15 * Math.sin(t * 2.4);
+      [[-17, -14], [9, -14]].forEach(([dx, dy]) => { ctx.fillStyle = `rgba(255,205,120,${a})`; ctx.fillRect(x + dx * s, y + dy * s, 8 * s, 7 * s); ctx.fillStyle = "#3A2418"; ctx.fillRect(x + dx * s + 3.5 * s, y + dy * s, 1 * s, 7 * s); });
+      ctx.fillStyle = "#24140C"; ctx.fillRect(x - 3 * s, y - 13 * s, 7 * s, 13 * s);
+      ctx.globalCompositeOperation = "lighter"; const g = ctx.createRadialGradient(x - 8 * s, y - 10 * s, 0, x - 8 * s, y - 10 * s, 40 * s); g.addColorStop(0, `rgba(255,190,110,${.22 * a})`); g.addColorStop(1, "rgba(255,190,110,0)"); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x - 8 * s, y - 10 * s, 40 * s, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = "source-over";
+      for (let i = 0; i < 5; i++){ const k = mod(t * .25 + i / 5, 1); ctx.fillStyle = `rgba(190,180,215,${.25 * (1 - k)})`; ctx.beginPath(); ctx.arc(x + 15 * s + Math.sin(k * 6 + i) * 4 * s, y - 48 * s - k * 40 * s, (3 + k * 7) * s, 0, 6.283); ctx.fill(); }
+    }
+    function tower(ctx, x, y, s, t){
+      ctx.strokeStyle = "#4A4066"; ctx.lineWidth = 1.4 * s;
+      ctx.beginPath(); ctx.moveTo(x - 12 * s, y); ctx.lineTo(x - 3 * s, y - 80 * s); ctx.moveTo(x + 12 * s, y); ctx.lineTo(x + 3 * s, y - 80 * s); ctx.stroke();
+      ctx.lineWidth = .8 * s; for (let k = 0; k < 8; k++){ const y0 = y - k * 10 * s, y1 = y - (k + 1) * 10 * s, w0 = 12 - k * 1.1, w1 = 12 - (k + 1) * 1.1; ctx.beginPath(); ctx.moveTo(x - w0 * s, y0); ctx.lineTo(x + w1 * s, y1); ctx.moveTo(x + w0 * s, y0); ctx.lineTo(x - w1 * s, y1); ctx.moveTo(x - w1 * s, y1); ctx.lineTo(x + w1 * s, y1); ctx.stroke(); }
+      ctx.fillStyle = "#3A3058"; ctx.fillRect(x - 8 * s, y - 88 * s, 16 * s, 8 * s);
+      const a = .5 + .5 * Math.sin(t * 2);
+      ctx.globalCompositeOperation = "lighter"; const g = ctx.createRadialGradient(x, y - 94 * s, 0, x, y - 94 * s, 26 * s); g.addColorStop(0, `rgba(242,207,122,${.7 * a + .2})`); g.addColorStop(1, "rgba(242,207,122,0)"); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y - 94 * s, 26 * s, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = "#FFF0C0"; ctx.beginPath(); ctx.arc(x, y - 94 * s, 3 * s, 0, 6.283); ctx.fill();
+    }
+    function bridge(ctx, x, y, w){
+      ctx.strokeStyle = "#5A3E2A"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x - w * .55, y + 4); ctx.quadraticCurveTo(x, y - w * .18, x + w * .55, y + 4); ctx.stroke();
+      ctx.strokeStyle = "#7A5638"; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x - w * .55, y - 8); ctx.quadraticCurveTo(x, y - w * .18 - 12, x + w * .55, y - 8); ctx.stroke();
+      for (let k = 0; k <= 10; k++){ const f = k / 10, px = x - w * .55 + f * w * 1.1, base = y + 4 - Math.sin(f * Math.PI) * (w * .18 + 4) * .5 * 2 * .5, top = y - 8 - Math.sin(f * Math.PI) * (w * .18 + 12) * .5 * 2 * .5; ctx.strokeStyle = "#5A3E2A"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(px, base); ctx.lineTo(px, top); ctx.stroke(); }
+    }
+    function easel(ctx, x, y, s){
+      ctx.strokeStyle = "#8A6A4A"; ctx.lineWidth = 1.8 * s; ctx.lineCap = "round";
+      ctx.beginPath(); ctx.moveTo(x - 10 * s, y); ctx.lineTo(x, y - 36 * s); ctx.lineTo(x + 10 * s, y); ctx.moveTo(x, y - 36 * s); ctx.lineTo(x + 2 * s, y + 1 * s); ctx.stroke();
+      ctx.fillStyle = "#EDE6FA"; ctx.fillRect(x - 12 * s, y - 32 * s, 24 * s, 18 * s);
+      const g = ctx.createLinearGradient(0, y - 32 * s, 0, y - 14 * s); g.addColorStop(0, "#3A2A78"); g.addColorStop(.6, "#C46A8A"); g.addColorStop(1, "#2A3A5A"); ctx.fillStyle = g; ctx.fillRect(x - 10.5 * s, y - 30.5 * s, 21 * s, 15 * s);
+      ctx.fillStyle = "#FFE2B0"; ctx.beginPath(); ctx.arc(x + 4 * s, y - 22 * s, 2.6 * s, 0, 6.283); ctx.fill();
+      ctx.fillStyle = "#6A4A30"; ctx.fillRect(x - 12 * s, y - 14 * s, 24 * s, 1.6 * s);
+      ctx.fillStyle = "#5A4060"; ctx.beginPath(); ctx.ellipse(x + 16 * s, y - 2 * s, 7 * s, 4 * s, -.3, 0, 6.283); ctx.fill();
+      [["#C08BFF", 13, -3], ["#7FD6A6", 17, -1], ["#F0A64A", 19, -4]].forEach(([c, dx, dy]) => { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x + dx * s, y + dy * s, 1.3 * s, 0, 6.283); ctx.fill(); });
+    }
+    function trailSign(ctx, x, y, s){
+      ctx.fillStyle = "#4A3424"; ctx.fillRect(x - 1.5 * s, y - 30 * s, 3 * s, 30 * s);
+      ctx.fillStyle = "#6A4A30"; ctx.beginPath(); ctx.moveTo(x - 2 * s, y - 28 * s); ctx.lineTo(x + 18 * s, y - 28 * s); ctx.lineTo(x + 22 * s, y - 24 * s); ctx.lineTo(x + 18 * s, y - 20 * s); ctx.lineTo(x - 2 * s, y - 20 * s); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(x + 2 * s, y - 17 * s); ctx.lineTo(x - 18 * s, y - 17 * s); ctx.lineTo(x - 22 * s, y - 13 * s); ctx.lineTo(x - 18 * s, y - 9 * s); ctx.lineTo(x + 2 * s, y - 9 * s); ctx.fill();
+      ctx.fillStyle = "rgba(255,220,170,.5)"; ctx.fillRect(x + 2 * s, y - 25 * s, 12 * s, 1 * s); ctx.fillRect(x - 15 * s, y - 14 * s, 12 * s, 1 * s);
+      const st = [[10, 9], [9, 7], [7, 5.5], [5, 4]]; let yy = y;
+      st.forEach(([w, h], i) => { const g = ctx.createLinearGradient(x + 22 * s - w * s, yy - h * s, x + 22 * s + w * s, yy); g.addColorStop(0, "#7A7098"); g.addColorStop(1, "#2A2440"); ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(x + 22 * s + (i % 2 ? 1 : -1) * s, yy - h * s / 2, w * s / 2 + 2, h * s / 2, 0, 0, 6.283); ctx.fill(); yy -= h * s * .85; });
+    }
+
+    // ---------- the world, built from your data ----------
+    const SEASON_PAL = {
+      autumn: ["#D8742E", "#C2552A", "#E89A3C", "#B8432A", "#E9B44A", "#9E3A2A"],
+      spring: ["#6BBF7A", "#58A86C", "#E8A0C8", "#F4B8D8", "#7FCB8A", "#4E9A62"],
+      summer: ["#2F8A5A", "#257048", "#3A9A64", "#2A7A50", "#46A870", "#1E6040"],
+      winter: ["#3A3260"]
+    };
+    // where each earned landmark lives on the loop (fixed, so things never jump around)
+    const SLOTS = {"cat-movie": .08, "chain-windmill": .17, "cat-creative": .24, "cat-food": .31, "chain-cabin": .38, "cat-outdoors": .44, "chain-observatory": .51, "chain-tower": .58, "lake": .66, "chain-lighthouse": .75, "cat-social": .84, "cat-other": .92};
+    let cv = null, ctx = null, W = 0, H = 0, P = 0, layers = null, sig = "", raf = 0, running = false, data = null, hits = [];
+    const st = {x: null, v: 0, drag: false, lx: 0, sx: 0, sy: 0, t0: 0, moved: 0};
+    const wleaves = [];
+    function snapshot(){
+      const catN = {}; S.log.forEach((l) => { catN[l.cat] = (catN[l.cat] || 0) + 1; });
+      const earned = []; ["movie", "creative", "food", "outdoors", "social", "other"].forEach((c) => { if ((catN[c] || 0) >= 3) earned.push("cat-" + c); });
+      chainInfo().built.forEach((id) => earned.push("chain-" + id));
+      const sk = streak(); if (sk >= 2 || chainInfo().built.includes("bridge")) earned.push("lake");
+      const hw = hitWeeks(), camps = Object.keys(qState().camp).sort(), inCons = new Set();
+      hw.forEach((w) => w.logs.slice(0, 6).forEach((l) => inCons.add(l.id)));
+      return {catN, earned, streak: sk, season: season(), weather: weather(), hw, camps, loose: S.log.filter((l) => !inCons.has(l.id)), gold: goldStars(), labels: skyLabels};
+    }
+    function build(){
+      W = cv.clientWidth || window.innerWidth; H = cv.clientHeight || window.innerHeight; P = Math.round(W * 4);
+      cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      const D = data, horizon = H * .64, se = D.season, pal = SEASON_PAL[se];
+      layers = {};
+      // sky band (stars + milky way), exact loop
+      { const L = Math.round(P * .25), [c, x] = off(L, H * .7), rr = rng(1);
+        const band = (xx) => H * .2 + Math.sin(xx / L * 6.283) * H * .1, both = (xx, f) => { f(xx); if (xx < 120) f(xx + L); if (xx > L - 120) f(xx - L); };
+        for (let i = 0; i < 30; i++){ const xx = rr() * L, yy = band(xx) + (rr() - .5) * H * .12, R = 30 + rr() * 70, c1 = `rgba(${150 + rr() * 60 | 0},${120 + rr() * 50 | 0},255,.05)`; both(xx, (q) => { const g = x.createRadialGradient(q, yy, 0, q, yy, R); g.addColorStop(0, c1); g.addColorStop(1, "rgba(150,120,255,0)"); x.fillStyle = g; x.beginPath(); x.arc(q, yy, R, 0, 6.283); x.fill(); }); }
+        const dens = 1 + Math.min(1.5, S.log.length / 40);
+        for (let i = 0; i < 520 * dens; i++){ const xx = rr() * L, near = rr() < .55, yy = near ? band(xx) + (rr() - .5) * H * .1 : rr() * H * .66, s = rr(); both(xx, (q) => { x.globalAlpha = .12 + s * .35; x.fillStyle = s > .93 ? "#E8DCFF" : "#fff"; x.beginPath(); x.arc(q, yy, s > .96 ? 1.2 : s > .8 ? .8 : .45, 0, 6.283); x.fill(); }); }
+        x.globalAlpha = 1; layers.sky = {c, L, sp: .12, y: 0, h: H * .7, exact: true};
+      }
+      // far ridge
+      { const L = Math.round(P * .3), [c, x] = off(L + 2, H), base = horizon - H * .1, tall = (D.catN.outdoors || 0) >= 3 ? 1.25 : 1;
+        const yAt = (xx) => base - H * .12 * tall - fbm(xx, L, "far", 9, .55) * H * .12 * tall;
+        x.beginPath(); x.moveTo(0, H); for (let xx = 0; xx <= L + 2; xx += 1.5) x.lineTo(xx, yAt(xx)); x.lineTo(L + 2, H); x.closePath();
+        const g = x.createLinearGradient(0, base - H * .3, 0, horizon); g.addColorStop(0, "#221C46"); g.addColorStop(1, "#151030"); x.fillStyle = g; x.fill();
+        x.save(); x.clip();
+        if (se === "winter"){
+        const snowLine = se === "winter" ? base - H * .1 : base - H * .2;
+        for (let xx = 0; xx <= L; xx += 1.5){ const yy = yAt(xx); if (yy < snowLine){ x.fillStyle = "rgba(235,230,255,.18)"; x.fillRect(xx, yy, 1.6, (snowLine - yy) * .8 + 3); } } }
+        const hz = x.createLinearGradient(0, base - H * .05, 0, horizon); hz.addColorStop(0, "rgba(90,70,150,0)"); hz.addColorStop(1, "rgba(90,70,150,.45)"); x.fillStyle = hz; x.fillRect(0, base - H * .05, L + 2, H);
+        x.restore();
+        x.strokeStyle = "rgba(220,210,255,.12)"; x.lineWidth = 1; x.beginPath(); for (let xx = 0; xx <= L; xx += 1.5){ const yy = yAt(xx); xx ? x.lineTo(xx, yy) : x.moveTo(xx, yy); } x.stroke();
+        layers.far = {c, L, sp: .3, y: 0, h: H};
+      }
+      // pine hills
+      { const L = Math.round(P * .55), [c, x] = off(L + 2, H), base = horizon - H * .03;
+        const yAt = (xx) => base - H * .05 - fbm(xx, L, "mid", 7, .5) * H * .06;
+        x.beginPath(); x.moveTo(0, H); for (let xx = 0; xx <= L + 2; xx += 2) x.lineTo(xx, yAt(xx)); x.lineTo(L + 2, H); x.closePath(); x.fillStyle = "#100C24"; x.fill();
+        const rr = rng(8); for (let i = 0; i < Math.round(L / 26); i++){ const xx = rr() * L, hh = H * (.035 + rr() * .03); [0, L, -L].forEach((d) => { if (d === 0 || (d > 0 && xx < 30) || (d < 0 && xx > L - 30)) drawPine(x, xx + d, yAt(xx) + 3, hh, i * 13 + 1); }); }
+        if (se === "winter"){ x.globalCompositeOperation = "source-atop"; x.fillStyle = "rgba(230,225,255,.12)"; x.fillRect(0, 0, L + 2, H); x.globalCompositeOperation = "source-over"; }
+        const hz = x.createLinearGradient(0, base - H * .1, 0, H); hz.addColorStop(0, "rgba(40,28,90,0)"); hz.addColorStop(1, "rgba(40,28,90,.35)"); x.fillStyle = hz; x.fillRect(0, base - H * .1, L + 2, H);
+        x.globalCompositeOperation = "source-atop"; x.fillStyle = "rgba(12,8,28,.55)"; x.fillRect(0, 0, L + 2, H); x.globalCompositeOperation = "source-over";
+        layers.mid = {c, L, sp: .55, y: 0, h: H};
+      }
+      // main ground: path, lanterns, leaves, rocks, trees, static landmarks
+      { const L = P, [c, x] = off(L + 2, H), base = horizon + H * .03;
+        const yAt = (xx) => base - fbm(xx, L, "near", 6, .5) * H * .02;
+        x.beginPath(); x.moveTo(0, H); for (let xx = 0; xx <= L + 2; xx += 2) x.lineTo(xx, yAt(xx)); x.lineTo(L + 2, H); x.closePath();
+        const g = x.createLinearGradient(0, base - 10, 0, H); g.addColorStop(0, se === "winter" ? "#3A3460" : "#221838"); g.addColorStop(.3, se === "winter" ? "#221C40" : "#140E26"); g.addColorStop(1, "#08060F"); x.fillStyle = g; x.fill();
+        const rr = rng(12); for (let i = 0; i < 300; i++){ const xx = rr() * L, yy = yAt(xx) + rr() * H * .3; x.fillStyle = `rgba(${rr() < .5 ? "190,170,240" : "10,6,20"},${.04 + rr() * .06})`; x.fillRect(xx, yy, 1 + rr() * 2, 1); }
+        const pathY = (xx) => base + H * .1 + Math.sin(xx / L * 6.283 * 3) * H * .035 + Math.sin(xx / L * 6.283 * 7) * H * .012;
+        x.beginPath(); for (let xx = 0; xx <= L + 2; xx += 3) x.lineTo(xx, pathY(xx) - 7); for (let xx = L + 2; xx >= 0; xx -= 3) x.lineTo(xx, pathY(xx) + 9); x.closePath();
+        const pg = x.createLinearGradient(0, base + H * .05, 0, base + H * .16); pg.addColorStop(0, se === "winter" ? "#3A3460" : "#241A38"); pg.addColorStop(1, "#18112A"); x.fillStyle = pg; x.fill();
+        const pr = rng(31); for (let i = 0; i < 120; i++){ const xx = pr() * L, yy = pathY(xx) + (pr() - .5) * 14; x.fillStyle = `rgba(${pr() < .6 ? "200,185,240" : "12,8,22"},${.08 + pr() * .1})`; x.fillRect(xx, yy, 1 + pr() * 1.5, 1); }
+        if (se !== "winter") for (let i = 0; i < (se === "autumn" ? 60 : 20); i++){ const xx = pr() * L, yy = yAt(xx) + 6 + pr() * H * .2; x.fillStyle = pal[i % pal.length]; x.globalAlpha = .3 + pr() * .4; x.beginPath(); x.ellipse(xx, yy, 1.8 + pr() * 1.2, .9, pr() * 3, 0, 6.283); x.fill(); }
+        else for (let i = 0; i < 200; i++){ const xx = pr() * L, yy = yAt(xx) + pr() * H * .3; x.fillStyle = "rgba(240,236,255,.18)"; x.fillRect(xx, yy, 2 + pr() * 4, 1); }
+        x.globalAlpha = 1;
+        for (let i = 0; i < 0; i++){ const xx = pr() * L, yy = yAt(xx) + H * .03 + pr() * H * .16, rw = 4 + pr() * 9;
+          if (pr() < .5){ const rg = x.createLinearGradient(xx - rw, yy - rw, xx + rw, yy); rg.addColorStop(0, "#6A6088"); rg.addColorStop(1, "#1E1830"); x.fillStyle = rg; x.beginPath(); x.ellipse(xx, yy, rw, rw * .55, 0, Math.PI, 0); x.fill(); }
+          else for (let k = 0; k < 40; k++){ const a = pr() * 3.14, rr2 = pr() * rw; x.fillStyle = se === "winter" ? "#4A4470" : mix(pal[k % pal.length].slice(1), "1A0E1A", .45 + pr() * .3); x.beginPath(); x.ellipse(xx + Math.cos(a) * rr2, yy - Math.sin(a) * rr2 * .8, 1.6, 1, pr() * 3, 0, 6.283); x.fill(); } }
+        for (let i = 0; i < 0; i++){ const xx = (i + .5) / 8 * L, yy = pathY(xx) - 9; x.strokeStyle = "#2A2236"; x.lineWidth = 1.6; x.beginPath(); x.moveTo(xx, yy); x.lineTo(xx, yy - 22); x.stroke(); x.fillStyle = "#3A2E50"; x.fillRect(xx - 3, yy - 28, 6, 7); }
+        const lanterns = [] || Array.from({length: 8}, (_, i) => [(i + .5) / 8 * L, pathY((i + .5) / 8 * L) - 33]);
+        // trees: 4 to start, +2 per streak week, kept clear of every landmark slot
+        const nT = Math.min(26, 4 + D.streak * 2), cand = [];
+        for (let i = 0; i < 40; i++){ const f = mod((i * .618034) + .03, 1) * L; if (Object.values(SLOTS).every((sx) => Math.abs(sx * L - f) > W * .17 && Math.abs(sx * L - f + L) > W * .17 && Math.abs(sx * L - f - L) > W * .17)) cand.push(f); }
+        const trees = cand.slice(0, nT);
+        trees.forEach((tx, i) => { const hh = H * (.13 + rng(i + 50)() * .07); [0, L, -L].forEach((d) => { if (d === 0 || (d > 0 && tx < 70) || (d < 0 && tx > L - 70)) drawTree(x, tx + d, yAt(tx) + 2, hh, 1000 + i, pal, {bare: se === "winter" || D.weather === "storm"}); }); });
+        if (se === "winter") trees.forEach((tx) => { x.fillStyle = "rgba(240,236,255,.5)"; x.beginPath(); x.ellipse(tx, yAt(tx) + 3, 14, 2.5, 0, 0, 6.283); x.fill(); });
+        // static landmarks drawn into the strip
+        const pos = (id) => SLOTS[id] * L;
+        if (D.earned.includes("chain-observatory")) observatory(x, pos("chain-observatory"), yAt(pos("chain-observatory")) + 2, 1.15);
+        if (D.earned.includes("chain-tower")) tower(x, pos("chain-tower"), yAt(pos("chain-tower")) + 2, 1, 0);
+        if (D.earned.includes("cat-creative")) easel(x, pos("cat-creative"), yAt(pos("cat-creative")) + 4, 1.1);
+        if (D.earned.includes("cat-outdoors")) trailSign(x, pos("cat-outdoors"), yAt(pos("cat-outdoors")) + 4, 1.1);
+        layers.ground = {c, L, sp: 1, y: 0, h: H, yAt, lanterns, trees};
+      }
+      // foreground grass
+      { const L = Math.round(P * 1.35), [c, x] = off(L + 2, H * .2), rr = rng(21);
+        x.fillStyle = "#06040C"; x.beginPath(); x.moveTo(0, H * .2); for (let xx = 0; xx <= L + 2; xx += 3) x.lineTo(xx, H * .12 - fbm(xx, L, "fg", 5, .5) * H * .03); x.lineTo(L + 2, H * .2); x.fill();
+        for (let i = 0; i < Math.round(L * 1.4); i++){ const xx = rr() * L, hh = 6 + rr() * 16, b = H * .12 - fbm(xx, L, "fg", 5, .5) * H * .03 + 2; x.strokeStyle = rr() < .2 ? (se === "winter" ? "#3A3460" : "#1A1230") : "#07050E"; x.lineWidth = .9; x.beginPath(); x.moveTo(xx, b); x.quadraticCurveTo(xx + (rr() - .5) * 4, b - hh * .6, xx + (rr() - .5) * 8, b - hh); x.stroke(); }
+        layers.fg = {c, L, sp: 1.35, y: H * .84, h: H * .2};
+      }
+      // sky objects: constellations (weeks, then gold campaign ones) spread around a sky loop
+      const items = D.hw.map((w) => ({type: "wk", key: iso(w.ws), n: Math.min(6, w.logs.length), logs: w.logs.slice(0, 6), name: w.name})).concat(D.camps.map((ym) => ({type: "camp", key: ym, n: 5, logs: [], name: campName(ym)})));
+      const Lc = Math.max(Math.round(P * .45), items.length * 150);
+      items.forEach((it, i) => { const r = rng(hashS("pos" + it.key)); it.fx = (i + .5) / Math.max(1, items.length) * Lc; it.fy = H * (.07 + (i % 3) * .11 + r() * .04); it.w = 104 + r() * 30; it.h = 44 + r() * 18; it.pts = consShape(it.key, it.n); });
+      const loose = D.loose.map((l) => { const h = hashS("loose" + l.id); return {id: l.id, fx: (h % 10000) / 10000 * Lc, fy: H * (.05 + ((h >>> 13) % 1000) / 1000 * .42), name: l.name}; });
+      const gold = D.gold.map((k) => { const h = hashS("gs" + k); return {id: k, fx: (h % 10000) / 10000 * Lc, fy: H * (.05 + ((h >>> 13) % 1000) / 1000 * .4)}; });
+      layers.skyItems = {items, loose, gold, Lc};
+      if (st.x == null){ const last = items[items.length - 1]; st.x = last ? (last.fx + last.w / 2 - W / 2) / .2 : 0; }
+    }
+    function blit(Ly, o){
+      const sx = mod(o * Ly.sp, Ly.L), w = Ly.exact ? Ly.L : Ly.L + 2;
+      for (let k = -1; k <= 2; k++){ const dx = -sx + k * Ly.L; if (dx > W || dx + w < 0) continue; ctx.drawImage(Ly.c, dx, Ly.y, w, Ly.h); }
+    }
+    const wrapX = (wx, o, sp, L) => { let sx = wx - mod(o * sp, L); if (sx < -W * .8) sx += L; if (sx > L - W * .8) sx -= L; return sx; };
+    function glowDot(x, y, r, col, a){ ctx.globalCompositeOperation = "lighter"; const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(${col},${a})`); g.addColorStop(1, `rgba(${col},0)`); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = "source-over"; }
+    function frame(now){
+      if (!running) return;
+      raf = requestAnimationFrame(frame);
+      if (Math.abs(cv.clientHeight - H) > 2 || Math.abs(cv.clientWidth - W) > 2) build();
+      const t = now / 1000, D = data;
+      if (!st.drag && Math.abs(st.v) > .02){ st.x += st.v; st.v *= .955; }
+      const o = st.x, horizon = H * .64;
+      hits = [];
+      const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#03020A"); g.addColorStop(.45, "#0C0824"); g.addColorStop(.64, D.weather === "storm" ? "#1E1A38" : "#2A1C58"); g.addColorStop(1, "#0A0718"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      blit(layers.sky, o);
+      const mL = W * 1.6; moon(ctx, mod(W * .9 - o * .04, mL) - W * .3, H * .12, W * .05);
+      // constellations + stars (tappable)
+      const SI = layers.skyItems, sp = .2, Lc = SI.Lc;
+      SI.items.forEach((it) => {
+        const cx = wrapX(it.fx, o, sp, Lc); if (cx < -it.w - 30 || cx > W + 30) return;
+        const pts = it.pts.map(([px, py]) => [cx + px * it.w, it.fy + py * it.h]), gold = it.type === "camp", col = gold ? "242,207,122" : "192,139,255";
+        ctx.strokeStyle = `rgba(${col},.72)`; ctx.lineWidth = 1.1; ctx.shadowColor = `rgba(${col},1)`; ctx.shadowBlur = 6; ctx.beginPath(); pts.forEach((p, j) => j ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); ctx.shadowBlur = 0;
+        pts.forEach((p, j) => { const tw = .75 + .25 * Math.sin(t * 1.3 + j + it.fx); glowDot(p[0], p[1], 11, col, .6 * tw); ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(p[0], p[1], 2.1, 0, 6.283); ctx.fill(); if (!gold && it.logs[j]) hits.push({k: "log:" + it.logs[j].id, x: p[0], y: p[1], r: 20}); });
+        hits.push({k: (gold ? "camp:" : "wk:") + it.key, box: [cx - 10, it.fy - 12, cx + it.w + 10, it.fy + it.h + 12]});
+        if (D.labels){
+          ctx.fillStyle = gold ? "rgba(242,207,122,.85)" : "rgba(214,202,250,.85)"; ctx.font = "600 11px -apple-system,BlinkMacSystemFont,sans-serif"; ctx.textAlign = "center"; ctx.fillText(it.name, cx + it.w / 2, it.fy + it.h + 20);
+          if (!gold){ ctx.fillStyle = "rgba(185,176,214,.8)"; ctx.font = "500 9.5px -apple-system,BlinkMacSystemFont,sans-serif"; pts.forEach((p, j) => { const nm = it.logs[j] ? it.logs[j].name : ""; ctx.fillText(nm.length > 16 ? nm.slice(0, 15) + "…" : nm, p[0], p[1] - 10); }); }
+        }
+      });
+      SI.loose.forEach((s, i) => { const x = wrapX(s.fx, o, sp, Lc); if (x < -20 || x > W + 20) return; glowDot(x, s.fy, 8, "192,139,255", .45 + .2 * Math.sin(t + i)); ctx.fillStyle = "#E9DDFF"; ctx.beginPath(); ctx.arc(x, s.fy, 1.6, 0, 6.283); ctx.fill(); hits.push({k: "log:" + s.id, x, y: s.fy, r: 18}); if (D.labels){ ctx.fillStyle = "rgba(185,176,214,.75)"; ctx.font = "500 9.5px -apple-system,sans-serif"; ctx.textAlign = "center"; ctx.fillText(s.name.length > 16 ? s.name.slice(0, 15) + "…" : s.name, x, s.fy - 9); } });
+      SI.gold.forEach((s, i) => { const x = wrapX(s.fx, o, sp, Lc); if (x < -20 || x > W + 20) return; glowDot(x, s.fy, 12, "242,207,122", .55 + .25 * Math.sin(t * 1.4 + i)); ctx.fillStyle = "#FFF3D0"; ctx.beginPath(); ctx.arc(x, s.fy, 2.2, 0, 6.283); ctx.fill(); hits.push({k: "gold:" + s.id, x, y: s.fy, r: 18}); });
+      // weather in the sky
+      if (D.weather === "cloudy" || D.weather === "storm"){
+        for (let i = 0; i < 6; i++){ const cx = mod(i * W * .45 - o * .16 + t * 4, W * 2.7) - W * .5, cy = H * (.1 + (i % 3) * .08); const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, W * .28); const a = D.weather === "storm" ? .5 : .32; cg.addColorStop(0, `rgba(70,64,100,${a})`); cg.addColorStop(1, "rgba(70,64,100,0)"); ctx.fillStyle = cg; ctx.beginPath(); ctx.ellipse(cx, cy, W * .32, W * .1, 0, 0, 6.283); ctx.fill(); }
+      }
+      const hg = ctx.createLinearGradient(0, horizon - H * .2, 0, horizon); hg.addColorStop(0, "rgba(120,80,200,0)"); hg.addColorStop(1, "rgba(150,100,220,.22)"); ctx.fillStyle = hg; ctx.fillRect(0, horizon - H * .2, W, H * .2);
+      if (D.weather === "rainbow"){ ctx.globalAlpha = .28; ["#C08BFF", "#7FD6A6", "#E8C27A", "#F09A8A"].forEach((c, i) => { ctx.strokeStyle = c; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(W * .5 - mod(o * .3, W * 3) + W, horizon + 20, W * .5 - i * 6, Math.PI, 0); ctx.stroke(); }); ctx.globalAlpha = 1; }
+      blit(layers.far, o); blit(layers.mid, o);
+      ctx.globalAlpha = .5; const mg = ctx.createLinearGradient(0, horizon - 30, 0, horizon + 20); mg.addColorStop(0, "rgba(120,100,190,0)"); mg.addColorStop(.6, "rgba(120,100,190,.18)"); mg.addColorStop(1, "rgba(120,100,190,0)"); ctx.fillStyle = mg; ctx.fillRect(0, horizon - 30, W, 50); ctx.globalAlpha = 1;
+      const G = layers.ground; blit(G, o);
+      const at = (id) => wrapX(SLOTS[id] * G.L, o, 1, G.L), yat = (id) => G.yAt(SLOTS[id] * G.L);
+      const box = (id, x, y, w, h) => hits.push({k: "lm:" + id, box: [x - w / 2, y - h, x + w / 2, y + 10]});
+      const E = (id) => D.earned.includes(id);
+      const HALO = {"cat-movie": 120, "cat-food": 80, "chain-windmill": 90, "chain-cabin": 80, "chain-observatory": 85, "chain-tower": 95, "cat-creative": 60, "cat-outdoors": 60, "lake": 120, "chain-lighthouse": 100, "cat-social": 90, "cat-other": 65};
+      const pulse = .75 + .25 * Math.sin(t * 1.4);
+      Object.keys(HALO).forEach((id) => {
+        if (!E(id)) return; const hx = at(id); if (hx < -170 || hx > W + 170) return;
+        const r = HALO[id], hy = yat(id) + 4;
+        ctx.globalCompositeOperation = "lighter"; const g1 = ctx.createRadialGradient(hx, hy - r * .45, 0, hx, hy - r * .45, r); g1.addColorStop(0, `rgba(192,139,255,${.2 * pulse})`); g1.addColorStop(1, "rgba(192,139,255,0)"); ctx.fillStyle = g1; ctx.beginPath(); ctx.arc(hx, hy - r * .45, r, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = "source-over";
+        ctx.strokeStyle = `rgba(214,190,255,${.35 * pulse})`; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.ellipse(hx, hy + 6, r * .55, r * .09, 0, 0, 6.283); ctx.stroke();
+      });
+      if (E("cat-movie")){ const x = at("cat-movie"); if (x > -170 && x < W + 170){ driveIn(ctx, x, yat("cat-movie") + 4, 1.05, t); box("cat-movie", x, yat("cat-movie"), 150, 120); } }
+      if (E("cat-food")){ const x = at("cat-food"); if (x > -120 && x < W + 120){ campfire(ctx, x, yat("cat-food") + 6, 1.1, t, true); box("cat-food", x, yat("cat-food"), 90, 50); } }
+      if (E("chain-windmill")){ const x = at("chain-windmill"); if (x > -80 && x < W + 80){ windmill(ctx, x, yat("chain-windmill") + 2, 1, t); box("chain-windmill", x, yat("chain-windmill"), 80, 100); } }
+      if (E("chain-cabin")){ const x = at("chain-cabin"); if (x > -80 && x < W + 80){ cabin(ctx, x, yat("chain-cabin") + 3, 1.1, t); box("chain-cabin", x, yat("chain-cabin"), 70, 60); } }
+      if (E("chain-observatory")){ const x = at("chain-observatory"); if (x > -80 && x < W + 80) box("chain-observatory", x, yat("chain-observatory"), 70, 70); }
+      if (E("chain-tower")){ const x = at("chain-tower"); if (x > -60 && x < W + 60){ tower(ctx, x, yat("chain-tower") + 2, 1, t); box("chain-tower", x, yat("chain-tower"), 40, 110); } }
+      if (E("cat-creative")){ const x = at("cat-creative"); if (x > -60 && x < W + 60) box("cat-creative", x, yat("cat-creative"), 50, 45); }
+      if (E("cat-outdoors")){ const x = at("cat-outdoors"); if (x > -60 && x < W + 60) box("cat-outdoors", x, yat("cat-outdoors"), 60, 45); }
+      if (E("lake")){ const x = at("lake"); if (x > -160 && x < W + 160){ lake(ctx, x, yat("lake") + 14, W * .32, t, x - W * .1); if (E("chain-bridge")) bridge(ctx, x + W * .05, yat("lake") + 12, W * .22); box(E("chain-bridge") ? "chain-bridge" : "lake", x, yat("lake") + 30, W * .6, 40); } }
+      if (E("chain-lighthouse")){ const x = at("chain-lighthouse"); if (x > -200 && x < W + 200){ lighthouse(ctx, x, yat("chain-lighthouse") + 4, 1, t); box("chain-lighthouse", x, yat("chain-lighthouse"), 40, 90); } }
+      if (E("cat-social")){ const x = at("cat-social"); if (x > -80 && x < W + 80){ lights(ctx, x, yat("cat-social") + 4, 1.05, t); box("cat-social", x, yat("cat-social"), 90, 55); } }
+      if (E("cat-other")){ const x = at("cat-other"); if (x > -60 && x < W + 60){ tent(ctx, x, yat("cat-other") + 6, 1, t); box("cat-other", x, yat("cat-other"), 60, 40); } }
+      G.trees.forEach((tx) => { const x = wrapX(tx, o, 1, G.L); if (x > -40 && x < W + 40) hits.push({k: "lm:trees", box: [x - 26, G.yAt(tx) - H * .2, x + 26, G.yAt(tx) + 4]}); });
+      ctx.globalCompositeOperation = "lighter";
+      G.lanterns.forEach(([lx, ly], i) => { const sx = wrapX(lx, o, 1, G.L); if (sx < -40 || sx > W + 40) return; const a = .8 + .2 * Math.sin(t * 3 + i * 2); const lg = ctx.createRadialGradient(sx, ly + 4, 0, sx, ly + 4, 34); lg.addColorStop(0, `rgba(255,205,120,${.45 * a})`); lg.addColorStop(1, "rgba(255,205,120,0)"); ctx.fillStyle = lg; ctx.beginPath(); ctx.arc(sx, ly + 4, 34, 0, 6.283); ctx.fill(); ctx.fillStyle = `rgba(255,232,170,${a})`; ctx.fillRect(sx - 2, ly + 1, 4, 5); });
+      ctx.globalCompositeOperation = "source-over";
+      // season particles + rain
+      if (!RM){
+        const se = D.season, pal = SEASON_PAL[se];
+        if (!wleaves.length) for (let i = 0; i < 10; i++) wleaves.push({x: Math.random(), y: Math.random(), s: .6 + Math.random() * .8, p: Math.random() * 6, c: i});
+        if (D.weather === "storm"){ ctx.strokeStyle = "rgba(170,160,210,.45)"; ctx.lineWidth = 1; for (let i = 0; i < 70; i++){ const rx = mod(i * 37.3 + t * 40 - o * .5, W + 40) - 20, ry = mod(i * 91.7 + t * 520, H); ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx - 4, ry + 12); ctx.stroke(); } }
+        else wleaves.forEach((l) => {
+          l.y += .0012 * l.s * (se === "winter" ? .7 : 1); l.x += .0004 + Math.sin(t + l.p) * .0004; if (l.y > 1){ l.y = 0; l.x = Math.random(); }
+          const lx = mod(l.x * W * 1.4 - o * .27, W * 1.4) - W * .2;
+          if (se === "summer"){ const fy = horizon - 30 + Math.sin(t * .8 + l.p) * 40 + l.c % 5 * 12; glowDot(lx, fy, 6, "255,243,160", .55 + .45 * Math.sin(t * 3 + l.p)); return; }
+          const ly = (se === "winter" ? 0 : H * .45) + l.y * H * (se === "winter" ? .9 : .45);
+          ctx.save(); ctx.translate(lx, ly); ctx.rotate(t * l.s + l.p);
+          if (se === "winter"){ ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.beginPath(); ctx.arc(0, 0, 1.4 * l.s, 0, 6.283); ctx.fill(); }
+          else { ctx.fillStyle = pal[l.c % pal.length]; ctx.globalAlpha = .85; ctx.beginPath(); ctx.ellipse(0, 0, 3.2 * l.s, 1.6 * l.s, 0, 0, 6.283); ctx.fill(); }
+          ctx.restore(); ctx.globalAlpha = 1;
+        });
+      }
+      blit(layers.fg, o);
+      if (!D.labels && !S.log.length){ ctx.fillStyle = "rgba(214,202,250,.85)"; ctx.font = "600 14px -apple-system,sans-serif"; ctx.textAlign = "center"; ctx.fillText("Check off an activity to light your first star.", W / 2, H * .3); }
+      // where you are in the loop
+      const k = mod(o, P) / P, by = H - (document.body.classList.contains("sky-bare") ? 30 : 104);
+      ctx.strokeStyle = "rgba(255,255,255,.2)"; ctx.lineWidth = 3; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(W / 2 - 34, by); ctx.lineTo(W / 2 + 34, by); ctx.stroke();
+      ctx.strokeStyle = "#C08BFF"; ctx.beginPath(); ctx.moveTo(W / 2 - 34 + 68 * k - 5, by); ctx.lineTo(W / 2 - 34 + 68 * k + 5, by); ctx.stroke();
+    }
+    function tap(x, y){
+      // stars first (nearest within reach), then landmarks / constellation areas
+      let best = null, bd = 1e9;
+      hits.forEach((h) => { if (h.r){ const d = Math.hypot(h.x - x, h.y - y); if (d < h.r && d < bd){ bd = d; best = h; } } });
+      if (!best) for (let i = hits.length - 1; i >= 0; i--){ const h = hits[i]; if (h.box && x >= h.box[0] && x <= h.box[2] && y >= h.box[1] && y <= h.box[3]){ best = h; break; } }
+      if (!best){ if (skyBare){ skyBare = false; render(); } return; }
+      if (skyBare){ skyBare = false; render(); }
+      sfx("tab"); skyInfo(best.k);
+    }
+    function bind(){
+      cv.addEventListener("pointerdown", (e) => { st.drag = true; st.lx = e.clientX; st.sx = e.clientX; st.sy = e.clientY; st.t0 = performance.now(); st.moved = 0; st.v = 0; cv.setPointerCapture(e.pointerId); });
+      cv.addEventListener("pointermove", (e) => { if (!st.drag) return; const dx = e.clientX - st.lx; st.lx = e.clientX; st.moved += Math.abs(dx); st.x -= dx; st.v = -dx; });
+      const up = (e) => { if (!st.drag) return; st.drag = false; if (st.moved < 8 && Math.abs(e.clientY - st.sy) < 10 && performance.now() - st.t0 < 450){ st.v = 0; const r = cv.getBoundingClientRect(); tap(e.clientX - r.left, e.clientY - r.top); } };
+      cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", () => { st.drag = false; });
+    }
+    function mount(){
+      const c = document.getElementById("skycv"); if (!c) return;
+      const d = snapshot(), s2 = JSON.stringify([d.earned, d.streak, d.season, d.weather, d.hw.map((w) => iso(w.ws) + w.logs.length), d.camps, d.loose.length, d.gold.length, d.labels, window.innerWidth, window.innerHeight]);
+      const fresh = c !== cv;
+      cv = c; ctx = cv.getContext("2d"); data = d;
+      if (fresh) bind();
+      if (fresh || s2 !== sig || !layers || Math.abs((cv.clientHeight || 0) - H) > 2 || Math.abs((cv.clientWidth || 0) - W) > 2){ sig = s2; build(); }
+      if (!running){ running = true; raf = requestAnimationFrame(frame); }
+    }
+    function unmount(){ running = false; cancelAnimationFrame(raf); cv = null; }
+    document.addEventListener("visibilitychange", () => { if (document.hidden){ running = false; cancelAnimationFrame(raf); } else if (cv && S.tab === "sky"){ running = true; raf = requestAnimationFrame(frame); } });
+    window.addEventListener("resize", () => { if (cv && S.tab === "sky"){ sig = ""; mount(); } });
+    if (window.TWA_PREVIEW) window.__pano = {hits: () => hits};
+    return {mount, unmount};
+  })();
+
   function viewWeek(){
     const w = weekInfo(), g = S.settings.goal, done = w.done.length, st = streak();
     const left = Math.max(0, g - done), slots = Math.max(0, g - done - w.sched.length);
@@ -813,7 +1963,8 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
       const si = sunInfo();
       if (si) h += `<div class="notice"><span><b>${si.mon ? "Sunday plan" : "Saturday plan"}</b>Pick ${si.need} for ${si.mon ? "this" : "next"} week</span><span class="nbtns"><button type="button" class="pillbtn" data-sunday>Plan</button><button type="button" class="x" data-sunx="${si.a}" aria-label="Hide until next week">${IC.close}</button></span></div>`;
     }
-    h += `<section class="card hero" aria-label="Weekly progress">${ring(done, g)}<div class="txt"><div class="big${done >= g ? " hit" : ""}">${done}<small> / ${g}</small></div><div class="sub">${done >= g ? badge() + badge() : ""}<span>${msg}</span></div>${chip ? `<div class="chiprow">${chip}</div>` : ""}</div></section>`;
+    h += `<section class="card hero scn ${dayPhase()}" aria-label="Weekly progress">${ring(done, g)}<div class="txt"><span class="wtag">${esc(worldTag())}</span><div class="big${done >= g ? " hit" : ""}">${done}<small> / ${g}</small></div><div class="sub">${done >= g ? badge() + badge() : ""}<span>${msg}</span></div>${chip ? `<div class="chiprow">${chip}</div>` : ""}</div></section>`;
+    if (S.status !== "loading") h += questCard();
     const mustId = (sk.level !== "ok" && w.sched[0]) ? w.sched[0].id : "";
 
     // strip
@@ -858,6 +2009,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const fin = S.acts.filter((x) => x.status === "done" && pass(x));
     let h = head("Ideas", `${open.filter((x) => !x.date).length} waiting · ${open.filter((x) => x.date).length} planned`);
     h += syncNote();
+    if (S.status !== "loading") h += ideaChart();
     h += `<div class="filters" role="group" aria-label="Filter by category"><button type="button" class="chip" data-filter="all" aria-pressed="${f === "all"}">All</button>${CATS.map((c) => `<button type="button" class="chip" data-filter="${c.id}" aria-pressed="${f === c.id}">${CI[c.id]}${c.name}</button>`).join("")}</div>`;
     if (S.status === "loading"){ h += `<p class="empty">Loading your list…</p>`; return h; }
     h += `<div class="sechead"><h2>Needs a date</h2><span>${need.length}</span></div>`;
@@ -923,8 +2075,11 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     const f = S.hfilter || "all";
     const match = (h) => f === "all" || h.type === f || (f === "completed" && (h.type === "undone" || h.type === "removed")) || (f === "added" && h.type === "restored" && h.actId);
     const list = S.hist.filter(match).sort((a, b) => b.ts - a.ts);
-    let h = head("History", "Every change, newest first");
+    const hv = S.hview || "weeks";
+    let h = head("History", hv === "weeks" ? `${S.log.length} logged in total` : "Every change, newest first");
     h += syncNote();
+    h += `<div class="seg2" role="group" aria-label="History view"><button type="button" data-hview="weeks" aria-pressed="${hv === "weeks"}">Weeks</button><button type="button" data-hview="changes" aria-pressed="${hv === "changes"}">Changes</button></div>`;
+    if (hv === "weeks"){ if (S.status === "loading") return h + `<p class="empty">Loading…</p>`; return h + viewWeeks(); }
     h += `<div class="filters" role="group" aria-label="Filter history">${HFILTERS.map((x) => `<button type="button" class="chip" data-hfilter="${x[0]}" aria-pressed="${f === x[0]}">${x[1]}</button>`).join("")}</div>`;
     if (S.status === "loading"){ h += `<p class="empty">Loading…</p>`; return h; }
     if (!list.length){ h += `<p class="empty">${S.hist.length ? "Nothing of that kind yet." : "Changes you make from now on show up here: adding, moving, editing, completing and deleting."}</p>`; return h; }
@@ -960,7 +2115,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     });
     return h;
   }
-  const TABS = ["week", "ideas", "done", "hist"];
+  const TABS = ["week", "ideas", "sky", "hist"];
   function placeInd(instant){
     const nav = document.querySelector(".nav .in"), ind = nav && nav.querySelector(".ind"), tb = nav && nav.querySelector(`.tab[data-tab="${S.tab}"]`);
     if (!ind || !tb) return;
@@ -1019,7 +2174,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   // ---------- morning paper (The Fuller Dispatch) ----------
   // Sends a short summary of this week (goal, done, planned) to TJ's own Apps Script, which saves it in his Google Drive
   // for the printed morning paper. Nothing is sent until a paper link is saved in Settings.
-  const PAPER = () => (store.get("fd_paper") || "").trim();
+  const PAPER = () => window.TWA_PREVIEW ? "" : (store.get("fd_paper") || "").trim();
   let paperT = null, paperSig = "";
   function paperSummary(){
     const w = weekInfo();
@@ -1060,9 +2215,11 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
     S.pending = false;
     queuePaper();
     const app = document.getElementById("app");
-    app.innerHTML = S.tab === "ideas" ? viewIdeas() : S.tab === "done" ? viewDone() : S.tab === "hist" ? viewHist() : viewWeek();
+    app.innerHTML = S.tab === "ideas" ? viewIdeas() : S.tab === "sky" ? viewSky() : S.tab === "hist" ? viewHist() : viewWeek();
+    document.body.classList.toggle("tab-sky", S.tab === "sky"); document.body.classList.toggle("sky-bare", S.tab === "sky" && skyBare);
+    if (S.tab === "sky") requestAnimationFrame(() => PANO.mount()); else PANO.unmount();
     document.querySelectorAll(".tab").forEach((t) => { if (t.dataset.tab === S.tab) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
-    placeInd(); placeStrip();
+    placeInd(); placeStrip(); SKY.rebuild(); if (S.tab === "week") questTick();
     if (S.justLogged){
       const el = app.querySelector(`[data-log="${S.justLogged}"]`);
       S.justLogged = "";
@@ -1166,7 +2323,7 @@ textarea.field{min-height:92px;resize:vertical;line-height:1.45}
   }
   // ---------- cloud backup (through the same script, into the user's Google Drive) ----------
   let cloudT = null, cloudBusy = false, cloudOld = false;
-  const cloudReady = () => STANDALONE && !!GAS() && store.get("twa_cloudok") === "1" && !cloudOld;
+  const cloudReady = () => !window.TWA_PREVIEW && STANDALONE && !!GAS() && store.get("twa_cloudok") === "1" && !cloudOld;
   async function cloudSave(){
     if (!cloudReady() || cloudBusy || S.status === "loading") return;
     cloudBusy = true;
@@ -1289,6 +2446,12 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     return null;
   }
   async function calApi(){
+    const real = await calApiReal();
+    if (!real || !window.TWA_PREVIEW) return real;
+    // preview: read your calendar, never write to it
+    return {list: real.list, create: async () => "preview-" + uid(), update: async () => {}, del: async () => {}};
+  }
+  async function calApiReal(){
     if (STANDALONE && GAS()){
       return {
         create: async (b) => (await gasCall("create", {ev: gBody(b)})) || "",
@@ -1448,7 +2611,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
   async function completeAct(id){
     const x = S.acts.find((a) => a.id === id);
     if (!x || S.anim) return;
-    const g = S.settings.goal, before = weekInfo().done.length, after = before + 1, hitNow = after === g;
+    const g = S.settings.goal, before = weekInfo().done.length, after = before + 1, hitNow = after === g, newId = uid();
     const row = document.querySelector(`#app .arow[data-id="${CSS.escape(id)}"]`);
     if (!(row && !RM)) sfx(hitNow ? "goal" : "check");
     if (row && !RM){
@@ -1466,8 +2629,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         row.classList.add("struck");
         await sleep(260);
         const ringEl = document.querySelector("#app .hero .ring");
+        if (chk) await starFlight(chk, newId, after >= g);
         if (ringEl && chk && S.tab === "week"){
-          await fly(chk, ringEl, after >= g);
           setRing(ringEl, Math.min(1, after / g), after >= g); pop(ringEl, hitNow ? 1.14 : 1.1);
           const big = document.querySelector("#app .hero .big");
           if (big){ big.innerHTML = `${after}<small> / ${g}</small>`; if (after >= g) big.classList.add("hit"); pop(big, hitNow ? 1.25 : 1.18); }
@@ -1488,7 +2651,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     const early = !!(x.evId && x.evId !== "unlinked" && x.date && x.date > date);
     const upd = Object.assign({}, x, {timesDone:(x.timesDone || 0) + 1, lastDone: date > (x.lastDone || "") ? date : x.lastDone, evId:""});
     if (x.repeat === "rotate"){ upd.date = ""; upd.time = ""; upd.status = "open"; } else upd.status = "done";
-    const log = {id: uid(), actId: x.id, name: x.name, cat: x.cat, date, note: "",
+    const log = {id: newId, actId: x.id, name: x.name, cat: x.cat, date, note: "",
       prev: {date: x.date || "", time: x.time || "", status: x.status || "open", repeat: x.repeat || "once", lastDone: x.lastDone || "", timesDone: x.timesDone || 0, evId: early ? "" : (x.evId || "")}};
     S.justLogged = log.id;
     rec("completed", x, {logId: log.id});
@@ -1498,8 +2661,10 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     await Promise.all([p1, p2]);
     // done early: the future calendar event is no longer needed
     if (early) calSync(Object.assign({}, x, {cal:false}));
+    if (hitNow) await playConstellation();
+    const qp = qState().pick, friendQ = qp && qp.id === "friend" && qp.wk === iso(weekStart(today())) && !qState().done[qp.wk];
     toast(hitNow ? "That's your goal for the week." : "Logged.", [
-      {label:"Add note", fn: () => openLog(log.id)},
+      friendQ ? {label:"Who was with you?", fn: () => openLog(log.id)} : {label:"Add note", fn: () => openLog(log.id)},
       {label:"Undo", fn: () => restoreLog(log)}
     ], 5000);
   }
@@ -1866,13 +3031,14 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     const sh = openSheet(`${sheetHead("Logged")}
       <div style="display:flex;align-items:center;gap:10px">${cic(l.cat)}<span class="t1" style="font-size:18px">${esc(l.name)}</span></div>
       <div><span class="lbl">Day you did it</span>${pickField("l-date", "date", l.date, "Pick a day", "Day you did it")}</div>
+      <div><label class="lbl" for="l-with">Who was with you? (optional)</label><input class="field" id="l-with" placeholder="Names, or leave blank if solo" value="${esc(l.with || "")}" autocomplete="off"></div>
       <div><label class="lbl" for="l-note">How was it?</label><textarea class="field" id="l-note" placeholder="Worth it? Do it again? Anything to change next time?">${esc(l.note || "")}</textarea></div>
       <button type="button" class="save" id="l-save">Save</button>
       ${l.prev ? `<div><button type="button" class="save ghost" id="l-back">Not done, put it back</button><p class="hint">Removes this entry and puts the plan back the way it was${l.prev.date ? " (" + esc(fmtDay(l.prev.date) + (l.prev.time ? " · " + fmtTime(l.prev.time) : "")) + ")" : ""}.</p></div>` : ""}
       <div class="btnrow"><button type="button" class="danger" id="l-del">Remove this entry</button></div>`, "Logged activity");
     wirePicks(sh); sh.querySelector("#l-date").max = t;
     sh.querySelector("#l-save").addEventListener("click", () => {
-      const upd = Object.assign({}, l, {date: sh.querySelector("#l-date").value || l.date, note: sh.querySelector("#l-note").value.trim()});
+      const upd = Object.assign({}, l, {date: sh.querySelector("#l-date").value || l.date, note: sh.querySelector("#l-note").value.trim(), with: sh.querySelector("#l-with").value.trim()});
       closeSheet(); putLog(upd); toast("Saved.");
     });
     const back = sh.querySelector("#l-back");
@@ -2104,7 +3270,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
   // swipe sideways between tabs
   let sw0 = null;
   document.getElementById("app").addEventListener("touchstart", (e) => {
-    if (sheetEl || S.anim || e.touches.length !== 1 || e.target.closest(".filters, .strip, input, textarea")) { sw0 = null; return; }
+    if (sheetEl || S.anim || e.touches.length !== 1 || e.target.closest(".filters, .strip, #skycv, input, textarea")) { sw0 = null; return; }
     sw0 = {x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now()};
   }, {passive:true});
   document.getElementById("app").addEventListener("touchend", (e) => {
@@ -2116,6 +3282,15 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     }
   }, {passive:true});
   document.getElementById("fab").addEventListener("click", () => openEdit(null));
+  // Sky tab: tap a star, constellation or landmark to see how and when you earned it
+  document.getElementById("app").addEventListener("click", (e) => {
+    if (S.tab !== "sky" || e.target.closest("button")) return;
+    const g = e.target.closest("[data-sk]"); if (!g) return;
+    const k = g.getAttribute("data-sk");
+    if (k === "bg"){ if (skyBare){ skyBare = false; render(); } return; }
+    if (skyBare){ skyBare = false; render(); }
+    sfx("tab"); skyInfo(k);
+  });
   document.getElementById("app").addEventListener("click", (e) => {
     const t = e.target.closest("button"); if (!t || S.anim) return;
     if (t.hasAttribute("data-alert")){
@@ -2135,6 +3310,10 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     if (t.dataset.move){ openMove(t.dataset.move); return; }
     if (t.dataset.dayview){ openDay(t.dataset.dayview); return; }
     if (t.dataset.hfilter){ S.hfilter = t.dataset.hfilter; render(); return; }
+    if (t.dataset.hview){ S.hview = t.dataset.hview; render(); return; }
+    if (t.dataset.wkreplay){ playConstellation(parse(t.dataset.wkreplay)); return; }
+    if (t.hasAttribute("data-skylabels")){ skyLabels = !skyLabels; render(); return; }
+    if (t.hasAttribute("data-skybare")){ skyBare = !skyBare; render(); if (skyBare) toast("Tap the sky to bring the buttons back."); return; }
     if (t.dataset.hputback){ const l = S.log.find((x) => x.id === t.dataset.hputback); if (l) restoreLog(l); return; }
     if (t.dataset.hrestore){
       const h = S.hist.find((x) => x.id === t.dataset.hrestore);
@@ -2150,6 +3329,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       if (x){ const nx = Object.assign({}, x, {date: iso(addDays(today(), 1))}); rec("moved", nx, {from: absDay(x), to: absDay(nx)}); sfx("move"); saveWithCal(nx, "Moved to tomorrow. Don't skip this one."); }
     }
     else if (t.hasAttribute("data-sunday")) openSunday();
+    else if (t.dataset.qpick !== undefined){ const o = questOptions(weekStart(today()))[Number(t.dataset.qpick)]; if (o){ qState().pick = Object.assign({wk: iso(weekStart(today()))}, o); sfx("add"); putSettings(); toast("Quest set: " + o.n + "."); } }
+    else if (t.hasAttribute("data-qchange")){ qState().pick = null; putSettings(); }
     else if (t.dataset.sunx){ store.set("twa_sun", t.dataset.sunx); render(); toast("Hidden until next weekend."); }
     else if (t.hasAttribute("data-pick")) openPicker();
     else if (t.hasAttribute("data-add")) openEdit(null);
@@ -2287,6 +3468,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         if (typeof v.calDefault === "boolean") S.settings.calDefault = v.calDefault;
         if (typeof v.bed === "string" && /^\d{2}:\d{2}$/.test(v.bed)) S.settings.bed = v.bed;
         if (typeof v.sound === "boolean") S.settings.sound = v.sound;
+        if (v.q && typeof v.q === "object") S.settings.q = v.q;
         // One-time switch from the old 2-a-week default to 3 (later changes in Settings stick).
         if (v.goalMig !== 1){ if (S.settings.goal === 2) S.settings.goal = 3; S.settings.goalMig = 1; setTimeout(() => putSettings(), 0); }
         else S.settings.goalMig = 1;
