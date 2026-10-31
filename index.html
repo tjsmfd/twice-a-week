@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1793472144">
+<meta name="twa-build" content="1793472388">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1793472144";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1793472388";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -3364,14 +3364,14 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     setTimeout(() => { if (!sp._snd && actx && actx.state === "running"){ sp._snd = 1; sfx("open"); } }, 60);
     const $s = (q) => sp.querySelector(q);
     const sun = $s(".sun"), hz = $s(".hz"), dawn = $s(".dawn"), sky = $s(".sky"), wm = $s(".wm");
-    hz.animate([{transform:"scaleX(0)"},{transform:"scaleX(1)"}], {duration:420, easing:"cubic-bezier(.4,0,.2,1)", fill:"forwards"});
-    dawn.animate([{opacity:0},{opacity:1}], {duration:700, delay:200, fill:"forwards"});
-    sun.animate([{transform:"translateY(0)"},{transform:"translateY(-100px)"}], {duration:640, delay:260, easing:"cubic-bezier(.2,.7,.2,1)", fill:"forwards"});
-    sp.querySelectorAll(".lt").forEach((l, i) => l.animate([{opacity:0, transform:"translateY(6px)"},{opacity:1, transform:"none"}], {duration:220, delay:560 + i * 70, fill:"forwards"}));
-    $s(".aw").animate([{opacity:0},{opacity:1}], {duration:260, delay:920, fill:"forwards"});
-    $s(".tag").animate([{opacity:0, transform:"translateY(6px)"},{opacity:1, transform:"none"}], {duration:300, delay:1060, fill:"forwards"});
+    hz.animate([{transform:"scaleX(0)"},{transform:"scaleX(1)"}], {duration:672, easing:"cubic-bezier(.4,0,.2,1)", fill:"forwards"});
+    dawn.animate([{opacity:0},{opacity:1}], {duration:1120, delay:320, fill:"forwards"});
+    sun.animate([{transform:"translateY(0)"},{transform:"translateY(-100px)"}], {duration:1024, delay:416, easing:"cubic-bezier(.2,.7,.2,1)", fill:"forwards"});
+    sp.querySelectorAll(".lt").forEach((l, i) => l.animate([{opacity:0, transform:"translateY(6px)"},{opacity:1, transform:"none"}], {duration:352, delay:896 + i * 112, fill:"forwards"}));
+    $s(".aw").animate([{opacity:0},{opacity:1}], {duration:416, delay:1472, fill:"forwards"});
+    $s(".tag").animate([{opacity:0, transform:"translateY(6px)"},{opacity:1, transform:"none"}], {duration:480, delay:1696, fill:"forwards"});
     return (async () => {
-      await Promise.race([new Promise((r) => setTimeout(r, 1580)), skipP]);
+      await Promise.race([new Promise((r) => setTimeout(r, 2528)), skipP]);
       await Promise.race([S.readyP, new Promise((r) => setTimeout(r, 900))]);
       sky.style.overflow = "visible";
       const rg = document.querySelector("#app .hero .ring");
@@ -3379,14 +3379,14 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         const a = ctr(sun), b = ctr(rg);
         sun.getAnimations().forEach((an) => an.commitStyles && an.commitStyles());
         sun.getAnimations().forEach((an) => an.cancel());
-        sun.animate([{transform:"translateY(-100px)", opacity:1},{transform:`translate(${b.x - a.x}px,${b.y - a.y - 100}px) scale(.9)`, opacity:0}], {duration:380, easing:"cubic-bezier(.5,0,.25,1)", fill:"forwards"});
-      } else sun.animate([{opacity:1},{opacity:0}], {duration:260, fill:"forwards"});
-      wm.animate([{opacity:1, transform:"none"},{opacity:0, transform:"translateY(-14px)"}], {duration:260, fill:"forwards"});
-      hz.animate([{opacity:1},{opacity:0}], {duration:220, fill:"forwards"});
+        sun.animate([{transform:"translateY(-100px)", opacity:1},{transform:`translate(${b.x - a.x}px,${b.y - a.y - 100}px) scale(.9)`, opacity:0}], {duration:608, easing:"cubic-bezier(.5,0,.25,1)", fill:"forwards"});
+      } else sun.animate([{opacity:1},{opacity:0}], {duration:416, fill:"forwards"});
+      wm.animate([{opacity:1, transform:"none"},{opacity:0, transform:"translateY(-14px)"}], {duration:416, fill:"forwards"});
+      hz.animate([{opacity:1},{opacity:0}], {duration:352, fill:"forwards"});
       dawn.getAnimations().forEach((an) => an.finish());
-      dawn.animate([{opacity:1},{opacity:0}], {duration:300, fill:"forwards"});
-      $s(".sbg").animate([{opacity:1},{opacity:0}], {duration:320, delay:80, fill:"forwards"});
-      setTimeout(() => sp.remove(), 460);
+      dawn.animate([{opacity:1},{opacity:0}], {duration:480, fill:"forwards"});
+      $s(".sbg").animate([{opacity:1},{opacity:0}], {duration:512, delay:128, fill:"forwards"});
+      setTimeout(() => sp.remove(), 736);
     })();
   }
   async function reveal(full){
