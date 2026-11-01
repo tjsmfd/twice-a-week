@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1793473121">
+<meta name="twa-build" content="1793576172">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1793473121";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1793576172";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -187,7 +187,39 @@ button.day{cursor:pointer}
 .dtray .tt{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .dtray .tt b{font-size:14px}
 .dtray .tt span{font-size:12px;color:var(--muted)}
-.dtray .ideas{display:flex;flex-direction:column;gap:7px;max-height:210px;overflow:auto}
+.dtray .ideas{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow:auto;overscroll-behavior:contain;touch-action:pan-y}
+.dsearch{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:12px;padding:0 12px;min-height:40px}
+.dsearch svg{width:15px;height:15px;color:var(--muted);flex:none}
+.dsearch input{flex:1;min-width:0;background:none;border:0;color:var(--fg);font:inherit;font-size:16px;padding:8px 0;outline:none}
+.igh{display:flex;justify-content:space-between;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:6px 2px 0}
+.igh:first-child{margin-top:0}
+.idea .itag{margin-left:auto;flex:none;font-size:10.5px;font-weight:800;color:#E8C27A;background:rgba(232,194,122,.14);padding:3px 8px;border-radius:999px;white-space:nowrap}
+.idea > span:not(.itag):not(.cic){min-width:0;flex:1;text-align:left}
+.igh > span:first-child{display:inline-flex;align-items:center;gap:6px}
+.igh svg{width:13px;height:13px;flex:none}
+.idea > span:not(.cic) b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.inone{font-size:13px;color:var(--muted);text-align:center;padding:10px 0}
+.wkpick{background:var(--card2);border-radius:16px;padding:10px 10px 8px}
+.wkpick .wh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.wkpick .wh b{font-size:13.5px}
+.wkpick .wh button{width:32px;height:32px;border-radius:16px;background:var(--card);display:grid;place-items:center;color:var(--fg)}
+.wkpick .wh button svg{width:16px;height:16px}
+.wkpick .wh button:disabled{opacity:.3}
+.wkdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.wkd{background:var(--card);border:1.5px solid transparent;border-radius:11px;padding:6px 2px 5px;text-align:center;font-size:10.5px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:1px}
+.wkd b{font-size:15px;color:var(--fg);font-weight:700}
+.wkd .bars{position:relative;width:calc(100% - 8px);height:38px;margin-top:4px;background:rgba(255,255,255,.035);border-radius:5px;overflow:hidden}
+.wkd .bars i{position:absolute;left:2px;right:2px;border-radius:2px;background:rgba(255,255,255,.2)}
+.wkd .bars i.m{background:rgba(192,139,255,.55)}
+.wkd .fit{font-size:9px;font-weight:800;color:#7FD6A6;margin-top:3px;min-height:11px}
+.wkd .fit.no{color:var(--faint,#5E5E65);font-weight:600}
+.wkd[aria-pressed="true"]{border-color:var(--a2);background:linear-gradient(135deg,rgba(106,75,255,.28),rgba(192,139,255,.08)),var(--card)}
+.wkd.td b{color:var(--a2)}
+.wkd:disabled{opacity:.35}
+.wkpick .wl{font-size:11px;color:var(--muted);margin:7px 2px 0;display:flex;gap:12px}
+.wkpick .wl span{display:inline-flex;align-items:center;gap:5px}
+.wkpick .wl i{width:8px;height:8px;border-radius:2px;background:rgba(255,255,255,.2);display:inline-block}
+.wkpick .wl i.m{background:rgba(192,139,255,.55)}
 .idea{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid transparent;border-radius:12px;padding:10px 12px;text-align:left;width:100%}
 .idea .cic{margin:0}
 .idea b{font-size:14px;font-weight:600;display:block}
@@ -2927,24 +2959,117 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     }
   }
 
+  // Busy blocks and open gaps for a day (calendar events + timed plans), used by the week picker and day preview.
+  function dayBlocks(ds, skipId){
+    const cal = (S.cal[ds] || []).filter((e) => !e.allDay).map((e) => [e.s, e.e, e.title, "c"]);
+    const mine = openActs().filter((a) => a.date === ds && a.time && a.id !== skipId).map((a) => [hourOf(a.time), hourOf(a.time) + durOf(a), a.name, "m"]);
+    return cal.concat(mine);
+  }
+  function openGaps(ds, blocks, minLen){
+    const B = bedH(), ev = blocks.slice().sort((a, b) => a[0] - b[0]), out = [];
+    let t = 8;
+    if (ds === iso(today())){ const n = new Date(); t = Math.max(t, Math.ceil((n.getHours() + n.getMinutes() / 60) * 2) / 2); }
+    ev.forEach((e) => { if (e[0] - t >= minLen) out.push([t, e[0]]); t = Math.max(t, e[1]); });
+    if (B - t >= minLen) out.push([t, B]);
+    return out;
+  }
+  // Day schedule preview inside a sheet: events, other plans, the task's ghost block, tappable open slots.
+  function renderDayPrev(box, ds, o){
+    if (!ds){ box.hidden = true; box.innerHTML = ""; return; }
+    box.hidden = false;
+    loadCal(weekStart(parse(ds)));
+    const B = bedH(), END = Math.ceil(B + .5), PX = 22, y = (hh) => (hh - 8) * PX;
+    const cal = S.cal[ds] || [], calTimed = cal.filter((e) => !e.allDay), calAll = cal.filter((e) => e.allDay);
+    const others = openActs().filter((a) => a.date === ds && a.time && a.id !== o.skipId);
+    const untimed = openActs().filter((a) => a.date === ds && !a.time && a.id !== o.skipId);
+    const blocks = dayBlocks(ds, o.skipId);
+    const st = calLoaded[iso(weekStart(parse(ds)))];
+    let note = "";
+    if (!calReady()) note = STANDALONE ? "Connect your calendar in Settings to see your events here." : "";
+    else if (STANDALONE && !gOn()) note = "Calendar paused. Reconnect on the This week page to see your events.";
+    else if (st === "loading" || st === undefined) note = "Loading your calendar…";
+    else if (st === "err") note = esc(S.calErrMsg || "Couldn't load your calendar.");
+    const gaps = openGaps(ds, blocks, 1);
+    const booked = bookedOn(ds) + others.reduce((a, x) => a + durOf(x), 0);
+    const rk = booked > 6 || blocks.length >= 4 ? ["p", "Packed"] : booked >= 3 ? ["m", "Moderate"] : ["l", "Light"];
+    let tl = "";
+    for (let hh = 8; hh <= END; hh++) tl += `<div class="hr" style="top:${y(hh)}px"><span>${hh % 2 === 0 || hh === END ? fmtH(hh).replace(":00", "") : ""}</span></div>`;
+    tl += `<div class="late" style="top:${y(B)}px;height:${y(END) - y(B)}px"></div><div class="bed" style="top:${y(B)}px"><span>Bedtime</span></div>`;
+    tl += calTimed.map((e) => `<div class="ev cal" style="top:${y(Math.max(8, e.s)) + 1}px;height:${Math.max(16, y(Math.min(END, e.e)) - y(Math.max(8, e.s)) - 2)}px"><b>${esc(e.title)}</b>${fmtH(e.s)}</div>`).join("");
+    tl += others.map((a) => { const s0 = hourOf(a.time), e0 = s0 + durOf(a); return `<div class="ev mine" style="top:${y(Math.max(8, s0)) + 1}px;height:${Math.max(16, y(Math.min(END, e0)) - y(Math.max(8, s0)) - 2)}px"><b>${esc(a.name)}</b>${fmtH(s0)}</div>`; }).join("");
+    let warn = "";
+    if (o.time){
+      const s0 = hourOf(o.time), e0 = s0 + o.dur;
+      tl += `<div class="ev ghost${e0 > B ? " over" : ""}" data-ghost style="top:${y(Math.max(8, s0)) + 1}px;height:${Math.max(16, y(Math.min(END, e0)) - y(Math.max(8, s0)) - 2)}px;z-index:1"><b>${esc(o.name)}</b>${fmtH(s0)} – ${fmtH(e0)}</div>`;
+      const hit = blocks.find((b) => s0 < b[1] - 1e-6 && e0 > b[0] + 1e-6);
+      if (hit) warn = `<p class="warnp">${IC.alert}<span>Overlaps ${esc(hit[2])} (${fmtH(hit[0])} – ${fmtH(hit[1])}). Tap an open slot to move it.</span></p>`;
+      else if (s0 < 8) warn = `<p class="warnp">${IC.alert}<span>That's before 8 AM, above this view.</span></p>`;
+    }
+    const gs0 = o.time ? hourOf(o.time) : -1, ge0 = gs0 + o.dur;
+    gaps.filter((g) => !(gs0 >= 0 && gs0 < g[1] && ge0 > g[0])).forEach((g) => { tl += `<button type="button" class="ev gap" data-pgap="${g[0]}" style="top:${y(g[0]) + 2}px;height:${Math.max(16, y(g[1]) - y(g[0]) - 4)}px"><span><b>Open</b> ${fmtH(g[0])} – ${fmtH(g[1])}</span><span class="plus">${PLUS}</span></button>`; });
+    const chipsAll = calAll.map((e) => `<span>All day · ${esc(e.title)}</span>`).concat(untimed.map((a) => `<span>${esc(a.name)} · no time yet</span>`));
+    box.innerHTML = `<div class="ph"><b>${esc(fmtPick("date", ds))}</b><small><span class="bz ${rk[0]}" style="display:inline-block;margin-right:5px"></span>${rk[1]} · ${Math.round(booked * 10) / 10} hr booked</small></div>
+      ${note ? `<p class="pn">${note}</p>` : warn ? "" : `<p class="pn">${o.time ? "Tap another open slot to move it." : "Tap an open slot to set the time."}</p>`}
+      ${chipsAll.length ? `<div class="alld">${chipsAll.join("")}</div>` : ""}
+      ${warn}<div class="tl" style="height:${y(END) + 10}px">${tl}</div>`;
+  }
+
   function openMove(id){
     const x = S.acts.find((a) => a.id === id); if (!x) return;
-    const qd = quickDates();
+    const dur = durOf(x), t0 = iso(today());
+    let wk = weekStart(x.date && x.date >= t0 ? parse(x.date) : today());
     const sh = openSheet(`${sheetHead(x.date ? "Move" : "Give it a day")}
       <div style="display:flex;gap:10px;align-items:center">${cic(x.cat)}<span class="t1" style="font-size:18px">${esc(x.name)}</span></div>
-      <p class="hint" style="margin:-8px 0 0;font-size:13px">${x.date ? "Now: " + esc(fmtDay(x.date) + (x.time ? " · " + fmtTime(x.time) : "")) : "No date yet"}</p>
-      <div class="chips" id="m-quick">${qd.map((q) => `<button type="button" class="chip" data-v="${q.v}" aria-pressed="${x.date === q.v}">${q.l}</button>`).join("")}</div>
+      <p class="hint" style="margin:-8px 0 0;font-size:13px">${x.date ? "Now: " + esc(fmtDay(x.date) + (x.time ? " · " + fmtTime(x.time) : "")) : "No date yet"} · about ${durLabel(dur)}</p>
+      <div class="wkpick" id="m-week"></div>
       <div class="row2" style="grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)">${pickField("m-date", "date", x.date || "", "Pick a day", "New date")}${pickField("m-time", "time", x.time || "", "Add a time", "Time (optional)")}</div>
       <div id="m-bed"></div>
+      <div id="m-dayprev" class="dprev" style="margin-top:0" hidden></div>
       <button type="button" class="save" id="m-save">${x.date ? "Move it" : "Plan it"}</button>
       ${x.date ? `<div class="btnrow"><button type="button" id="m-clear">Take it off the schedule</button></div>` : ""}`, x.date ? "Move activity" : "Plan activity");
     wirePicks(sh);
-    const dateIn = sh.querySelector("#m-date"), timeIn = sh.querySelector("#m-time"), quick = sh.querySelector("#m-quick");
-    const mark = (v) => quick.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
-    quick.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b){ dateIn.value = b.dataset.v; mark(b.dataset.v); dateIn.dispatchEvent(new Event("change")); } });
-    const bedChk = () => { const pb = dateIn.value ? pastBed(timeIn.value, durOf(x)) : 0; sh.querySelector("#m-bed").innerHTML = pb ? bedMsg(pb) : ""; };
-    dateIn.addEventListener("change", () => { mark(dateIn.value); bedChk(); });
-    timeIn.addEventListener("change", bedChk); bedChk();
+    const dateIn = sh.querySelector("#m-date"), timeIn = sh.querySelector("#m-time"), weekBox = sh.querySelector("#m-week"), prevBox = sh.querySelector("#m-dayprev");
+    const hhmm = (h) => { const m = Math.round(h * 60); return pad(Math.floor(m / 60) % 24) + ":" + pad(m % 60); };
+    function drawWeek(){
+      loadCal(wk);
+      const B = bedH(), span = B - 8, canBack = iso(addDays(wk, -1)) >= t0;
+      let h = `<div class="wh"><button type="button" data-wk="-1" aria-label="Previous week" ${canBack ? "" : "disabled"}>${CHL}</button><b>${esc(short(wk))} – ${esc(short(addDays(wk, 6)))}</b><button type="button" data-wk="1" aria-label="Next week">${CHR}</button></div><div class="wkdays">`;
+      for (let i = 0; i < 7; i++){
+        const d = addDays(wk, i), ds = iso(d), past = ds < t0, bl = dayBlocks(ds, x.id);
+        const fits = !past && openGaps(ds, bl, dur).length > 0;
+        const bars = bl.map((b) => { const a = Math.max(0, (Math.max(8, b[0]) - 8) / span), z = Math.min(1, (Math.min(B, b[1]) - 8) / span); return z > a ? `<i class="${b[3] === "m" ? "m" : ""}" style="top:${(a * 100).toFixed(1)}%;height:${Math.max(4, (z - a) * 100).toFixed(1)}%"></i>` : ""; }).join("");
+        h += `<button type="button" class="wkd${ds === t0 ? " td" : ""}" data-wd="${ds}" aria-pressed="${dateIn.value === ds}" ${past ? "disabled" : ""} aria-label="${esc(fmtPick("date", ds))}${fits ? ", fits" : ""}">${DOW[i].slice(0, 1)}<b>${d.getDate()}</b><span class="bars">${bars}</span><span class="fit${fits || past ? "" : " no"}">${past ? "" : fits ? "fits" : "full"}</span></button>`;
+      }
+      h += `</div><div class="wl"><span><i></i>Calendar</span><span><i class="m"></i>Your plans</span><span style="margin-left:auto">"fits" = ${durLabel(dur)} free</span></div>`;
+      weekBox.innerHTML = h;
+    }
+    function redraw(){
+      const pb = dateIn.value ? pastBed(timeIn.value, dur) : 0;
+      sh.querySelector("#m-bed").innerHTML = pb ? bedMsg(pb) : "";
+      drawWeek();
+      renderDayPrev(prevBox, dateIn.value, {skipId: x.id, time: timeIn.value, dur, name: x.name});
+    }
+    weekBox.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b || b.disabled) return;
+      if (b.dataset.wk){ wk = addDays(wk, 7 * Number(b.dataset.wk)); drawWeek(); sfx("tab"); return; }
+      if (b.dataset.wd){
+        if (dateIn.value !== b.dataset.wd){ dateIn.value = b.dataset.wd; dateIn.dispatchEvent(new Event("change")); }
+        sfx("tab");
+        setTimeout(() => { prevBox.scrollIntoView({block: "start", behavior: RM ? "auto" : "smooth"}); }, 30);
+      }
+    });
+    prevBox.addEventListener("click", (e) => {
+      const g = e.target.closest("[data-pgap]"); if (!g) return;
+      timeIn.value = hhmm(Number(g.dataset.pgap)); timeIn.dispatchEvent(new Event("change"));
+      sfx("tab");
+      setTimeout(() => { const gh = prevBox.querySelector("[data-ghost]"); if (gh) gh.scrollIntoView({block: "center", behavior: RM ? "auto" : "smooth"}); }, 30);
+    });
+    dateIn.addEventListener("change", () => { if (dateIn.value){ const w = weekStart(parse(dateIn.value)); if (iso(w) !== iso(wk)) wk = w; } redraw(); });
+    dateIn.addEventListener("input", () => redraw());
+    timeIn.addEventListener("change", redraw);
+    dayRedraw = redraw;
+    sh.parentElement._onClose = () => { dayRedraw = null; };
+    redraw();
     sh.querySelector("#m-save").addEventListener("click", () => {
       const date = dateIn.value;
       if (!date){ toast("Pick a day first."); return; }
@@ -2962,7 +3087,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
   const CHR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
   const PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
   function openDay(ds){
-    let cur = ds, gapSel = null, ideaSel = null;
+    let cur = ds, gapSel = null, ideaSel = null, q = "";
     const sh = openSheet(`<div id="dv" style="display:flex;flex-direction:column;gap:12px"></div>`, "Day schedule");
     const box = sh.querySelector("#dv");
     sh.parentElement._onClose = () => { dayRedraw = null; };
@@ -2998,8 +3123,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       tl += calTimed.map((e) => `<div class="ev cal" style="top:${y(Math.max(8, e.s)) + 1}px;height:${Math.max(18, y(Math.min(END, e.e)) - y(Math.max(8, e.s)) - 2)}px"><b>${esc(e.title)}</b>${fmtH(e.s)} – ${fmtH(e.e)}</div>`).join("");
       tl += timed.map((x) => { const s0 = hourOf(x.time), e0 = s0 + durOf(x), over = e0 > B; return `<button type="button" class="ev mine${over ? " over" : ""}" data-edit="${esc(x.id)}" style="top:${y(Math.max(8, s0)) + 1}px;height:${Math.max(20, y(Math.min(END, e0)) - y(Math.max(8, s0)) - 2)}px"><b>${esc(x.name)}</b>${fmtH(s0)} – ${fmtH(e0)} · Your plan${over ? " · past bedtime" : ""}</button>`; }).join("");
       gaps.forEach((g, k) => {
-        if (gapSel === k && ideaSel != null){
-          const it = ideasList()[ideaSel], e0 = g[0] + durOf(it), over = e0 > B;
+        if (gapSel === k && ideaSel != null && ideaById(ideaSel)){
+          const it = ideaById(ideaSel), e0 = g[0] + durOf(it), over = e0 > B;
           tl += `<div class="ev ghost${over ? " over" : ""}" style="top:${y(g[0]) + 1}px;height:${y(Math.min(END, e0)) - y(g[0]) - 2}px"><b>${esc(it.name)}</b>${fmtH(g[0])} – ${fmtH(e0)} · preview</div>`;
         } else tl += `<button type="button" class="ev gap" data-gap="${k}" aria-pressed="${gapSel === k}" style="top:${y(g[0]) + 3}px;height:${y(g[1]) - y(g[0]) - 6}px"><span><b>Open</b> · ${fmtH(g[0])} – ${fmtH(g[1])}</span><span class="plus">${PLUS}</span></button>`;
       });
@@ -3012,24 +3137,36 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       hd += `<div class="tl" style="height:${y(END) + 14}px">${tl}</div>`;
       if (gapSel != null && gaps[gapSel]){
         const g = gaps[gapSel], list = ideasList();
-        const it = ideaSel != null ? list[ideaSel] : null, e0 = it ? g[0] + durOf(it) : 0;
+        const it = ideaSel != null ? ideaById(ideaSel) : null, e0 = it ? g[0] + durOf(it) : 0;
         const next = it ? blocks.filter((b) => b[0] >= g[0]).sort((a, b) => a[0] - b[0])[0] : null;
         let warn = "";
         if (it && e0 > B) warn = bedMsg(e0);
         else if (it && next && e0 > next[0] + 1e-6) warn = `<p class="bedwarn">${IC.alert}<span>Runs into something else at ${fmtH(next[0])}.</span></p>`;
         hd += `<div class="dtray" id="dtray"><div class="tgrab" aria-hidden="true"></div><div class="tt"><b>Plan into ${fmtH(g[0])} – ${fmtH(g[1])}</b><span>${Math.round((g[1] - g[0]) * 10) / 10} hr free</span></div>
-          ${list.length ? `<div class="ideas">${list.map((x, i) => `<button type="button" class="idea" data-idea="${i}" aria-pressed="${ideaSel === i}">${cic(x.cat)}<span><b>${esc(x.name)}</b><small>${esc(catOf(x.cat).name)} · about ${durLabel(durOf(x))}</small></span></button>`).join("")}</div>` : `<p class="hint" style="margin:0">No ideas waiting. Add one with the + button.</p>`}
+          ${list.length ? `<label class="dsearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="dv-q" type="search" placeholder="Search your ${list.length} tasks" value="${esc(q)}" autocomplete="off" enterkeyhint="done" aria-label="Search your tasks"></label>
+          <div class="ideas" id="dv-ideas">${CATS.map((c) => { const L = list.filter((x) => (x.cat || "other") === c.id || (!CATS.some((k) => k.id === x.cat) && c.id === "other")); return L.length ? `<div class="igh" data-gh="${c.id}"><span>${CI[c.id]} ${esc(c.name)}</span><span>${L.length}</span></div>` + L.map((x) => `<button type="button" class="idea" data-idea="${esc(x.id)}" data-c="${c.id}" data-n="${esc(x.name.toLowerCase())}" aria-pressed="${ideaSel === x.id}">${cic(x.cat)}<span><b>${esc(x.name)}</b><small>${x.date ? "On " + esc(fmtDay(x.date)) + (x.time ? " · " + esc(fmtTime(x.time)) : "") : "Idea"} · about ${durLabel(durOf(x))}</small></span>${x.date ? `<span class="itag">${x.date === cur ? "Set time" : DOW[dowIdx(parse(x.date))] + " · move"}</span>` : ""}</button>`).join("") : ""; }).join("")}<p class="inone" id="dv-none" hidden>No tasks match.</p></div>` : `<p class="hint" style="margin:0">No tasks yet. Add one with the + button.</p>`}
           ${warn}
-          <button type="button" class="save" id="dv-add" ${it ? "" : "disabled"}>${!it ? "Pick an idea" : warn ? "Add anyway" : "Add to " + DOW[dowIdx(parse(cur))] + " at " + fmtH(g[0])}</button></div>`;
+          <button type="button" class="save" id="dv-add" ${it ? "" : "disabled"}>${!it ? "Pick an idea" : warn ? "Add anyway" : (it.date ? "Move to " : "Add to ") + DOW[dowIdx(parse(cur))] + " at " + fmtH(g[0])}</button></div>`;
       } else hd += `<div style="height:8px"></div>`;
       box.innerHTML = hd;
       const tray = box.querySelector("#dtray");
-      if (tray) wireTray(tray);
+      if (tray){ wireTray(tray); filterIdeas(); }
     }
-    const ideasList = () => openActs().filter((x) => !x.date).sort(waitingSort).slice(0, 8);
+    // Every open task, except ones already timed on this day (those are on the timeline). Ideas first, then planned ones.
+    const ideasList = () => openActs().filter((x) => !(x.date === cur && x.time)).sort((a, b) => (a.date ? 1 : 0) - (b.date ? 1 : 0) || (a.date ? (a.date + (a.time || "")).localeCompare(b.date + (b.time || "")) : waitingSort(a, b)));
+    const ideaById = (id) => ideasList().find((x) => x.id === id) || null;
+    function filterIdeas(){
+      const wrap = box.querySelector("#dv-ideas"); if (!wrap) return;
+      const t = q.trim().toLowerCase(), seen = {};
+      let any = false;
+      wrap.querySelectorAll(".idea").forEach((b) => { const ok = !t || b.dataset.n.includes(t); b.hidden = !ok; if (ok){ seen[b.dataset.c] = (seen[b.dataset.c] || 0) + 1; any = true; } });
+      wrap.querySelectorAll(".igh").forEach((h) => { const n = seen[h.dataset.gh] || 0; h.hidden = !n; h.lastElementChild.textContent = n; });
+      const none = box.querySelector("#dv-none"); if (none) none.hidden = any;
+    }
+    box.addEventListener("input", (e) => { if (e.target.id === "dv-q"){ q = e.target.value; filterIdeas(); } });
     function wireTray(tray){
       let y0 = null, cur2 = 0, v = 0, ly = 0, lt = 0;
-      tray.addEventListener("pointerdown", (e) => { if (e.target.closest("button")) return; y0 = e.clientY; ly = y0; lt = performance.now(); cur2 = 0; v = 0; try { tray.setPointerCapture(e.pointerId); } catch (er){} });
+      tray.addEventListener("pointerdown", (e) => { if (e.target.closest("button,input,label,.ideas")) return; y0 = e.clientY; ly = y0; lt = performance.now(); cur2 = 0; v = 0; try { tray.setPointerCapture(e.pointerId); } catch (er){} });
       tray.addEventListener("pointermove", (e) => { if (y0 == null) return; const d = e.clientY - y0, n = performance.now(); v = (e.clientY - ly) / Math.max(1, n - lt); ly = e.clientY; lt = n; cur2 = Math.max(-10, d); tray.style.transform = `translateY(${cur2}px)`; });
       const end = () => { if (y0 == null) return; y0 = null; tray.style.transform = ""; if (cur2 > 70 || v > .5){ gapSel = null; ideaSel = null; draw(); } };
       tray.addEventListener("pointerup", end); tray.addEventListener("pointercancel", end);
@@ -3037,19 +3174,19 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     dayRedraw = draw;
     box.addEventListener("click", (e) => {
       const b = e.target.closest("button"); if (!b) return;
-      if (b.dataset.dstep){ cur = iso(addDays(parse(cur), Number(b.dataset.dstep))); gapSel = null; ideaSel = null; draw(); sfx("tab"); return; }
+      if (b.dataset.dstep){ cur = iso(addDays(parse(cur), Number(b.dataset.dstep))); gapSel = null; ideaSel = null; q = ""; draw(); sfx("tab"); return; }
       const into = (el) => { if (!el) return; const sr = sh.getBoundingClientRect(), r = el.getBoundingClientRect(); sh.scrollTo({top: sh.scrollTop + r.top - sr.top - 150, behavior: RM ? "auto" : "smooth"}); };
-      if (b.dataset.gap != null && b.classList.contains("gap")){ const k = Number(b.dataset.gap); gapSel = gapSel === k ? null : k; ideaSel = null; const keep = sh.scrollTop; draw(); sh.scrollTop = keep; if (gapSel != null) into(box.querySelector(".ev.gap[aria-pressed=true]")); return; }
-      if (b.dataset.idea != null){ ideaSel = Number(b.dataset.idea); const keep = sh.scrollTop; draw(); sh.scrollTop = keep; into(box.querySelector(".ev.ghost")); return; }
+      if (b.dataset.gap != null && b.classList.contains("gap")){ const k = Number(b.dataset.gap); gapSel = gapSel === k ? null : k; ideaSel = null; q = ""; const keep = sh.scrollTop; draw(); sh.scrollTop = keep; if (gapSel != null) into(box.querySelector(".ev.gap[aria-pressed=true]")); return; }
+      if (b.dataset.idea != null){ ideaSel = b.dataset.idea; const keep = sh.scrollTop, lst = box.querySelector("#dv-ideas"), ls = lst ? lst.scrollTop : 0; draw(); sh.scrollTop = keep; const l2 = box.querySelector("#dv-ideas"); if (l2) l2.scrollTop = ls; into(box.querySelector(".ev.ghost")); return; }
       if (b.dataset.edit){ openEdit(b.dataset.edit); return; }
       if (b.id === "dv-add"){
         const g = gapsOn(cur, (S.cal[cur] || []).filter((x) => !x.allDay).map((x) => [x.s, x.e]).concat(plansOn(cur).filter((x) => x.time).map((x) => [hourOf(x.time), hourOf(x.time) + durOf(x)])))[gapSel];
-        const x = ideasList()[ideaSel]; if (!g || !x) return;
+        const x = ideaById(ideaSel); if (!g || !x) return;
         const hh = Math.floor(g[0]) % 24, mm = Math.round((g[0] - Math.floor(g[0])) * 60);
         const nx = Object.assign({}, x, {date: cur, time: pad(hh) + ":" + pad(mm), dur: durOf(x), cal: x.cal === undefined ? S.settings.calDefault : x.cal, rem: x.rem || "night"});
         rec("moved", nx, {from: absDay(x), to: absDay(nx)}); sfx("move");
         gapSel = null; ideaSel = null;
-        saveWithCal(nx, "Planned for " + lcDay(cur) + " at " + fmtTime(nx.time) + ".").then(() => { if (dayRedraw) dayRedraw(); });
+        saveWithCal(nx, (x.date && x.date !== cur ? "Moved to " : "Planned for ") + lcDay(cur) + " at " + fmtTime(nx.time) + ".").then(() => { if (dayRedraw) dayRedraw(); });
         draw();
       }
     });
