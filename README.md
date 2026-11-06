@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Nov 1, 2026 · 6:55 PM ET. Day schedule task picker now lists every task (grouped by category, with search; planned ones can be moved in). "Give it a day" shows the week at a glance and that day's schedule.
+Last updated: Nov 6, 2026 · 5:55 PM ET. Tap a task for a details card (Edit, Move, Delete in the … menu; touch and hold a task for the same menu). Cleaner This week with a centred count; quests moved to the Sky tab (flag button). One colour per meaning (amber = heads up, gold = rewards, white outline = selected), bigger chips, new empty screens.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
