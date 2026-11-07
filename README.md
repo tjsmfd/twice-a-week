@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Nov 6, 2026 · 5:55 PM ET. Tap a task for a details card (Edit, Move, Delete in the … menu; touch and hold a task for the same menu). Cleaner This week with a centred count; quests moved to the Sky tab (flag button). One colour per meaning (amber = heads up, gold = rewards, white outline = selected), bigger chips, new empty screens.
+Last updated: Nov 6, 2026 · 7:20 PM ET. New Design page (Settings → Design) showing every colour, text size and piece. Ideas star chart: tap a star to see its full name, tap again or Open for its card.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 

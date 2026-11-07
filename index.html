@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1794004882">
+<meta name="twa-build" content="1794010157">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1794004882";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1794010157";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -193,7 +193,7 @@ button.day{cursor:pointer}
 .dsearch input{flex:1;min-width:0;background:none;border:0;color:var(--fg);font:inherit;font-size:16px;padding:8px 0;outline:none}
 .igh{display:flex;justify-content:space-between;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:6px 2px 0}
 .igh:first-child{margin-top:0}
-.idea .itag{margin-left:auto;flex:none;font-size:10.5px;font-weight:800;color:#F0A35E;background:rgba(240,163,94,.14);padding:3px 8px;border-radius:999px;white-space:nowrap}
+.itag{margin-left:auto;flex:none;font-size:10.5px;font-weight:800;color:#F0A35E;background:rgba(240,163,94,.14);padding:3px 8px;border-radius:999px;white-space:nowrap}
 .idea > span:not(.itag):not(.cic){min-width:0;flex:1;text-align:left}
 .igh > span:first-child{display:inline-flex;align-items:center;gap:6px}
 .igh svg{width:13px;height:13px;flex:none}
@@ -645,6 +645,30 @@ body.sky-bare .nav .in{pointer-events:none}
 /* ===== quests on the Sky tab ===== */
 .skybtn.dot{position:relative}
 .skybtn.dot::after{content:"";position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:4px;background:var(--gold);box-shadow:0 0 6px rgba(242,207,122,.8)}
+
+/* star chart label */
+.stip{position:absolute;left:10px;right:10px;z-index:4;display:flex;align-items:center;gap:10px;background:rgba(28,28,34,.97);border:1px solid rgba(192,139,255,.35);border-radius:16px;padding:10px 8px 10px 14px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.stip .sn{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.stip .sn b{font-size:16px;font-weight:700;color:var(--fg);line-height:1.3;overflow-wrap:anywhere}
+.stip .sn span{font-size:13px;color:var(--muted)}
+.stip .pillbtn{min-height:40px;padding:0 16px;font-size:14px}
+.stip .iconbtn.sm{width:36px;height:36px;flex:none}
+.stip .iconbtn.sm svg{width:16px;height:16px}
+.istar.sel{color:#fff}.istar.sel i{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.25)}
+/* design page */
+.dsrow{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card2);border:0;border-radius:16px;padding:12px 14px;min-height:56px;color:var(--fg);text-align:left}
+.dsrow b{display:block;font-size:16px}.dsrow small{font-size:13px;color:var(--muted)}
+.dsrow svg{width:18px;height:18px;color:var(--muted);flex:none}
+.dsg{display:flex;flex-direction:column;gap:10px}
+.dsg .lbl{margin:0}
+.dsw{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dsw div{background:var(--card2);border-radius:14px;padding:10px;min-width:0}
+.dsw i{display:block;height:28px;border-radius:8px;margin-bottom:8px}
+.dsw b{display:block;font-size:14px}.dsw small{font-size:12px;color:var(--muted);line-height:1.3;display:block}
+.dty{background:var(--card2);border-radius:14px;padding:4px 14px}
+.dty div{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--edge)}
+.dty div:last-child{border-bottom:0}
+.dty small{font-size:12px;color:var(--muted)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -1453,10 +1477,10 @@ body.sky-bare .nav .in{pointer-events:none}
       const r = rng(hashS(g.c.id)), pts = show.map((x, i) => ({x: x0 + 4 + (i % 2) * 7 + r() * 3, y: y0 + 32 + i * 19 + r() * 2, it: x}));
       h += `<div class="grp" style="left:${x0}%;top:${y0}px;width:50%;height:${RH}px"><div class="gl">${CI[g.c.id]}${esc(g.c.name)}</div></div>`;
       h += `<svg class="gln" viewBox="0 0 100 ${H}" preserveAspectRatio="none"><polyline points="${pts.map((p) => p.x.toFixed(1) + "," + p.y.toFixed(1)).join(" ")}" fill="none" stroke="rgba(192,139,255,.28)" stroke-width="1" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/></svg>`;
-      pts.forEach((p) => { const lit = !!p.it.date; h += `<button type="button" class="istar${lit ? " lit" : ""}" data-edit="${esc(p.it.id)}" style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}px" aria-label="${esc(p.it.name)}${lit ? ", planned " + esc(fmtDay(p.it.date)) : ", idea"}"><i></i><span>${esc(p.it.name)}</span>${lit ? `<small>${esc(fmtShortDay(p.it.date))}</small>` : ""}</button>`; });
+      pts.forEach((p) => { const lit = !!p.it.date; h += `<button type="button" class="istar${lit ? " lit" : ""}" data-star="${esc(p.it.id)}" style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}px" aria-label="${esc(p.it.name)}${lit ? ", planned " + esc(fmtDay(p.it.date)) : ", idea"}"><i></i><span>${esc(p.it.name)}</span>${lit ? `<small>${esc(fmtShortDay(p.it.date))}</small>` : ""}</button>`; });
       if (more > 0) h += `<div class="more" style="left:auto;right:${col ? 10 : 51}%;top:${y0 + RH - 18}px;bottom:auto;position:absolute">+${more} more</div>`;
     });
-    return h + `<div class="ih">Dim = idea · glowing = planned · tap a star</div></section>`;
+    return h + `<div class="ih">Dim = idea · glowing = planned · tap a star</div><div class="stip" id="stip" hidden></div></section>`;
   }
 
   SKY.init();
@@ -1497,6 +1521,41 @@ body.sky-bare .nav .in{pointer-events:none}
     const qp = qState().pick, qNeed = !(qp && qp.wk === iso(weekStart(today())));
     const ui = `<div class="skyui">${btn("data-skyquest", "Quests", '<svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>', false).replace('class="skybtn', qNeed ? 'class="skybtn dot' : 'class="skybtn')}${btn("data-skylabels", "Show names", '<svg viewBox="0 0 24 24"><path d="M4 18L9 6l5 12M6 14h6M15 18v-6a3 3 0 0 1 6 0v6M15 15h6"/></svg>', skyLabels)}${btn("data-skybare", "Hide buttons and tabs", '<svg viewBox="0 0 24 24"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/></svg>', skyBare)}</div>`;
     return `<section class="skyv${skyBare ? " bare" : ""}" id="skyv" aria-label="Your sky and land. Drag to explore, tap a star or landmark for details."><canvas id="skycv"></canvas>${ui}</section>`;
+  }
+  // Star chart: show the full name in readable text; tapping the same star again (or Open) opens its card.
+  function hideTip(){ const tp = document.getElementById("stip"); if (tp) tp.hidden = true; document.querySelectorAll(".istar.sel").forEach((e) => e.classList.remove("sel")); }
+  document.addEventListener("pointerdown", (e) => { const tp = document.getElementById("stip"); if (tp && !tp.hidden && !e.target.closest("#stip, .istar")) hideTip(); }, true);
+  document.addEventListener("click", (e) => { if (e.target.closest("#stip [data-edit]")) setTimeout(hideTip, 0); }, true);
+  function starTip(b){
+    const tip = document.getElementById("stip"), chart = b.closest(".ichart"); if (!tip || !chart) return;
+    const id = b.dataset.star, x = S.acts.find((a) => a.id === id); if (!x) return;
+    if (b.classList.contains("sel") && !tip.hidden){ hideTip(); openDetails(id); return; }
+    chart.querySelectorAll(".istar.sel").forEach((e) => e.classList.remove("sel")); b.classList.add("sel");
+    tip.innerHTML = `<div class="sn"><b>${esc(x.name)}</b><span>${esc(catOf(x.cat).name)} · ${x.date ? esc(fmtDay(x.date)) + (x.time ? " · " + esc(fmtTime(x.time)) : "") : "Idea"}</span></div><button type="button" class="pillbtn" data-edit="${esc(id)}">Open</button><button type="button" class="iconbtn sm" data-stipx aria-label="Close">${IC.close}</button>`;
+    tip.hidden = false;
+    const cr = chart.getBoundingClientRect(), br = b.getBoundingClientRect(), th = tip.offsetHeight;
+    const below = br.top - cr.top < th + 16;
+    tip.style.top = (below ? br.bottom - cr.top + 8 : br.top - cr.top - th - 8) + "px";
+    if (!RM) tip.animate([{opacity:0, transform:"translateY(4px)"}, {opacity:1, transform:"none"}], {duration:180, easing:"ease-out"});
+    sfx("tab");
+  }
+  // Settings -> Design: every colour, text size and component the app is built from, drawn with the real styles.
+  function openDesign(){
+    const sw = [["Plan", "var(--g-warm)", "Your plans, main buttons"], ["Reward", "var(--gold)", "Stars, quests, landmarks"], ["Heads up", "var(--amber)", "Bedtime, missed, overlap, move"], ["Done", "#7FD6A6", "Done, open time, fits"], ["Delete", "var(--red)", "Delete, packed days"], ["Selected", "rgba(255,255,255,.08)", "White outline"]];
+    const ty = [["Title", "28px", 800], ["Section", "20px", 800], ["Headline", "17px", 700], ["Body", "15px", 400], ["Caption", "12px", 600]];
+    const demo = {id: "_demo", name: "Visit Hope Mill Lake", cat: "outdoors", date: "", time: "", status: "open", dur: 2, created: Date.now()};
+    const sh = openSheet(`${sheetHead("Design")}
+      <p class="hint" style="margin:-8px 0 0">Everything the app is built from. New pieces get added here first.</p>
+      <div class="dsg"><span class="lbl">Colours · one job each</span><div class="dsw">${sw.map(([n, c, d]) => `<div><i style="background:${c}${n === "Selected" ? ";box-shadow:inset 0 0 0 1.5px #fff" : ""}"></i><b>${n}</b><small>${d}</small></div>`).join("")}</div></div>
+      <div class="dsg"><span class="lbl">Type</span><div class="dty">${ty.map(([n, z, w]) => `<div><span style="font-size:${z};font-weight:${w}">${n}</span><small>${z.replace("px", "")} · ${w}</small></div>`).join("")}</div></div>
+      <div class="dsg"><span class="lbl">Buttons</span><button type="button" class="save">Primary</button><button type="button" class="save ghost">Secondary</button><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="pillbtn">Small</button><button type="button" class="pillbtn ghost">Small ghost</button><button type="button" class="iconbtn" aria-label="Icon button">${DIC.more}</button></div></div>
+      <div class="dsg"><span class="lbl">Chips · 44 pt</span><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="chip" aria-pressed="true">Selected</button><button type="button" class="chip" aria-pressed="false">Not selected</button></div></div>
+      <div class="dsg"><span class="lbl">Labels</span><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="dt-cat">${CI.outdoors}Outdoors</span><span class="tag cal">${IC.cal}Calendar</span><span class="tag late">Missed</span><span class="itag" style="margin:0">Sat · move</span><span class="rate l">Light</span><span class="rate m">Moderate</span><span class="rate p">Packed</span><span class="qrew">+2 ★</span></div></div>
+      <div class="dsg"><span class="lbl">Task row</span><div class="list" style="pointer-events:none">${actRow(demo)}</div></div>
+      <div class="dsg"><span class="lbl">Heads-up</span>${bedMsg(1)}</div>
+      <div class="dsg"><span class="lbl">Empty states</span>${emptyState("hill", "Small empty", "One short hint line.", "", "sm")}${emptyState("moon", "Large empty", "Title, one hint, at most one button.", `<button type="button" class="pillbtn">Action</button>`)}</div>
+      <div class="dsg"><span class="lbl">Motion</span><p class="hint" style="margin:0">Fades and short rises, under half a second. Celebrations (star check-off, week complete) and the opening animation are the only long ones.</p></div>`, "Design");
+    sh.addEventListener("click", (e) => { if (e.target.closest(".dsg button")) e.preventDefault(); });
   }
   function openQuests(){
     const sh = openSheet(`${sheetHead("Quests")}<div id="qwrap">${questCard()}</div>`, "Quests");
@@ -3469,6 +3528,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     });
   }
 
+  document.addEventListener("click", (e) => { if (e.target.closest("#s-design")) openDesign(); });
   function openSettings(){
     const g0 = S.settings.goal, n0 = S.settings.nudge;
     const sl = snaps(), lastbk = Number(store.get("twa_lastbk") || 0);
@@ -3491,6 +3551,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         <p class="hint" style="margin:0"><b style="color:var(--fg)">Auto-save is on.</b> ${(() => { const a = Number(store.get("twa_autoat") || 0); return a ? "Last auto-save " + (Date.now() - a < 6e4 ? "just now" : Date.now() - a < 3600e3 ? Math.round((Date.now() - a) / 6e4) + " min ago" : short(new Date(a)) + ", " + fmtTime(pad(new Date(a).getHours()) + ":" + pad(new Date(a).getMinutes()))) + "." : "It saves a snapshot every few minutes while you use the app."; })()} Snapshots live on this phone; a save file in your Files app (or the cloud backup in Calendar) survives losing the app or getting a new phone.</p>
         ${sl.length ? `<span class="lbl" style="margin:6px 0 0">Automatic snapshots</span><div class="snaps">${sl.map((x, i) => { const d = new Date(x.at); return `<div class="hev"><span class="bub">${HICON.restored}</span><span class="tx"><span class="t"><b>${esc((iso(d) === iso(today()) ? "Today" : DOW[dowIdx(d)] + ", " + short(d)) + ", " + fmtTime(pad(d.getHours()) + ":" + pad(d.getMinutes())))}</b></span><span class="m">${esc(x.label)} · ${esc(bkSummary(x.data))}</span></span><button type="button" class="act" data-snap="${i}">Restore</button></div>`; }).join("")}</div>` : ""}
       </div>
+      <div class="setblock"><button type="button" class="dsrow" id="s-design"><span><b>Design</b><small>Colours, text and pieces the app is built from</small></span>${DIC.open}</button></div>
       <div class="how">
         <details class="hw"><summary>Never skip twice</summary><p>Miss a planned day and a red alert shows at the top. Tap it for a one-tap reschedule. Your next plan gets a "Don't skip" tag.</p></details>
         <details class="hw"><summary>1. Dump ideas</summary><p>Anything you keep saying "I should do that." Movies, trails, places to eat. No date needed.</p></details>
@@ -3660,6 +3721,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       if (h && h.snap && !S.acts.some((a) => a.id === h.actId)){ const a = Object.assign({}, h.snap, {id: h.actId}); rec("restored", a); sfx("undo"); saveWithCal(a, "Restored " + a.name + "."); }
       return;
     }
+    if (t.dataset.star){ starTip(t); return; }
+    if (t.hasAttribute("data-stipx")){ const tp = document.getElementById("stip"); if (tp) tp.hidden = true; document.querySelectorAll(".istar.sel").forEach((e) => e.classList.remove("sel")); return; }
     if (t.dataset.edit){ if (holdFired){ holdFired = false; return; } openDetails(t.dataset.edit); }
     else if (t.dataset.done) completeAct(t.dataset.done);
     else if (t.dataset.log) openLog(t.dataset.log);
