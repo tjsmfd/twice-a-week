@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1794010698">
+<meta name="twa-build" content="1794087945">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1794010698";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1794087945";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -323,7 +323,7 @@ details.hw p{margin:0 0 14px;font-size:13.5px;line-height:1.5;color:var(--muted)
 /* nav */
 :root{--navb:calc(6px + env(safe-area-inset-bottom,0px))}
 .nav{position:fixed;left:0;right:0;bottom:0;padding:26px 0 var(--navb);z-index:10;pointer-events:none;background:linear-gradient(180deg,rgba(5,5,6,0) 0%,rgba(5,5,6,.92) 38%,var(--bg) 100%)}
-.nav .in{position:relative;pointer-events:auto;max-width:452px;margin:0 auto;height:54px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center;padding:0 6px}
+.nav .in{position:relative;pointer-events:auto;max-width:452px;margin:0 auto;height:54px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;padding:0 6px}
 .tab{position:relative;z-index:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10.5px;font-weight:600;height:50px;padding:0;transition:color .25s}
 .tab svg{width:22px;height:22px}
 .tab[aria-current="page"]{color:var(--fg)}
@@ -534,7 +534,7 @@ body{background:var(--bg)}
 .qtier{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;flex:none}
 .qtier.e{background:rgba(127,214,166,.14);color:#9FE3BD}.qtier.m{background:rgba(240,163,94,.14);color:#F0A35E}.qtier.h{background:rgba(240,138,128,.14);color:#F4A79F}
 .qrew{font-size:11px;font-weight:800;color:#F2CF7A;white-space:nowrap;flex:none}
-.qmain{border-radius:14px;padding:11px 12px;background:linear-gradient(135deg,rgba(106,75,255,.22),rgba(192,139,255,.06));border:1px solid rgba(192,139,255,.45);display:flex;flex-direction:column;gap:4px}
+.qmain{border-radius:16px;padding:13px 14px;background:linear-gradient(135deg,rgba(242,207,122,.12),rgba(106,75,255,.1));border:1px solid rgba(242,207,122,.4);display:flex;flex-direction:column;gap:4px}
 .qmain.done{background:linear-gradient(135deg,rgba(242,207,122,.18),rgba(106,75,255,.08));border-color:rgba(242,207,122,.5)}
 .qmain .r1{display:flex;align-items:center;gap:8px}
 .qmain .r1 b{flex:1;font-size:15px}
@@ -669,6 +669,40 @@ body.sky-bare .nav .in{pointer-events:none}
 .dty div{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--edge)}
 .dty div:last-child{border-bottom:0}
 .dty small{font-size:12px;color:var(--muted)}
+
+/* quests tab */
+.tab .qdot{position:absolute;top:6px;left:calc(50% + 8px);width:7px;height:7px;border-radius:4px;background:var(--gold);box-shadow:0 0 6px rgba(242,207,122,.85);display:none}
+.tab.needq .qdot{display:block}
+.qhero{position:relative;border-radius:22px;overflow:hidden;border:1px solid rgba(242,207,122,.35);height:200px;background:#0A0724;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.qhero .qart{position:absolute;inset:0;width:100%;height:100%;display:block}
+.qhero .cap{position:absolute;left:14px;right:14px;top:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.qhero .k{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.qhero b{display:block;font-size:22px;font-weight:800;margin-top:2px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.qhero .pill{font-size:12px;font-weight:800;background:rgba(0,0,0,.5);padding:5px 11px;border-radius:999px;color:#fff;white-space:nowrap}
+.qpips{position:absolute;left:14px;right:14px;bottom:12px;display:flex;gap:5px}
+.qpips i{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.16)}
+.qpips i.on{background:var(--gold);box-shadow:0 0 8px rgba(242,207,122,.6)}
+.qpips i.cur{background:linear-gradient(90deg,var(--gold) 45%,rgba(255,255,255,.16) 45%)}
+.qspin{transform-origin:0 0;animation:qspin 9s linear infinite}
+@keyframes qspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.qspin{animation:none}}
+.qlist{display:flex;flex-direction:column;gap:8px}
+.qopt{min-height:64px}
+.qopt .qt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.qopt .qt b{font-size:15px}.qopt .qt span{font-size:13px;color:var(--muted);line-height:1.35}
+.qstars{display:flex;gap:2px;flex:none}
+.qstars svg{width:17px;height:17px}
+.qmain .r1{display:flex;align-items:center;gap:8px}.qmain .r1 b{flex:1;min-width:0;font-size:16px}
+.qmain p{font-size:14px;color:#D6D2E8;line-height:1.4;margin:0}
+.qmain .qpay{font-size:13px;color:var(--gold);font-weight:600}
+.qcamp{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--edge);border-radius:18px;padding:12px}
+.qcamp.done{border-color:rgba(242,207,122,.45)}
+.qcamp .art{width:64px;height:64px;border-radius:14px;overflow:hidden;flex:none}
+.qcamp .art svg{width:100%;height:100%;display:block}
+.qcamp .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.qcamp b{font-size:15px}.qcamp span{font-size:13px;color:var(--muted)}
+.qcamp .qbar{margin-top:4px}.qcamp .qbar i{background:var(--gold)}
+.qcamp small{font-size:12px;color:var(--gold);margin-top:2px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -683,6 +717,7 @@ body.sky-bare .nav .in{pointer-events:none}
   <div class="in">
     <button class="tab" data-tab="week" aria-label="This week" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span class="tl">This week</span></button>
     <button class="tab" data-tab="ideas" aria-label="Ideas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 7h11M8 12h11M8 17h11"/><circle cx="4.5" cy="7" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="17" r="1" fill="currentColor"/></svg><span class="tl">Ideas</span></button>
+    <button class="tab" data-tab="quests" aria-label="Quests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg><span>Quests</span><i class="qdot" aria-hidden="true"></i></button>
     <button class="tab" data-tab="sky" aria-label="Sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M19 15.5c.2 1.6.9 2.3 2.5 2.5-1.6.2-2.3.9-2.5 2.5-.2-1.6-.9-2.3-2.5-2.5 1.6-.2 2.3-.9 2.5-2.5z"/></svg><span class="tl">Sky</span></button>
     <button class="tab" data-tab="hist" aria-label="History"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/></svg><span class="tl">History</span></button>
     <span class="ind" aria-hidden="true"></span>
@@ -1519,7 +1554,7 @@ body.sky-bare .nav .in{pointer-events:none}
   function viewSky(){
     const btn = (attr, label, icon, on) => `<button type="button" class="skybtn${on ? " on" : ""}" ${attr} aria-label="${label}" aria-pressed="${!!on}">${icon}</button>`;
     const qp = qState().pick, qNeed = !(qp && qp.wk === iso(weekStart(today())));
-    const ui = `<div class="skyui">${btn("data-skyquest", "Quests", '<svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>', false).replace('class="skybtn', qNeed ? 'class="skybtn dot' : 'class="skybtn')}${btn("data-skylabels", "Show names", '<svg viewBox="0 0 24 24"><path d="M4 18L9 6l5 12M6 14h6M15 18v-6a3 3 0 0 1 6 0v6M15 15h6"/></svg>', skyLabels)}${btn("data-skybare", "Hide buttons and tabs", '<svg viewBox="0 0 24 24"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/></svg>', skyBare)}</div>`;
+    const ui = `<div class="skyui">${btn("data-skylabels", "Show names", '<svg viewBox="0 0 24 24"><path d="M4 18L9 6l5 12M6 14h6M15 18v-6a3 3 0 0 1 6 0v6M15 15h6"/></svg>', skyLabels)}${btn("data-skybare", "Hide buttons and tabs", '<svg viewBox="0 0 24 24"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/></svg>', skyBare)}</div>`;
     return `<section class="skyv${skyBare ? " bare" : ""}" id="skyv" aria-label="Your sky and land. Drag to explore, tap a star or landmark for details."><canvas id="skycv"></canvas>${ui}</section>`;
   }
   // Star chart: show the full name in readable text; tapping the same star again (or Open) opens its card.
@@ -1555,6 +1590,56 @@ body.sky-bare .nav .in{pointer-events:none}
       <div class="dsg"><span class="lbl">Empty states</span>${emptyState("hill", "Small empty", "One short hint line.", "", "sm")}${emptyState("moon", "Large empty", "Title, one hint, at most one button.", `<button type="button" class="pillbtn">Action</button>`)}</div>
       <div class="dsg"><span class="lbl">Motion</span><p class="hint" style="margin:0">Fades and short rises, under half a second. Celebrations (star check-off, week complete) and the opening animation are the only long ones.</p></div>`, "Design");
     sh.addEventListener("click", (e) => { if (e.target.closest(".dsg button")) e.preventDefault(); });
+  }
+  // ---------- Quests tab: the landmark you're building, this week's quest with its stars, the month's constellation ----------
+  const QLMK = {
+    observatory:'<rect x="-16" y="-20" width="32" height="20" fill="#2E2260"/><rect x="-16" y="-20" width="32" height="3" fill="#3B2D78"/><path d="M-19 -20 A19 19 0 0 1 19 -20Z" fill="#CFC8EE"/><path d="M-4 -38 L5 -38 L2 -22 L-1 -22Z" fill="#8E84C4" transform="rotate(28 0 -22)"/><rect x="-4" y="-12" width="8" height="12" fill="#FFD98A" opacity=".85"/>',
+    lighthouse:'<path d="M0 -57 L-90 -86 L-90 -30Z" fill="#FFE7A8" opacity=".22"/><path d="M-9 0 L-5 -52 H5 L9 0Z" fill="#ECE6FB"/><rect x="-6.6" y="-40" width="13.2" height="6" fill="#C0566A"/><rect x="-7.8" y="-22" width="15.6" height="6" fill="#C0566A"/><rect x="-7" y="-61" width="14" height="9" fill="#FFE7A8"/><path d="M-9 -61 L0 -68 L9 -61Z" fill="#3B2D78"/>',
+    bridge:'<ellipse cx="0" cy="4" rx="48" ry="5" fill="#3B4A9A" opacity=".6"/><path d="M-42 0 Q0 -30 42 0" stroke="#A47A52" stroke-width="4" fill="none"/><path d="M-42 -6 Q0 -36 42 -6" stroke="#8C6A4A" stroke-width="2" fill="none"/><path d="M-30 -10 v10 M-15 -18 v14 M0 -21 v16 M15 -18 v14 M30 -10 v10" stroke="#8C6A4A" stroke-width="1.8"/>',
+    windmill:'<path d="M-8 0 L-4 -42 H4 L8 0Z" fill="#DCD3F4"/><rect x="-3" y="-12" width="6" height="12" fill="#6B5AA8"/><g transform="translate(0 -42)"><g class="qspin"><path d="M0 0 L-3 -26 L3 -26Z M0 0 L24 10 L22 15Z M0 0 L-22 15 L-24 10Z" fill="#F1ECFC"/></g><circle r="3" fill="#8E84C4"/></g>',
+    cabin:'<path d="M-22 -18 L0 -36 L22 -18Z" fill="#6B3E2E"/><rect x="-18" y="-18" width="36" height="18" fill="#8C5A3E"/><rect x="-4" y="-12" width="8" height="12" fill="#FFD27A"/><rect x="8" y="-14" width="6" height="6" fill="#FFD27A" opacity=".8"/><rect x="10" y="-42" width="5" height="12" fill="#5A3326"/><circle cx="14" cy="-48" r="3" fill="#fff" opacity=".18"/><circle cx="18" cy="-55" r="4" fill="#fff" opacity=".12"/>',
+    tower:'<path d="M-7 0 L-3 -64 H3 L7 0Z" fill="#B7AADF"/><path d="M-5 -20 H5 M-4 -40 H4" stroke="#8E84C4" stroke-width="2"/><circle cy="-69" r="12" fill="#F2CF7A" opacity=".18"/><circle cy="-69" r="5" fill="#F2CF7A"/>'
+  };
+  const qSky = (w, h, seed) => { const r = rng(hashS(seed)); let o = ""; for (let i = 0; i < 34; i++) o += `<circle cx="${(r() * w).toFixed(1)}" cy="${(r() * h * .62).toFixed(1)}" r="${(r() * .9 + .3).toFixed(2)}" fill="#fff" opacity="${(r() * .6 + .3).toFixed(2)}"/>`; return o; };
+  const qHills = (w, h) => `<path d="M0 ${h} L0 ${h * .7} Q${w * .25} ${h * .55} ${w * .5} ${h * .68} T${w} ${h * .62} L${w} ${h}Z" fill="#1E1742"/><path d="M0 ${h} L0 ${h * .84} Q${w * .3} ${h * .76} ${w * .6} ${h * .86} T${w} ${h * .82} L${w} ${h}Z" fill="#100C26"/>`;
+  const qStar = (on) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.3 20.1l1.5-6.5-5-4.4 6.6-.6z" fill="${on ? "#F2CF7A" : "rgba(255,255,255,.14)"}"/></svg>`;
+  const qStars = (n) => `<span class="qstars" aria-label="${n} gold star${n > 1 ? "s" : ""}">${[0, 1, 2].map((i) => qStar(i < n)).join("")}</span>`;
+  function qLandmarkArt(id, built){
+    const W = 340, H = 150;
+    return `<svg class="qart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="qsk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A0724"/><stop offset=".7" stop-color="#1E1650"/><stop offset="1" stop-color="#2A1F5A"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#qsk)"/>${qSky(W, H, "q" + id)}${qHills(W, H)}<ellipse cx="${W / 2}" cy="${H * .75}" rx="70" ry="10" fill="#F2CF7A" opacity="${built ? .16 : .08}"/><g transform="translate(${W / 2} ${H * .78}) scale(1.85)">${QLMK[id] || ""}</g></svg>`;
+  }
+  function qConsArt(got){
+    const P = [[.18, .62], [.34, .36], [.52, .48], [.68, .22], [.84, .4]], W = 56, H = 56, lit = Math.round(got * P.length);
+    return `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><rect width="${W}" height="${H}" fill="#0C0920"/>${qSky(W, H, "cons")}<polyline points="${P.map(([x, y]) => (x * W).toFixed(1) + "," + (y * H).toFixed(1)).join(" ")}" fill="none" stroke="rgba(242,207,122,.45)" stroke-width="1"/>${P.map(([x, y], i) => `<circle cx="${x * W}" cy="${y * H}" r="2.4" fill="${i < lit ? "#F2CF7A" : "rgba(242,207,122,.3)"}"/>`).join("")}</svg>`;
+  }
+  function viewQuests(){
+    if (S.status === "loading") return head("Quests", "") + `<div class="skel" style="height:180px"></div>`;
+    const q = qState(), w = weekInfo(), wk = iso(w.ws), ci = chainInfo(), cp = campInfo(), ev = eventToday();
+    const pickNow = q.pick && q.pick.wk === wk ? q.pick : null, doneNow = q.done[wk];
+    const allBuilt = ci.idx >= CHAINS.length, left = 3 - ci.step, gs = goldStars().length;
+    const tierN = (t) => t === "e" ? "Easy" : t === "m" ? "Medium" : "Hard";
+    let h = head("Quests", `${gs} gold star${gs === 1 ? "" : "s"} · ${Math.min(CHAINS.length, ci.built.length)} of ${CHAINS.length} landmarks`);
+    // hero: the landmark you're building
+    h += `<section class="qhero" aria-label="${allBuilt ? "All landmarks built" : "Building " + esc(ci.cur.n)}">${qLandmarkArt(ci.cur.id)}
+      <div class="cap"><div><span class="k">${allBuilt ? "All six built · bonus round" : "Building next"}</span><b>${esc(ci.cur.n)}</b></div><span class="pill">${left} quest${left === 1 ? "" : "s"} to go</span></div>
+      <div class="qpips">${[0, 1, 2].map((i) => `<i class="${i < ci.step ? "on" : i === ci.step && pickNow && !doneNow ? "cur" : ""}"></i>`).join("")}</div></section>`;
+    if (ev) h += `<section class="qev${ev.done ? " done" : ""}"><div class="r1"><b>${esc(ev.n)}</b><span class="t">${ev.done ? "Done ✓" : "Today only"}</span></div><p>${esc(ev.d)} Reward: the ${esc(ev.star)}.</p></section>`;
+    // this week's quest
+    if (!pickNow){
+      const opts = questOptions(w.ws);
+      h += `<div class="sechead"><h2>Pick this week's quest</h2><span>Harder pays more</span></div><div class="qlist">`;
+      h += opts.map((o, i) => `<button type="button" class="qopt" data-qpick="${i}"><span class="qtier ${o.t}">${tierN(o.t)}</span><span class="qt"><b>${esc(o.n)}</b><span>${esc(o.d)}</span></span>${qStars(QSTARS[o.t])}</button>`).join("");
+      h += `</div>`;
+    } else {
+      h += `<div class="sechead"><h2>This week's quest</h2>${doneNow ? "<span>Done ✓</span>" : `<button type="button" class="qchange" data-qchange>Change</button>`}</div>`;
+      h += `<div class="qmain${doneNow ? " done" : ""}"><div class="r1"><span class="qtier ${pickNow.t}">${tierN(pickNow.t)}</span><b>${esc(pickNow.n)}</b>${qStars(QSTARS[pickNow.t])}</div><p>${esc(pickNow.d)}${pickNow.id === "friend" && !doneNow ? " Tap a logged activity in Done to add who was with you." : ""}</p>
+        <p class="qpay">${doneNow ? `Earned ${QSTARS[pickNow.t]} gold star${QSTARS[pickNow.t] > 1 ? "s" : ""}.` : `Pays ${QSTARS[pickNow.t]} gold star${QSTARS[pickNow.t] > 1 ? "s" : ""}`}${left === 1 && !doneNow ? ` and finishes ${esc(ci.cur.n)}.` : doneNow ? "" : ` and moves ${esc(ci.cur.n)} one step closer.`}</p></div>`;
+    }
+    // monthly campaign
+    const frac = Math.min(1, cp.got / cp.need);
+    h += `<div class="sechead"><h2>${MON[today().getMonth()]} goal</h2><span>${Math.min(cp.got, cp.need)} / ${cp.need}${cp.done ? " ✓" : ""}</span></div>
+      <section class="qcamp${cp.done ? " done" : ""}"><span class="art">${qConsArt(cp.done ? 1 : frac)}</span><div class="tx"><b>${esc(cp.n)}</b><span>${esc(cp.d)}</span><div class="qbar"><i style="width:${frac * 100}%"></i></div><small>${cp.done ? "Gold constellation earned" : "Reward: a gold constellation in your sky"}</small></div></section>`;
+    return h;
   }
   function openQuests(){
     const sh = openSheet(`${sheetHead("Quests")}<div id="qwrap">${questCard()}</div>`, "Quests");
@@ -2316,7 +2401,7 @@ body.sky-bare .nav .in{pointer-events:none}
     });
     return h;
   }
-  const TABS = ["week", "ideas", "sky", "hist"];
+  const TABS = ["week", "ideas", "quests", "sky", "hist"];
   function placeInd(instant){
     const nav = document.querySelector(".nav .in"), ind = nav && nav.querySelector(".ind"), tb = nav && nav.querySelector(`.tab[data-tab="${S.tab}"]`);
     if (!ind || !tb) return;
@@ -2416,11 +2501,12 @@ body.sky-bare .nav .in{pointer-events:none}
     S.pending = false;
     queuePaper();
     const app = document.getElementById("app");
-    app.innerHTML = S.tab === "ideas" ? viewIdeas() : S.tab === "sky" ? viewSky() : S.tab === "hist" ? viewHist() : viewWeek();
+    app.innerHTML = S.tab === "ideas" ? viewIdeas() : S.tab === "quests" ? viewQuests() : S.tab === "sky" ? viewSky() : S.tab === "hist" ? viewHist() : viewWeek();
     document.body.classList.toggle("tab-sky", S.tab === "sky"); document.body.classList.toggle("sky-bare", S.tab === "sky" && skyBare);
     if (S.tab === "sky") requestAnimationFrame(() => PANO.mount()); else PANO.unmount();
     document.querySelectorAll(".tab").forEach((t) => { if (t.dataset.tab === S.tab) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
-    placeInd(); placeStrip(); SKY.rebuild(); if (S.tab === "week") questTick();
+    placeInd(); placeStrip(); SKY.rebuild(); if (S.tab === "week" || S.tab === "quests") questTick();
+    { const qt = document.querySelector('.tab[data-tab="quests"]'); if (qt){ const qp = qState().pick; qt.classList.toggle("needq", S.status !== "loading" && !(qp && qp.wk === iso(weekStart(today())))); } }
     if (S.justLogged){
       const el = app.querySelector(`[data-log="${S.justLogged}"]`);
       S.justLogged = "";

@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Nov 6, 2026 · 7:25 PM ET. Fixed the star chart label getting cut off; it now shows as its own card under the chart.
+Last updated: Nov 7, 2026 · 5:00 PM ET. New Quests tab (between Ideas and Sky): shows the landmark you're building, this week's quest with its gold stars, and the month's constellation goal. Gold dot when a quest is waiting to be picked.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
