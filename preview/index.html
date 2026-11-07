@@ -10,10 +10,10 @@
 <meta name="apple-mobile-web-app-title" content="S ≠ L β">
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>window.TWA_PREVIEW=true</script>
-<meta name="twa-build" content="1794010157">
+<meta name="twa-build" content="1794010698">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1794010157";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1794010698";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L preview</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -649,7 +649,7 @@ body.sky-bare .nav .in{pointer-events:none}
 .skybtn.dot::after{content:"";position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:4px;background:var(--gold);box-shadow:0 0 6px rgba(242,207,122,.8)}
 
 /* star chart label */
-.stip{position:absolute;left:10px;right:10px;z-index:4;display:flex;align-items:center;gap:10px;background:rgba(28,28,34,.97);border:1px solid rgba(192,139,255,.35);border-radius:16px;padding:10px 8px 10px 14px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.stip{position:relative;margin-top:10px;display:flex;align-items:center;gap:10px;background:rgba(28,28,34,.97);border:1px solid rgba(192,139,255,.35);border-radius:16px;padding:10px 8px 10px 14px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
 .stip .sn{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .stip .sn b{font-size:16px;font-weight:700;color:var(--fg);line-height:1.3;overflow-wrap:anywhere}
 .stip .sn span{font-size:13px;color:var(--muted)}
@@ -1482,7 +1482,7 @@ body.sky-bare .nav .in{pointer-events:none}
       pts.forEach((p) => { const lit = !!p.it.date; h += `<button type="button" class="istar${lit ? " lit" : ""}" data-star="${esc(p.it.id)}" style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}px" aria-label="${esc(p.it.name)}${lit ? ", planned " + esc(fmtDay(p.it.date)) : ", idea"}"><i></i><span>${esc(p.it.name)}</span>${lit ? `<small>${esc(fmtShortDay(p.it.date))}</small>` : ""}</button>`; });
       if (more > 0) h += `<div class="more" style="left:auto;right:${col ? 10 : 51}%;top:${y0 + RH - 18}px;bottom:auto;position:absolute">+${more} more</div>`;
     });
-    return h + `<div class="ih">Dim = idea · glowing = planned · tap a star</div><div class="stip" id="stip" hidden></div></section>`;
+    return h + `<div class="ih">Dim = idea · glowing = planned · tap a star</div></section><div class="stip" id="stip" hidden></div>`;
   }
 
   SKY.init();
@@ -1530,15 +1530,14 @@ body.sky-bare .nav .in{pointer-events:none}
   document.addEventListener("click", (e) => { if (e.target.closest("#stip [data-edit]")) setTimeout(hideTip, 0); }, true);
   function starTip(b){
     const tip = document.getElementById("stip"), chart = b.closest(".ichart"); if (!tip || !chart) return;
+    const wasHidden = tip.hidden;
     const id = b.dataset.star, x = S.acts.find((a) => a.id === id); if (!x) return;
     if (b.classList.contains("sel") && !tip.hidden){ hideTip(); openDetails(id); return; }
     chart.querySelectorAll(".istar.sel").forEach((e) => e.classList.remove("sel")); b.classList.add("sel");
     tip.innerHTML = `<div class="sn"><b>${esc(x.name)}</b><span>${esc(catOf(x.cat).name)} · ${x.date ? esc(fmtDay(x.date)) + (x.time ? " · " + esc(fmtTime(x.time)) : "") : "Idea"}</span></div><button type="button" class="pillbtn" data-edit="${esc(id)}">Open</button><button type="button" class="iconbtn sm" data-stipx aria-label="Close">${IC.close}</button>`;
     tip.hidden = false;
-    const cr = chart.getBoundingClientRect(), br = b.getBoundingClientRect(), th = tip.offsetHeight;
-    const below = br.top - cr.top < th + 16;
-    tip.style.top = (below ? br.bottom - cr.top + 8 : br.top - cr.top - th - 8) + "px";
-    if (!RM) tip.animate([{opacity:0, transform:"translateY(4px)"}, {opacity:1, transform:"none"}], {duration:180, easing:"ease-out"});
+    const tr = tip.getBoundingClientRect(); if (tr.bottom > innerHeight - 90) tip.scrollIntoView({block: "nearest", behavior: RM ? "auto" : "smooth"});
+    if (!RM && wasHidden) tip.animate([{opacity:0, transform:"translateY(4px)"}, {opacity:1, transform:"none"}], {duration:180, easing:"ease-out"});
     sfx("tab");
   }
   // Settings -> Design: every colour, text size and component the app is built from, drawn with the real styles.

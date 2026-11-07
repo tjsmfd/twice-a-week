@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Nov 6, 2026 · 7:20 PM ET. New Design page (Settings → Design) showing every colour, text size and piece. Ideas star chart: tap a star to see its full name, tap again or Open for its card.
+Last updated: Nov 6, 2026 · 7:25 PM ET. Fixed the star chart label getting cut off; it now shows as its own card under the chart.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
