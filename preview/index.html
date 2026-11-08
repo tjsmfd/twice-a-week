@@ -10,10 +10,10 @@
 <meta name="apple-mobile-web-app-title" content="S ≠ L β">
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>window.TWA_PREVIEW=true</script>
-<meta name="twa-build" content="1794087945">
+<meta name="twa-build" content="1794103691">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1794087945";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1794103691";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L preview</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -2580,7 +2580,7 @@ body.sky-bare .nav .in{pointer-events:none}
       const s = new Date(a.date + "T" + a.time + ":00");
       startTime = a.date + "T" + a.time + ":00";
       endTime = localStamp(new Date(s.getTime() + durOf(a) * 3600e3));
-      if (a.rem === "hour") minutes = 60;
+      if (!a.rem || a.rem === "hour") minutes = 60;
       else if (a.rem === "morning"){ minutes = Math.round((s - new Date(a.date + "T08:00:00")) / 6e4); if (minutes < 30) minutes = 60; }
       else { const n = new Date(a.date + "T20:00:00"); n.setDate(n.getDate() - 1); minutes = Math.round((s - n) / 6e4); }
     } else {
@@ -2772,7 +2772,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     const c = e && e.code;
     if (c === "g_expired") return "Google sign-in expired. Tap Reconnect in Settings > Calendar.";
     if (c === "no_client" || c === "gis_load") return "Connect Google Calendar in Settings first.";
-    if (c === "g_http") return "Google Calendar didn't respond. Your plan is still saved.";
+    if (c === "g_http") return "Google Calendar didn't respond. Your plan is saved and will sync on its own.";
     if (c === "gas_key") return "The script's key doesn't match this app. Copy the script again and redeploy it.";
     if (c === "gas_net" || c === "gas_bad") return "Couldn't reach your calendar script. Check the URL, and that access is set to Anyone.";
     if (c === "gas_err") return "Calendar script error: " + String(e.msg || "").slice(0, 120) + (/Calendar is not defined/.test(e.msg || "") ? " (add the Google Calendar API under Services)" : "");
@@ -2780,7 +2780,62 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
   }
   // Returns {evId, changed, msg?, err?}. "unlinked" = event created but its id wasn't readable, so it's left alone afterward.
   const recentCal = {};
+  const CALQ = "twa_calq" + (window.TWA_PREVIEW ? "_preview" : "");
+  const calQ = () => { try { const q = JSON.parse(store.get(CALQ) || "{}"); q.acts = q.acts || {}; q.dels = q.dels || []; return q; } catch (e){ return {acts:{}, dels:[]}; } };
+  const calQSave = (q) => { try { store.set(CALQ, JSON.stringify(q)); } catch (e){} };
   async function calSync(a){
+    const r = await calSync0(a);
+    if (window.TWA_PREVIEW) return r;
+    const q = calQ(), live = S.acts.some((x) => x.id === a.id);
+    if (r.err){
+      if (live) q.acts[a.id] = 1;
+      else if (a.evId && a.evId !== "unlinked" && !q.dels.includes(a.evId)) q.dels.push(a.evId);
+    } else { delete q.acts[a.id]; }
+    calQSave(q);
+    return r;
+  }
+  let calQBusy = false;
+  async function calFlush(){
+    if (calQBusy || window.TWA_PREVIEW || S.status !== "live" || !calReady() || (STANDALONE && !gOn()) || navigator.onLine === false) return;
+    const q = calQ(); if (!Object.keys(q.acts).length && !q.dels.length) return;
+    calQBusy = true;
+    let fixed = 0, left = 0;
+    try {
+      const api = await calApi(); if (!api) return;
+      for (const ev of q.dels.slice()){
+        try { await api.del(ev); q.dels = q.dels.filter((x) => x !== ev); fixed++; }
+        catch (e){ if (e && e.code === "tool_error"){ q.dels = q.dels.filter((x) => x !== ev); } else left++; }
+      }
+      calQSave(q);
+      for (const id of Object.keys(q.acts)){
+        const cur = S.acts.find((x) => x.id === id);
+        if (!cur){ const q2 = calQ(); delete q2.acts[id]; calQSave(q2); continue; }
+        const r = await calSync0(cur);
+        const q2 = calQ();
+        if (r.err){ left++; continue; }
+        delete q2.acts[id]; calQSave(q2); fixed++;
+        if (r.changed){ const now = S.acts.find((x) => x.id === id); if (now) await putAct(Object.assign({}, now, {evId: r.evId})); }
+      }
+    } finally { calQBusy = false; }
+    if (fixed && !left) toast("Google Calendar is caught up with your plans.");
+  }
+  // One-time: plans already on the calendar switch to the new default (1 hour before) unless set otherwise on purpose.
+  function remMigrate(){
+    if (window.TWA_PREVIEW || S.status !== "live" || S.settings.remMig) return;
+    const t0 = iso(today()), q = calQ();
+    S.acts.forEach((a) => { if (a.status !== "done" && a.date && a.date >= t0 && a.time && (!a.rem || a.rem === "night")){ a.rem = "hour"; if (S.db) S.db.doc("acts/" + a.id).set((({id, ...b}) => b)(a)).catch(() => {}); if (a.evId && a.evId !== "unlinked") q.acts[a.id] = 1; } });
+    calQSave(q); S.settings.remMig = 1; putSettings(); setTimeout(calFlush, 1500);
+  }
+  // Keep both sides matching: retry anything pending and re-read the calendar every 3 minutes while the app is open.
+  function calTick(){
+    if (document.visibilityState !== "visible" || S.status !== "live") return;
+    remMigrate();
+    calFlush();
+    if (!sheetEl && calReady() && !(STANDALONE && !gOn())){ calLoaded = {}; const w0 = weekStart(today()); loadCal(w0); loadCal(addDays(w0, 7)); loadCal(addDays(w0, 14)); }
+  }
+  setInterval(calTick, 180000);
+  window.addEventListener("online", () => setTimeout(calFlush, 1500));
+  async function calSync0(a){
     recentCal[a.id] = Date.now();
     const calOn = a.cal === undefined ? !!a.evId : a.cal;
     const want = calReady() && !!(calOn && a.date && a.status !== "done");
@@ -2963,7 +3018,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     const cur = S.acts.find((a) => a.id === l.actId);
     await delLog(l.id);
     if (!l.prev){ toast("Entry removed."); return; }
-    const base = cur || {id: l.actId, name: l.name, cat: l.cat, plan: "", link: "", created: Date.now(), cal: S.settings.calDefault, rem: "night"};
+    const base = cur || {id: l.actId, name: l.name, cat: l.cat, plan: "", link: "", created: Date.now(), cal: S.settings.calDefault, rem: "hour"};
     const back = Object.assign({}, base, l.prev);
     rec("undone", back, {to: absDay(back)}); sfx("undo");
     await saveWithCal(back, back.date ? "Back on your plan for " + lcDay(back.date) + "." : "Back in your ideas.");
@@ -3051,7 +3106,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
 
   function openEdit(id, preset, back){
     const x = id ? S.acts.find((a) => a.id === id) : null;
-    const d = Object.assign({name:"", cat:"movie", plan:"", date:"", time:"", repeat:"once", link:"", cal:S.settings.calDefault, rem:"night"}, x || {}, preset || {});
+    const d = Object.assign({name:"", cat:"movie", plan:"", date:"", time:"", repeat:"once", link:"", cal:S.settings.calDefault, rem:"hour"}, x || {}, preset || {});
     if (x && x.cal === undefined) d.cal = S.settings.calDefault;
     const sh = openSheet(`${sheetHead(x ? "Edit activity" : "New activity")}
       <input class="namefield" id="f-name" placeholder="What have you been putting off?" value="${esc(d.name)}" maxlength="80" aria-label="Activity name">
@@ -3065,7 +3120,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         <div id="f-dayprev" class="dprev" hidden></div></div>
       <div id="f-calwrap">
         <div class="togrow"><div><b>Add to my calendar</b><span>Your plan goes in the event notes</span></div><button type="button" class="sw" id="f-cal" role="switch" aria-checked="${!!d.cal}" aria-label="Add to my calendar"></button></div>
-        <div id="f-rembox" style="margin-top:12px"><span class="lbl">Remind me</span><div class="chips" id="f-rem"><button type="button" class="chip" data-v="night" aria-pressed="${d.rem === "night"}">Night before</button><button type="button" class="chip" data-v="morning" aria-pressed="${d.rem === "morning"}">Morning of</button><button type="button" class="chip" data-v="hour" aria-pressed="${d.rem === "hour"}">1 hr before</button></div><p class="hint" id="f-remhint"></p></div>
+        <div id="f-rembox" style="margin-top:12px"><span class="lbl">Remind me</span><div class="chips" id="f-rem"><button type="button" class="chip" data-v="hour" aria-pressed="${d.rem === "hour"}">1 hr before</button><button type="button" class="chip" data-v="morning" aria-pressed="${d.rem === "morning"}">Morning of</button><button type="button" class="chip" data-v="night" aria-pressed="${d.rem === "night"}">Night before</button></div><p class="hint" id="f-remhint"></p></div>
       </div>
       <div><span class="lbl">After it's done</span><div class="typetog" id="f-rep"><button type="button" data-v="once" aria-pressed="${d.repeat !== "rotate"}">One and done</button><button type="button" data-v="rotate" aria-pressed="${d.repeat === "rotate"}">Repeat it</button></div>
         <p class="hint">Repeat sends it back to Ideas after you do it.</p></div>
@@ -3075,7 +3130,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       ${x ? `<div class="btnrow">${x.status !== "done" ? `<button type="button" class="ok" id="f-done">Mark done</button>` : ""}<button type="button" class="danger" id="f-del">Delete</button></div>` : ""}`, x ? "Edit activity" : "New activity");
 
     const pick = (wrap, v) => wrap.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
-    let cat = d.cat, rep = d.repeat === "rotate" ? "rotate" : "once", rem = d.rem || "night", cal = !!d.cal, dur = durOf(d);
+    let cat = d.cat, rep = d.repeat === "rotate" ? "rotate" : "once", rem = d.rem || "hour", remPrev = d.time ? null : "hour", cal = !!d.cal, dur = durOf(d);
     wirePicks(sh);
     const dateIn = sh.querySelector("#f-date"), timeIn = sh.querySelector("#f-time");
     const calWrap = sh.querySelector("#f-calwrap"), sw = sh.querySelector("#f-cal"), remBox = sh.querySelector("#f-rembox"), remWrap = sh.querySelector("#f-rem"), remHint = sh.querySelector("#f-remhint");
@@ -3087,7 +3142,8 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       remBox.hidden = !cal;
       const timed = !!timeIn.value;
       remWrap.querySelectorAll("button").forEach((b) => { b.disabled = !timed && b.dataset.v !== "night"; });
-      if (!timed && rem !== "night"){ rem = "night"; pick(remWrap, rem); }
+      if (!timed && rem !== "night"){ remPrev = rem; rem = "night"; pick(remWrap, rem); }
+      else if (timed && remPrev){ rem = remPrev; remPrev = null; pick(remWrap, rem); }
       remHint.textContent = timed ? "" : "All-day: reminder at 8 PM the night before. Add a time for more options.";
       remHint.hidden = timed;
       drawPrev();
@@ -3500,7 +3556,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         const g = gapsOn(cur, (S.cal[cur] || []).filter((x) => !x.allDay).map((x) => [x.s, x.e]).concat(plansOn(cur).filter((x) => x.time).map((x) => [hourOf(x.time), hourOf(x.time) + durOf(x)])))[gapSel];
         const x = ideaById(ideaSel); if (!g || !x) return;
         const hh = Math.floor(g[0]) % 24, mm = Math.round((g[0] - Math.floor(g[0])) * 60);
-        const nx = Object.assign({}, x, {date: cur, time: pad(hh) + ":" + pad(mm), dur: durOf(x), cal: x.cal === undefined ? S.settings.calDefault : x.cal, rem: x.rem || "night"});
+        const nx = Object.assign({}, x, {date: cur, time: pad(hh) + ":" + pad(mm), dur: durOf(x), cal: x.cal === undefined ? S.settings.calDefault : x.cal, rem: x.rem || "hour"});
         rec("moved", nx, {from: absDay(x), to: absDay(nx)}); sfx("move");
         gapSel = null; ideaSel = null;
         saveWithCal(nx, (x.date && x.date !== cur ? "Moved to " : "Planned for ") + lcDay(cur) + " at " + fmtTime(nx.time) + ".").then(() => { if (dayRedraw) dayRedraw(); });
@@ -3599,7 +3655,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       else if (a === "next"){ suggest(); P.step = 2; draw(); }
       else if (a === "back"){ P.step = 1; draw(); }
       else if (a === "lock"){
-        const plans = P.picks.map((id) => { const x = S.acts.find((q) => q.id === id); return Object.assign({}, x, {date: iso(days[P.days[id]]), cal: x.cal === undefined ? S.settings.calDefault : x.cal, rem: x.rem || "night"}); });
+        const plans = P.picks.map((id) => { const x = S.acts.find((q) => q.id === id); return Object.assign({}, x, {date: iso(days[P.days[id]]), cal: x.cal === undefined ? S.settings.calDefault : x.cal, rem: x.rem || "hour"}); });
         plans.forEach((p) => { const old = S.acts.find((q) => q.id === p.id); rec("moved", p, {from: absDay(old), to: absDay(p)}); putAct(p); });
         sfx("move");
         P.step = 3; draw();
@@ -3917,6 +3973,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
   // re-check the calendar when you come back to the app
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState !== "visible" || S.status !== "live") return;
+    remMigrate(); calFlush();
     calLoaded = {}; loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); loadCal(addDays(weekStart(today()), 14));
   });
 
