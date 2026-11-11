@@ -3,12 +3,12 @@
 Put this file in the root of the `twice-a-week` repo. Claude Code reads it automatically at the start of every session.
 
 ## What this is
-A personal PWA for TJ that tracks activities he's been putting off (movies, hikes, new restaurants, game nights) and pushes him to do them regularly, currently about twice a week. Core rule: **never skip twice**. Each activity gets a plan and a date.
+A personal PWA for TJ that tracks activities he's been putting off (movies, hikes, new restaurants, game nights) and pushes him to do them regularly, currently 3 per week (the code default is `settings.goal: 3`). Core rule: **never skip twice**. Each activity gets a plan and a date.
 
 - **Repo:** https://github.com/tjsmfd/twice-a-week (public, branch `main`)
 - **Live app:** https://tjsmfd.github.io/twice-a-week/ (GitHub Pages, deploys from `main` root)
 - **Formerly named:** "Twice a Week". Only the visible title changed to "S ≠ L". Internal code names (`twa_*` keys, repo name) were left as-is on purpose. Don't rename them.
-- TJ may drop the fixed "2 per week" goal later, so don't hard-code new features around "twice".
+- The weekly goal is 3, set by `settings.goal` in code. TJ may change or drop it later, so read the setting instead of hard-coding a number, and don't build features around "twice".
 
 ## Repo layout
 | Path | What it is |
@@ -30,7 +30,12 @@ A personal PWA for TJ that tracks activities he's been putting off (movies, hike
 - **If you change the Apps Script's actions**, the app must tell TJ to update his script (there's an existing "Copy updated script" flow). He then redeploys: Deploy → Manage deployments → pencil → Version: New version → Deploy.
 
 ## Features built so far (high level)
-Weekly goal visual ("Horizon" sunrise, matches the opening animation) · category tracking with white line icons · "Don't skip twice" alerts + daily reminder check · Sunday planning flow · two-way Google Calendar sync · day-schedule preview (busy/open blocks) when picking dates · bedtime-aware scheduling · History tab with undo · backups (manual, snapshots, Drive) · sound effects · swipe/motion polish · Night Sky update (Sky tab panorama, constellations, star check-off, weekly quests/events/campaigns/chains, ideas star chart, starry background) · iOS 26 PWA bottom-gap fix · auto-update.
+Weekly goal visual ("Horizon" sunrise, matches the opening animation) · category tracking with white line icons · "Don't skip twice" alerts + daily reminder check · Sunday planning flow · two-way Google Calendar sync · day-schedule preview (busy/open blocks) when picking dates · bedtime-aware scheduling · History tab with undo · backups (manual, snapshots, Drive) · sound effects · swipe/motion polish · Night Sky update (Sky tab panorama, constellations, star check-off, weekly quests/events/campaigns/chains, ideas star chart, starry background) · iOS 26 PWA bottom-gap fix · auto-update · **Morning paper / The Fuller Dispatch** (see below).
+
+### Morning paper / The Fuller Dispatch: DO NOT REMOVE OR OVERWRITE
+The app sends this week's goal, what's done, and what's planned to TJ's own Google Drive so his printed morning paper can show it. Nothing is sent until he saves a paper link in Settings ("Morning paper" block). Code lives in the `// ---------- morning paper (The Fuller Dispatch) ----------` section of `index.html`, plus the `s-paper` block in Settings. Storage keys: `fd_paper`, `fd_paper_at`.
+- **Never remove, rewrite, or overwrite this feature**, including when replacing `index.html` wholesale, restoring from `previous/`, or merging from `preview/`.
+- **After every edit to `index.html`, confirm it's still there** before committing: `grep -c "Fuller Dispatch" index.html` should be non-zero, and `fd_paper` and `s-paper` should still appear. If anything is missing, restore it before shipping.
 
 ## Design decisions TJ has made (don't undo without asking)
 - Dark card style, shared with his "Mission Budget" app.
@@ -61,4 +66,16 @@ Weekly goal visual ("Horizon" sunrise, matches the opening animation) · categor
 3. Test (no console errors, data survives reload).
 4. If big change: copy current live `index.html` to `previous/index.html` first (and disable its update check).
 5. Update README "Last updated: <Mon D, YYYY · H:MM AM/PM ET>. <what changed>".
-6. Commit + push to `main`. GitHub Pages redeploys in about a minute.
+6. Check the Morning paper / Fuller Dispatch code is still in `index.html` (see above).
+7. Commit + push to `main`. GitHub Pages redeploys in about a minute.
+8. **Confirm the deploy succeeded.** After every push, check that the GitHub Pages deploy run shows success (`gh run list --limit 3`, or the Actions tab). Don't call a release done until it does. If it failed, say so and fix it.
+
+## Syncing with GitHub (safe version)
+Never use `git reset --hard` to sync. It can silently destroy unpushed commits and uncommitted work.
+1. `git status`: see if anything is uncommitted or unpushed.
+2. `git fetch origin`: download remote changes without touching local files.
+3. Compare: `git log --oneline HEAD..origin/main` (remote-only commits) and `git log --oneline origin/main..HEAD` (local unpushed commits), plus `git diff HEAD origin/main` if needed.
+4. If there are no unpushed local commits, `git pull --ff-only` is safe. If there are, **stop and tell TJ** what differs. Merge or rebase only with his OK. Never reset over unpushed commits.
+
+## Public repo: keep this file clean
+The repo is public. Never put TJ's email address, calendar contents or details, tokens, keys, or link codes in this file or anywhere in the repo.
