@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1794103691">
+<meta name="twa-build" content="1794698136">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1794103691";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1794698136";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -340,6 +340,20 @@ details.hw p{margin:0 0 14px;font-size:13.5px;line-height:1.5;color:var(--muted)
 .pk:focus-within .pkv{border-color:var(--a2)}
 .pkx{position:absolute;right:7px;top:50%;transform:translateY(-50%);z-index:2;width:30px;height:30px;border-radius:15px;border:0;background:rgba(255,255,255,.08);color:var(--muted);display:grid;place-items:center;padding:0}
 .pkx svg{width:12px;height:12px}
+/* time wheel: in-app picker that opens full-width inside the sheet (replaces the native popup that cut off the minutes) */
+.pk.tp .pkv{cursor:pointer}
+.pk.tp input{pointer-events:none}
+.pk.tp.open .pkv,.pk.tp .pkv:focus-visible{border-color:var(--a2);outline:none}
+.tpw{background:var(--card2);border-radius:16px;padding:8px 12px 10px;margin-top:8px}
+.tpw[hidden]{display:none}
+.tpc{position:relative;display:flex;justify-content:center;align-items:center;gap:6px;height:200px}
+.tpc .band{position:absolute;left:0;right:0;top:80px;height:40px;border-radius:12px;background:rgba(255,255,255,.08);pointer-events:none}
+.tpc .col{position:relative;width:88px;height:200px;box-sizing:border-box;padding:80px 0;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;-webkit-overflow-scrolling:touch;outline:none;-webkit-mask-image:linear-gradient(transparent,#000 28%,#000 72%,transparent);mask-image:linear-gradient(transparent,#000 28%,#000 72%,transparent)}
+.tpc .col::-webkit-scrollbar{display:none}
+.tpc .colon{width:8px;text-align:center;font-size:24px;font-weight:700;color:var(--muted)}
+.tpi{display:block;width:100%;height:40px;padding:0;border:0;background:none;color:var(--faint);font-size:20px;font-weight:600;line-height:40px;scroll-snap-align:center;font-variant-numeric:tabular-nums}
+.tpi.on{color:var(--fg);font-size:24px;font-weight:700}
+.tpdone{display:block;width:100%;min-height:42px;margin-top:6px;border:0;border-radius:12px;background:var(--card);color:var(--accent);font-size:14px;font-weight:800}
 /* history */
 .hday{font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 2px -4px}
 .feed{background:var(--surface);border:1px solid var(--edge);border-radius:18px;padding:2px 14px}
@@ -3079,7 +3093,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
 
   function pickField(id, type, value, ghost, aria){
     const icon = type === "date" ? IC.calp : IC.clock;
-    return `<div class="pk"><span class="pkv${value ? "" : " ghost"}">${icon}<span class="pkt">${value ? esc(fmtPick(type, value)) : ghost}</span></span><input type="${type}" id="${id}" value="${esc(value || "")}" aria-label="${aria}"><button type="button" class="pkx" aria-label="Clear" ${value ? "" : "hidden"}>${IC.x}</button></div>`;
+    return `<div class="pk${type === "time" ? " tp" : ""}"><span class="pkv${value ? "" : " ghost"}">${icon}<span class="pkt">${value ? esc(fmtPick(type, value)) : ghost}</span></span><input type="${type}" id="${id}" value="${esc(value || "")}" aria-label="${aria}"><button type="button" class="pkx" aria-label="Clear" ${value ? "" : "hidden"}>${IC.x}</button></div>`;
   }
   function fmtPick(type, v){ if (!v) return ""; if (type === "time") return fmtTime(v); const d = parse(v); return DOW[dowIdx(d)] + ", " + short(d); }
   function wirePicks(root){
@@ -3088,9 +3102,63 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       const ghost = txt.textContent && !inp.value ? txt.textContent : (inp.type === "date" ? "Pick a day" : "Add a time");
       const sync = () => { const v = inp.value; view.classList.toggle("ghost", !v); txt.textContent = v ? fmtPick(inp.type, v) : ghost; x.hidden = !v; };
       inp.addEventListener("change", sync); inp.addEventListener("input", sync);
-      inp.addEventListener("click", () => { try { if (inp.showPicker) inp.showPicker(); } catch (e){} });
+      if (pk.classList.contains("tp")) wireWheel(pk, inp, view, x);
+      else inp.addEventListener("click", () => { try { if (inp.showPicker) inp.showPicker(); } catch (e){} });
       x.addEventListener("click", (e) => { e.stopPropagation(); inp.value = ""; inp.dispatchEvent(new Event("change")); });
     });
+  }
+  // Time wheel: three snap-scroll columns (hour, minute, AM/PM) that open inline under the When row, full width.
+  function wireWheel(pk, inp, view, clr){
+    const IH = 40, w = document.createElement("div");
+    w.className = "tpw"; w.hidden = true;
+    w.innerHTML = `<div class="tpc"><div class="band"></div><div class="col" data-k="h" tabindex="0" role="listbox" aria-label="Hour"></div><div class="colon">:</div><div class="col" data-k="m" tabindex="0" role="listbox" aria-label="Minute"></div><div class="col" data-k="p" tabindex="0" role="listbox" aria-label="AM or PM"></div></div><button type="button" class="tpdone">Done</button>`;
+    (pk.closest(".row2") || pk).after(w);
+    const cols = {}; w.querySelectorAll(".col").forEach((c) => { cols[c.dataset.k] = c; });
+    let touched = false, own = false, timer = 0;
+    view.setAttribute("role", "button"); view.tabIndex = 0; view.setAttribute("aria-expanded", "false"); view.setAttribute("aria-label", inp.getAttribute("aria-label") || "Time");
+    inp.tabIndex = -1;
+    const fill = (k, items) => { cols[k].innerHTML = items.map((it) => `<button type="button" tabindex="-1" role="option" class="tpi" data-v="${it[0]}">${it[1]}</button>`).join(""); };
+    const at = (k) => Math.max(0, Math.min(cols[k].children.length - 1, Math.round(cols[k].scrollTop / IH)));
+    const paint = (k) => { const i = at(k); Array.prototype.forEach.call(cols[k].children, (b, j) => b.classList.toggle("on", j === i)); };
+    const read = () => { const h = Number(cols.h.children[at("h")].dataset.v), m = Number(cols.m.children[at("m")].dataset.v), pm = cols.p.children[at("p")].dataset.v === "PM"; return pad((h % 12) + (pm ? 12 : 0)) + ":" + pad(m); };
+    const commit = () => { const v = read(); if (v !== inp.value){ own = true; inp.value = v; inp.dispatchEvent(new Event("change")); own = false; } };
+    // Line the columns up with the current value (or the next half hour if no time is set yet).
+    function place(){
+      let h, m, pm;
+      if (inp.value){ const p = inp.value.split(":").map(Number); h = p[0] % 12 || 12; m = p[1]; pm = p[0] >= 12; }
+      else { const n = new Date(), tot = (Math.ceil((n.getHours() * 60 + n.getMinutes() + 1) / 30) * 30) % 1440, H = Math.floor(tot / 60); h = H % 12 || 12; m = tot % 60; pm = H >= 12; }
+      const mins = []; for (let i = 0; i < 60; i += 5) mins.push(i);
+      if (mins.indexOf(m) < 0){ mins.push(m); mins.sort((a, b) => a - b); }
+      fill("h", Array.from({length: 12}, (_, i) => [i + 1, String(i + 1)]));
+      fill("m", mins.map((v) => [v, pad(v)]));
+      fill("p", [["AM", "AM"], ["PM", "PM"]]);
+      touched = false;
+      cols.h.scrollTop = (h - 1) * IH; cols.m.scrollTop = mins.indexOf(m) * IH; cols.p.scrollTop = pm ? IH : 0;
+      ["h", "m", "p"].forEach(paint);
+    }
+    const open = () => {
+      w.hidden = false; pk.classList.add("open"); view.setAttribute("aria-expanded", "true");
+      place();
+      setTimeout(() => w.scrollIntoView({block: "nearest", behavior: RM ? "auto" : "smooth"}), 30);
+    };
+    const close = () => { clearTimeout(timer); w.hidden = true; pk.classList.remove("open"); view.setAttribute("aria-expanded", "false"); };
+    Object.keys(cols).forEach((k) => {
+      const c = cols[k];
+      c.addEventListener("scroll", () => { paint(k); clearTimeout(timer); timer = setTimeout(() => { if (touched) commit(); }, 120); }, {passive: true});
+      c.addEventListener("click", (e) => {
+        const b = e.target.closest(".tpi"); if (!b) return;
+        touched = true;
+        c.scrollTo({top: Array.prototype.indexOf.call(c.children, b) * IH, behavior: RM ? "auto" : "smooth"});
+        clearTimeout(timer); timer = setTimeout(commit, 350);
+      });
+    });
+    ["pointerdown", "wheel", "keydown", "touchstart"].forEach((ev) => w.addEventListener(ev, () => { touched = true; }, {passive: true}));
+    view.addEventListener("click", () => { if (w.hidden) open(); else close(); });
+    view.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); if (w.hidden) open(); else close(); } });
+    w.querySelector(".tpdone").addEventListener("click", () => { clearTimeout(timer); commit(); close(); });
+    clr.addEventListener("click", close);
+    // If something else sets the time while the wheel is open (e.g. tapping an open slot in the day view), follow it.
+    inp.addEventListener("change", () => { if (!own && !w.hidden) place(); });
   }
 
   function quickDates(){
