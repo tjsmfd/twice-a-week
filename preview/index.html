@@ -10,10 +10,10 @@
 <meta name="apple-mobile-web-app-title" content="S ≠ L β">
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>window.TWA_PREVIEW=true</script>
-<meta name="twa-build" content="1794698136">
+<meta name="twa-build" content="1794701784">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1794698136";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1794701784";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L preview</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -2888,6 +2888,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       const api = await calApi(); if (!api){ calLoaded[k] = ""; return; }
       const raw = await api.list(ws.getTime(), addDays(ws, 7).getTime() + 4 * 3600e3);
       const items = (raw || []).map(normEv);
+      (S.calDiag = S.calDiag || {})[k] = {n: raw ? raw.length : -1, at: Date.now(), ev: items.slice(0, 6).map((x) => x.title + " @ " + (x.s || x.date))};
       if (raw) syncBack(items, ws);
       const mineIds = new Set(S.acts.map((a) => a.evId).filter(Boolean));
       for (let i = 0; i < 7; i++) S.cal[iso(addDays(ws, i))] = [];
@@ -2903,7 +2904,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       calLoaded[k] = "ok";
       if (!sheetEl) render(); else S.pending = true;
       if (dayRedraw) dayRedraw();
-    } catch (e){ calLoaded[k] = "err"; S.calErrMsg = calErr2(e); if (dayRedraw) dayRedraw(); }
+    } catch (e){ calLoaded[k] = "err"; S.calErrMsg = calErr2(e); (S.calDiag = S.calDiag || {})[k] = {err: JSON.stringify(e && (e.code || e.msg || e.message) || String(e)), at: Date.now()}; if (dayRedraw) dayRedraw(); }
   }
   // Changes made in Google Calendar flow back: a deleted event sends the plan back to Ideas, a moved event moves the plan.
   async function syncBack(items, ws){
@@ -3574,6 +3575,10 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
         <div class="sumrow"><span class="rate ${rk[0]}"><span class="bz ${rk[0]}"></span>${rk[1]}</span><small>${Math.round(hrs * 10) / 10} hr booked${planned ? " + " + planned + " hr planned" : ""} · ${gaps.length} open</small></div>
         <div class="meter"><i style="width:${Math.min(100, tot / (B - 8) * 100)}%;background:${rk[0] === "p" ? "var(--red)" : rk[0] === "m" ? "#F0A35E" : "#7FD6A6"}"></i></div>`;
       if (note) hd += `<div class="calnote">${note}</div>`;
+      if (window.TWA_PREVIEW){
+        const dg = (S.calDiag || {})[iso(weekStart(parse(cur)))], tm = (t) => new Date(t).toLocaleTimeString([], {hour: "numeric", minute: "2-digit"});
+        hd += `<div class="calnote" style="font-size:11px;opacity:.85">Diagnostic · link ${GAS() ? "on" : "off"} · week of ${esc(short(weekStart(parse(cur))))}: ${!dg ? "no read yet" : dg.err ? "read failed (" + esc(dg.err) + ") at " + tm(dg.at) : "Google returned " + (dg.n < 0 ? "nothing (null)" : dg.n + " event" + (dg.n === 1 ? "" : "s")) + " at " + tm(dg.at) + "; " + cal.length + " on this day" + (dg.ev.length ? ". First: " + dg.ev.map(esc).join(" | ") : "")}</div>`;
+      }
       if (calAll.length || untimed.length || done.length) hd += `<div class="alldays">${calAll.map((e) => `<span>All day · ${esc(e.title)}</span>`).join("")}${untimed.map((x) => `<span class="mine">${esc(x.name)} · no time yet</span>`).join("")}${done.map((l) => `<span class="mine">✓ ${esc(l.name)}</span>`).join("")}</div>`;
       hd += `<div class="tl" style="height:${y(END) + 14}px">${tl}</div>`;
       if (gapSel != null && gaps[gapSel]){
