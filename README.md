@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Nov 7, 2026 · 9:20 PM ET. Plans now remind you 1 hour before by default (existing timed plans switched over). Calendar changes that fail are retried automatically, and the app re-checks Google Calendar every 3 minutes while open.
+Last updated: Nov 16, 2026 · 10:37 AM ET. Time picker is now an in-app wheel (hour, minute, AM/PM) that opens full-width so the minutes are never cut off.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 
