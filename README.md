@@ -2,7 +2,7 @@
 
 **[▶ Open the latest version](https://tjsmfd.github.io/twice-a-week/)**
 
-Last updated: Nov 16, 2026 · 10:37 AM ET. Time picker is now an in-app wheel (hour, minute, AM/PM) that opens full-width so the minutes are never cut off.
+Last updated: Nov 16, 2026 · 10:46 AM ET. This week now shows a "Calendar not loading" notice with a Retry button when Google Calendar can't be reached, instead of silently showing empty days.
 
 To add it to your home screen: tap the link → Safari share button → **Add to Home Screen**.
 

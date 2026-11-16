@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="S ≠ L">
 <meta http-equiv="Cache-Control" content="no-cache">
-<meta name="twa-build" content="1794843469">
+<meta name="twa-build" content="1794844007">
 <script>
 /* Always run the newest version: on open and on return, check GitHub for a newer build and reload if there is one. */
-(function(){var B="1794843469";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
+(function(){var B="1794844007";function chk(){fetch(location.pathname+"?check="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="twa-build" content="(\d+)"/);if(!m||m[1]===B||Number(m[1])<Number(B))return;try{if(sessionStorage.getItem("twa_rl")===m[1])return;sessionStorage.setItem("twa_rl",m[1])}catch(e){}location.replace(location.pathname+"?v="+m[1])}).catch(function(){})}window.addEventListener("load",chk);document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()})})();
 </script>
 <title>S ≠ L</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -2246,6 +2246,10 @@ body.sky-bare .nav .in{pointer-events:none}
     let h = head("This week", weekLabel(w.ws), `<button type="button" class="iconbtn${backupStale() ? " flag" : ""}" data-settings aria-label="Settings${backupStale() ? " (backup needed)" : ""}">${IC.gear}</button>`);
     h += syncNote();
     if (STANDALONE && !GAS() && GCID() && !gLive()) h += `<div class="notice soft"><span><b>${gEver() ? "Calendar paused" : "Connect your calendar"}</b>${gEver() ? "Google signs you out every hour. Tap to see your events again, or set up Always-on in Settings." : "See your events and plan around them."}</span><button type="button" class="pillbtn" data-greconnect>${gEver() ? "Reconnect" : "Connect"}</button></div>`;
+    // Calendar read failed for any visible week: say so instead of showing empty days.
+    if (calReady() && !(STANDALONE && !gOn()) && Object.keys(calLoaded).some((k) => calLoaded[k] === "err")){
+      h += `<div class="notice soft"><span><b>Calendar not loading</b>${esc(S.calErrMsg || "Couldn't reach Google Calendar.")} Days may look empty.</span><button type="button" class="pillbtn" data-calretry>Retry</button></div>`;
+    }
     if (S.status !== "loading"){
       if (sk.level === "skip"){
         const m = sk.miss, extra = w.overdue.length > 1 ? ` That's ${w.overdue.length} missed plans now.` : "";
@@ -2901,7 +2905,7 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
       calLoaded[k] = "ok";
       if (!sheetEl) render(); else S.pending = true;
       if (dayRedraw) dayRedraw();
-    } catch (e){ calLoaded[k] = "err"; S.calErrMsg = calErr2(e); if (dayRedraw) dayRedraw(); }
+    } catch (e){ calLoaded[k] = "err"; S.calErrMsg = calErr2(e); if (!sheetEl) render(); else S.pending = true; if (dayRedraw) dayRedraw(); }
   }
   // Changes made in Google Calendar flow back: a deleted event sends the plan back to Ideas, a moved event moves the plan.
   async function syncBack(items, ws){
@@ -3948,6 +3952,10 @@ function doGet(){ return ContentService.createTextOutput("S ≠ L calendar link 
     else if (t.dataset.sunx){ store.set("twa_sun", t.dataset.sunx); render(); toast("Hidden until next weekend."); }
     else if (t.hasAttribute("data-pick")) openPicker();
     else if (t.hasAttribute("data-add")) openEdit(null);
+    else if (t.hasAttribute("data-calretry")){
+      calLoaded = {}; S.calErrMsg = ""; const w0 = weekStart(today());
+      loadCal(w0); loadCal(addDays(w0, 7)); loadCal(addDays(w0, 14)); render(); toast("Checking your calendar…");
+    }
     else if (t.hasAttribute("data-settings")) openSettings();
     else if (t.hasAttribute("data-greconnect")){
       gConnect().then(() => { S.settings.calDefault = true; putSettings(); calLoaded = {}; render(); loadCal(weekStart(today())); loadCal(addDays(weekStart(today()), 7)); toast("Calendar connected."); })
